@@ -1,4 +1,4 @@
-# code_1a.py -- Getting synthio up and running
+# synth_setup.py -- Getting synthio up and running
 # part of todbot circuitpython synthio tutorial
 # 10 Feb 2025 - @todbot / Tod Kurt
 # 
@@ -36,28 +36,3 @@ mixer.voice[0].level = 0.25  # 0.25 usually better for headphones
 
 # more on this later, but makes it sound nicer
 synth.envelope = synthio.Envelope(attack_time=0.0, release_time=0.6)
-
-midi_note = 60  # midi note to play, 60 = C4
-
-while True:
-    print("boop!")
-    synth.press(midi_note) # start note playing
-    time.sleep(0.2)
-    synth.release(midi_note) # release the note we pressed, notice it keeps sounding
-    time.sleep(0.5)
-    midi_note = random.randint(32,72)   # pick a new random note
-
-
-
-
-    
-while True:
-    if key := keys.events.get():
-        if key.pressed:
-            midi_note = random.randint(36,72)
-            #midi_note = midi_note + random.choice((-5,-3,3,5))
-            print("PRESS", midi_note)
-            synth.press(midi_note) # midi note 65 = F4
-        if key.released:
-            synth.release(midi_note)
-            
