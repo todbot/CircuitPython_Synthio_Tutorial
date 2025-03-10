@@ -8,11 +8,13 @@ import board
 import synthio
 import audiobusio
 import audiomixer
+import keypad
 
 SAMPLE_RATE = 44100
+BUFFER_SIZE = 2048
 
 # what we have plugged into the breadboard or pico_test_synth
-sw_pins = (board.GP28,)
+button_pins = (board.GP28,)  # add more pins to this list if you wire them up
 knob_pin = board.GP26
 i2s_bck_pin = board.GP20
 i2s_lck_pin = board.GP21
@@ -22,7 +24,7 @@ i2s_dat_pin = board.GP22
 audio = audiobusio.I2SOut(bit_clock=i2s_bck_pin, word_select=i2s_lck_pin, data=i2s_dat_pin)
 
 # add a mixer to give us a buffer
-mixer = audiomixer.Mixer(sample_rate=SAMPLE_RATE, channel_count=2, buffer_size=2048)
+mixer = audiomixer.Mixer(sample_rate=SAMPLE_RATE, channel_count=2, buffer_size=BUFFER_SIZE)
 
 # make the actual synthesizer
 synth = synthio.Synthesizer(sample_rate=SAMPLE_RATE, channel_count=2)
@@ -32,7 +34,10 @@ audio.play(mixer)
 
 # plug the synth into the first 'voice' of the mixer
 mixer.voice[0].play(synth)
-mixer.voice[0].level = 0.25  # 0.25 usually better for headphones
+mixer.voice[0].level = 0.25  # 0.25 usually better for headphones, 1.0 for speakers
 
 # more on this later, but makes it sound nicer
 synth.envelope = synthio.Envelope(attack_time=0.0, release_time=0.6)
+
+# add key reading with debouncing
+keys = keypad.Keys( button_pins, value_when_pressed=False, pull=True)
