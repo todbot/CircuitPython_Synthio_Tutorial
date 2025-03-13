@@ -12,6 +12,8 @@ while True:
     if key := keys.events.get():
         midi_note = root_note + key.key_number  # different note for each key
         if key.pressed:
+            print("press!")
             synth.press(midi_note)
         if key.released:
+            print("release!")
             synth.release(midi_note)
