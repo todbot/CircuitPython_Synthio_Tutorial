@@ -2,9 +2,8 @@
 # part of todbot circuitpython synthio tutorial
 # 10 Feb 2025 - @todbot / Tod Kurt
 #
-import synthio
 import usb_midi, tmidi
-from synth_setup import synth, keys
+from synth_setup import synth
 
 midi_usb = tmidi.MIDI(midi_in=usb_midi.ports[0], midi_out=usb_midi.ports[1])
 

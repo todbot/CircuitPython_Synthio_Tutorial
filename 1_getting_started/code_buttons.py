@@ -3,7 +3,6 @@
 # 10 Feb 2025 - @todbot / Tod Kurt
 #
 
-import synthio
 from synth_setup import synth, keys
 
 root_note = 48  # the lowest note to play

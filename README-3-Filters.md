@@ -70,4 +70,5 @@ Instead of twiddling the knobs by hand, we can use LFOs to help us here.and we h
 
 ## With Envelope on press
 
-A common
+A common synthesis technique is to have an envelope on the filter frequency.
+The Envelopes in `synthio` cannot be plugged directly into `BlockBiquad`.
