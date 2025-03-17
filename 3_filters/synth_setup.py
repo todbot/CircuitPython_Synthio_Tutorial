@@ -1,9 +1,7 @@
 # synth_setup.py -- Getting synthio up and running
 # part of todbot circuitpython synthio tutorial
 # 10 Feb 2025 - @todbot / Tod Kurt
-# 
-import time
-import random
+#
 import board
 import synthio
 import audiobusio
@@ -46,4 +44,3 @@ keys = keypad.Keys( button_pins, value_when_pressed=False, pull=True)
 
 knobA = analogio.AnalogIn(knobA_pin)
 knobB = analogio.AnalogIn(knobB_pin)
-
