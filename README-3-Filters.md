@@ -2,13 +2,14 @@
 # Synthio Tutorial: Filters
 
 <!--ts-->
-   * [Synthio Tutorial: Filters](#synthio-tutorial-filters)
-      * [Add a filter](#add-a-filter)
-      * [Changing filter parameters by hand](#changing-filter-parameters-by-hand)
-      * [Add LFO to a filter](#add-lfo-to-a-filter)
+* [Synthio Tutorial: Filters](#synthio-tutorial-filters)
+   * [Add a filter](#add-a-filter)
+   * [Changing filter parameters by hand](#changing-filter-parameters-by-hand)
+   * [Add LFO to a filter](#add-lfo-to-a-filter)
+   * [With Envelope on press](#with-envelope-on-press)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Mar 12 09:28:31 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 17 16:43:53 PDT 2025 -->
 
 <!--te-->
 
@@ -64,7 +65,32 @@ while True:
 
 ## Add LFO to a filter
 
-Instead of twiddling the knobs by hand, we can use LFOs to help us here.and we have LFOs to help us here.
+Instead of twiddling the knobs by hand, we can use LFOs!
+
+The default LFO waveform is a triangle wave that goes from -1 to +1, starting
+at zero and going up.  Using `LFO.scale` & `LFO.offset`, we can turn that -1->+1
+range into any range we want with a bit of math. 
+
+For instance, if we want the LFO to range between 500 and 1500, we could create
+it like this: `lfo = synthio.LFO(rate=0.5, offset=1000, scale=500)`. 
+That is, `offset` is the midpoint of the range you want and `scale` is 
+how much above and below that midpoint to move. 
+
+Instead of midpoint/range, we sometimes want to think of an LFO ranging from a
+min/max.  To turn min/max to midpoint/range, use a function like this:
+```py
+ def set_min_max(lfo, lmin=0.0, lmax=1.0):
+   lfo.scale = (lmax - lmin)
+   lfo.offset = lmax - lfo.scale
+```
+
+We can create an LFO like this: 
+```py
+min_freq = 500
+max_freq = 5500
+lfo1 = syhnthio.LFO(rate=0.5, offset=, scale=...
+```
+
 
 ```py
 # 3_filters/code_lfomod.py
