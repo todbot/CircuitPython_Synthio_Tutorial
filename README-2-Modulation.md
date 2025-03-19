@@ -4,28 +4,26 @@
 
 <!--ts-->
    * [Synthio Tutorial: Modulation](#synthio-tutorial-modulation)
+      * [About Envelopes](#about-envelopes)
       * [About LFOs](#about-lfos)
       * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
-      * [About LFOs: offset/scale to min/max](#about-lfos-offsetscale-to-minmax)
       * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
-      * [Controlling "strength" of LFO](#controlling-strength-of-lfo)
       * [Fade in LFO](#fade-in-lfo)
-      * [Envelope, for amplitude](#envelope-for-amplitude)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 17 16:44:02 PDT 2025 -->
+<!-- Added by: tod, at: Tue Mar 18 10:18:51 PDT 2025 -->
 
 <!--te-->
 
-Modulation is basically doing automated "knob-turning" of a parameter in a synthesizer.
+Modulation is the automation of changing a parameter over time in a synthesizer.
 It adds "liveliness" to a sound without you needing to be tweaking parameters by hand.
 
 In `synthio` there are two types of modulators:
 
 - [`Envelope`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Envelope)
-   – a series of timed stages ("ADSR"), only for volume, ranges from 0.0 to 1.0, updated every sample
+   – a one-shot series of timed stages ("ADSR"), only for volume, ranges from 0.0 to 1.0, updated every sample
 - [`LFO`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.LFO)
-   – a (usually) repeating pattern that can affect most `synthio` parameters, by default ranges from -1.0 to 1.0, updated every 256 samples (puts a limit on fastest LFO we can have)
+   – a (usually) cycling pattern that can affect most `synthio` parameters, by default ranges from -1.0 to 1.0, updated every 256 samples (puts a limit on fastest LFO we can have)
 
 The `synthio` LFO modulation system is very rich, offering a set of [`MathOperations`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.MathOperation)
 to let you combine an LFO with other LFOs or other parameters in your code.
@@ -33,20 +31,19 @@ to let you combine an LFO with other LFOs or other parameters in your code.
 ### About Envelopes
 
 The simplest modulation tool in `synthio` is the amplitude envelope, aka `synthio.Envelope`.
-Unlike other sythesis systems, `Envelope` can only be used for amplitude envelope,
-i.e. either `synth.envelope` (envelope for all notes) or `note.envelope` parameter (per-note envelope).
-For other case where we might use an envelope,
+Unlike other synthesis systems, `Envelope` can only be used for the amplitude envelope,
+i.e. either `synth.envelope` (amp envelope for all notes) or `note.envelope` parameter
+(per-note amp envelope). For other case where we might use an envelope,
 like a pitch envelope or filter envelope, we must instead use one-shot LFOs.
 
-In the [`synth_setup.py`](./1_getting_started/synth_setup.py) file, we set up a default
+In our [`synth_setup.py`](./1_getting_started/synth_setup.py) file, we set up a default
 amplitude envelope that works for most of the example:
 
 ```py
 synth.envelope = synthio.Envelope(attack_time=0.0, release_time=0.6)
 ```
 This sets the amplitude envelope for all notes played on that synth.
-The amplitude envelope describes the loudness of the note over time.
-It has these parameters:
+`synthio.Envelope` has these parameters:
 
 - `attack_time` – at the start of the note, how long to go from silence to `attack_level`
 - `decay_time` – once at `attack_level`, how long to go to `decay_level`
@@ -73,12 +70,37 @@ synth.envelope = synthio.Envelope(attack_time=1.0, release_time=1.0)
 synth.envelope = synthio.Envelope(attack_time=0, decay_time=0, release_time=0.5, sustain_level=0.0 )
 ```
 
+Here's an example of showing how to use an Envelope.  Notice that an Envelope's parameters
+are read-only once created.
+Use the knobs to play around with different attack and release times to get different effects:
+
+```py
+# 2_modulation/code_envelope.py
+import time, random
+import synthio
+from synth_setup import synth, knobA, knobB
+while True:
+    synth.envelope = synthio.Envelope(
+        attack_level = 0.8, sustain_level = 0.8,
+        attack_time = 2 * (knobA.value/65535),  # range from 0-2 seconds
+        release_time = 2 * (knobB.value/65535),  # range from 0-2 seconds
+        )
+    midi_note = random.randint(48,60)
+    synth.press(midi_note)
+    time.sleep(synth.envelope.attack_time)  # wait enough time to hear the attack finish
+    synth.release(midi_note)
+    time.sleep(synth.envelope.release_time)  # wait enough time to hear the release finish
+```
+
 
 ### About LFOs
 
 Low-frequency oscillators ("LFOs") are common in sound synthesis as a way of automating
 the "knob twiddling" one might physically do to a parameter on a synthesizer.
 Common uses of LFOs are for vibrato and tremolo effects.
+
+
+#### LFO scale & offset
 
 In `synthio`, the default LFO waveform is a triangle wave that ranges from -1.0 to 1.0,
 centered around zero.  You can change that range with `LFO.scale`.
@@ -106,6 +128,35 @@ def lfo_set_min_max(lfo, lmin=0.0, lmax=1.0):
 ```
 
 Thinking of LFOs in terms of min/max will be very helpful when dealing with filters later.
+
+#### LFO waveform
+
+The default waveform of `LFO` is a zero-centered triangle wave that goes 0 -> +1 -> 0 -> -1 -> 0.
+What if we want a different action? We can do that by setting `LFO.waveform`.
+Since `LFO` smoothly interpolates between the values we provide in our waveform,
+we can supply the smallest possible waveform of two numbers, like this:
+
+```py
+import synthio
+import ulab.numpy as np
+# create a positive-only triangle wave
+lfo_positive = synthio.LFO(rate=0.5, waveform=np.array([0,32767], dtype=np.int16))
+```
+
+A few things to note:
+
+- `LFO.waveform` expects a list of signed 16-bit numbers, which it turns into a floating-point
+value between -1 and +1.  From the above example, 32767 corresponds to +1 (and 32768 would be -1)
+
+- `LFO` interpolates the last value back to the first value, so after the LFO goes from 0 to 32767,
+it will interpolate back down to 0 on the loop of the LFO.
+One would expect that `[0,32767]` would make a sawtooth and `[0,32767,0]` would make a triangle,
+but that's now how `LFO` works.
+To make a sawtooth wave, you need to specify a larger waveform with something like,
+`synthio.LFO(rate=0.5, waveform=np.linspace(0, 32767, num=128, dtype=np.int16))`
+
+- The min/max discussion and code above changes if we specify a different waveform.
+For the positive-only waveform shown, its range is 1 instead of 2, so min/max calculations should remove the /2.
 
 
 ### Vibrato: Add LFO to pitch
@@ -175,20 +226,50 @@ while True:
 ```
 
 
-<!-- To me, setting `offset=0.8, scale=0.2` sounds pretty good. This causes the amplitude
-to range from 0.6 to 1.0.  This is a strong tremolo effect without completely shutting
-off the sound. But do we have to keep adjusting `scale` & `offset` any time we want
-to adjust the strength of the tremolo?  We could, but we don't have to.
-
+<!--
 Instead we can use another `synthio` feature: [`synthio.Math`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Math) and [`synthio.MathOperation`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.MathOperation).
 These are a collection of common 3-input, 1-output tools that operate on LFOs and that
 operate at LFO update speeds in the background, so we don't have to write Python to
 copy a value from an LFO, modify it, then write it to what the LFO is modifying.
 Think of it as a generalization of the `.scale` & `.offset` features of LFO.
-
-In the tremolo case, we want a single value we can change that adjusts the "strength" of the
-tremolo LFO.  The `MathOperation.PRODUCT` is good for this, we feed our LFO into one of its inputs
-and a simple 0-1 number as the other input that let us turn up or down the effect.  -->
+-->
 
 
 ### Fade in LFO
+
+If we want to "automate the automation" of turning the knob to increase and decrease
+the strength of the tremolo LFO, we can use another `synthio` feature to combine two LFOs:
+[`synthio.Math`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Math) and [`synthio.MathOperation`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.MathOperation).
+`MathOperations` are a collection of common 3-input, 1-output tools that operate on LFOs via `Math`.
+They operate at LFO update speeds in the background, so we don't have to write Python to
+copy a value from an LFO, modify it, then write it to what the LFO is modifying.
+
+In the case of fading in the tremolo effect, we can do that with a one-shot ramp-up LFO.
+
+```py
+# 2_modulation/code_fadein_tremolo.py
+import time, random
+import synthio
+import ulab.numpy as np
+from synth_setup import synth, knobA
+
+fadein_lfo = synthio.LFO(rate=1, once=True, waveform=np.array([0,32767], dtype=np.int16)))
+tremolo_lfo = synthio.LFO(rate=5, scale=0.5, offset=0.5)
+
+fadein_tremolo_lfo = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
+                                  1,
+                                  tremolo_lfo,
+                                  fadein_lfo)
+
+while True:
+    midi_note = random.randint(48,60)
+    note = synthio.Note(synthio.midi_to_hz(midi_note))
+    note.amplitude = fadein_tremolo_lfo
+    synth.press(note)
+    for i in range(50):
+        print(note.amplitude.value)
+        time.sleep(0.05)
+    #time.sleep(5)
+    synth.release(note)
+    time.sleep(1)
+```
