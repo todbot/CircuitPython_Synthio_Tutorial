@@ -65,7 +65,7 @@ as normal.
 
 - Considering [installing circup](https://learn.adafruit.com/keep-your-circuitpython-libraries-on-devices-up-to-date-with-circup/install-circup) to make adding libraries easier
 
-- Use your editor of choice to edit the There are many
+- Use your editor of choice to edit the .py files on the device's CIRCUITPY drive
 
 #
 # Make a Sound
@@ -109,6 +109,7 @@ while True:
     time.sleep(0.4)
     midi_note = random.randint(32,72)   # pick a new random note
 ```
+> [1_getting_started/code_helloboop.py](./1_getting_started/code_helloboop.py)
 
 Note that in the above code:
 - The I2S DAC requires three pins. On the Pico RP2040, the "bit_clock"
@@ -172,6 +173,7 @@ while True:
     time.sleep(0.5)
     midi_note = random.randint(32,72)   # pick a new random note
 ```
+> [1_getting_started/code_synth_setup.py](./1_getting_started/code_synth_setup.py)
 
 And this sounds like:
 
@@ -208,6 +210,7 @@ while True:
     synth.release(midi_note) # release the note we pressed, notice it keeps sounding
     time.sleep(0.2)
 ```
+> [1_getting_started/code_generative_penta.py](./1_getting_started/code_generative_penta.py)
 
 ### Play a chord melody
 
@@ -233,6 +236,7 @@ while True:
     for n in chord: synth.release(midi_note + n)
     time.sleep(0.1)
 ```
+> [1_getting_started/code_chord_melody.py](./1_getting_started/code_chord_melody.py)
 
 
 ## Controlling Notes
@@ -264,13 +268,13 @@ while True:
         if key.released:
             synth.release(midi_note)
 ```
+> [1_getting_started/code_buttons.py](./1_getting_started/code_buttons.py)
 
 
 ### Controlling with MIDI
 
 MIDI control is very similar. Since USB MIDI is easier to set up (no extra circuitry needed),
-it's shown here.  Instead of using `adafruit_midi`, the `tmidi` library is used
-(available via `circup` and in the [CircuitPython Community Bundle](https://github.com/adafruit/CircuitPython_Community_Bundle/))
+it's shown here.  Instead of using `adafruit_midi`, the [`tmidi`](https://github.com/todbot/CircuitPython_TMIDI) library is used (available via `circup` and in the [CircuitPython Community Bundle](https://github.com/adafruit/CircuitPython_Community_Bundle/))
 
 ```py
 # 1_getting_started/code_midi.py
@@ -288,3 +292,4 @@ while True:
         elif msg.type == tmidi.NOTE_OFF or msg.velocity == 0:
             synth.release(msg.note)
 ```
+> [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)

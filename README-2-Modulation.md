@@ -91,6 +91,7 @@ while True:
     synth.release(midi_note)
     time.sleep(synth.envelope.release_time)  # wait enough time to hear the release finish
 ```
+> [2_modulation/code_envelope.py](./2_modulation/code_envelope.py)
 
 
 ### About LFOs
@@ -193,6 +194,7 @@ while True:
     synth.release(note)
     time.sleep(0.5)
 ```
+> [2_modulation/code_vibrato.py](./2_modulation/code_vibrato.py)
 
 ### Tremolo: Add LFO to amplitude
 
@@ -224,6 +226,7 @@ while True:
     synth.release(note)
     time.sleep(0.2)
 ```
+> [2_modulation/code_tremolo.py](./2_modulation/code_tremolo.py)
 
 
 <!--
@@ -247,7 +250,7 @@ copy a value from an LFO, modify it, then write it to what the LFO is modifying.
 In the case of fading in the tremolo effect, we can do that with a one-shot ramp-up LFO.
 
 ```py
-# 2_modulation/code_fadein_tremolo.py
+# 2_modulation/code_tremolo_fadein.py
 import time, random
 import synthio
 import ulab.numpy as np
@@ -273,3 +276,4 @@ while True:
     synth.release(note)
     time.sleep(1)
 ```
+> [2_modulation/code_tremolo_fadein.py](./2_modulation/code_tremolo_fadein.py)
