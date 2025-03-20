@@ -3,42 +3,106 @@
 
 <!--ts-->
 * [Synthio Tutorial: Filters](#synthio-tutorial-filters)
+   * [About Filters](#about-filters)
    * [Add a filter](#add-a-filter)
    * [Changing filter parameters by hand](#changing-filter-parameters-by-hand)
-   * [Add LFO to a filter](#add-lfo-to-a-filter)
-   * [With Envelope on press](#with-envelope-on-press)
+   * [Changing filter with knobs](#changing-filter-with-knobs)
+   * [Changing filter with LFO](#changing-filter-with-lfo)
+   * [Creating a filter envelope with LFOs](#creating-a-filter-envelope-with-lfos)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 17 16:43:53 PDT 2025 -->
+<!-- Added by: tod, at: Wed Mar 19 22:00:36 PDT 2025 -->
 
 <!--te-->
 
-something something about filters
+## About Filters
+
+Something something about filters in synths
+
+In `synthio`, there is an efficient two-pole filter design with adjustable
+frequency and resonance based on the [Biquad Filter Formula](https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html)
+called [`synthio.BlockBiquad`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.BlockBiquad_)
+that provides the standard filter types:
+
+- low-pass
+- high-pass
+- band-pass
+- notch
+- high-/low-shelf
+- peaking
+
+The reason why it's called "BlockBiquad" is because its inputs are can be modulated
+with LFOs, which are of type `BlockInput`.
+
+Only one filter can be attached to a `synthio.Note`, filters cannot be stacked. However,
+if your platform supports the [`audiofilters` module](https://docs.circuitpython.org/en/latest/shared-bindings/audiofilters/index.html) then you have
+access to [`audiofilters.Filter`](), which can be stacked.
 
 ## Add a filter
+
+The `synthio.Note` object has a `.filter` property that can be assigned with a `BlockBiquad` object.
+This `.filter` property can be re-assigned to change the filter type while the Note is sounding.
+This means that *each Note can have its own filter* with its own filter properties!
+
+```py
+# 3_filters/code_filter_tryout.py
+import time, random
+import synthio
+from synth_setup import synth
+
+while True:
+    midi_note = random.randint(48,72)
+    print("playing note", midi_note)
+    note = synthio.Note(synthio.midi_to_hz(midi_note))
+    synth.press(note)
+    # try out each filter
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, frequency=1000, Q=1.0)
+    time.sleep(0.3)
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.HIGH_PASS, frequency=1000, Q=1.0)
+    time.sleep(0.3)
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.BAND_PASS, frequency=1000, Q=1.0)
+    time.sleep(0.3)
+    synth.release(note)
+    time.sleep(0.1)
+```
+> [3_filters/code_filter_tryout.py](./3_filters/code_filter_tryout.py)
 
 
 ## Changing filter parameters by hand
 
-This example automatically changes the filter, starting high then closing down the filter.
+This example changes the filter frequency using Python statements,
+starting high then closing down the filter.
 
 ```py
 # 3_filters/code_filter_handmod.py
+import time
 import synthio
 from synth_setup import synth
 midi_note = 48
 note = synthio.Note(synthio.midi_to_hz(midi_note))
+note.filter = filter1
 synth.press(note)
 
-while True:
-    print("changing filter frequency")
-    filter1.frequency = filter1.frequency * 0.95  # do modulation by hand
-    if filter1.frequency < 250:
-        filter1.frequency = 3000
-    time.sleep(0.01)
-```
+filter_types = (synthio.FilterMode.LOW_PASS,
+                synthio.FilterMode.HIGH_PASS,
+                )
 
-And here's a similar idea but with using the knobs to adjust filter cutoff and resonance.
+while True:
+    print("selecting filter_type", filter_type)
+    filter1 = synthio.BlockBiquad(filter_types[i], frequency=3000, Q=1.0)
+
+    print("changing filter frequency")
+    while filter1.frequency > 250:
+        filter1.frequency = filter1.frequency * 0.95  # do modulation by hand
+        time.sleep(0.01)
+    i = (i+1) % len(filter_types)
+```
+> [3_filters/code_filter_handmod.py](./3_filters/code_filter_handmod.py)
+
+
+## Changing filter with knobs
+
+Here's a similar idea but with using the knobs to adjust filter cutoff and resonance.
 
 Note the filter becomes glitchy and unstable when its frequency approaches the
 note frequency, especially at high resonsance ("Q") values.  This is a feature of how
@@ -62,38 +126,22 @@ while True:
           (note.frequency, filter1.frequency, filter1.Q))
     time.sleep(0.05)
 ```
+> [3_filters/code_filter_knobmod.py](./3_filters/code_filter_knobmod.py)
 
-## Add LFO to a filter
 
-Instead of twiddling the knobs by hand, we can use LFOs!
+## Changing filter with LFO
 
-The default LFO waveform is a triangle wave that goes from -1 to +1, starting
-at zero and going up.  Using `LFO.scale` & `LFO.offset`, we can turn that -1->+1
-range into any range we want with a bit of math. 
+While changing a filter directly in Python works, it's less efficient and not as smooth
+sounding as using an LFO, since an LFO works in the background, not requiring any
+code on our part.
 
-For instance, if we want the LFO to range between 500 and 1500, we could create
-it like this: `lfo = synthio.LFO(rate=0.5, offset=1000, scale=500)`. 
-That is, `offset` is the midpoint of the range you want and `scale` is 
-how much above and below that midpoint to move. 
-
-Instead of midpoint/range, we sometimes want to think of an LFO ranging from a
-min/max.  To turn min/max to midpoint/range, use a function like this:
-```py
- def set_min_max(lfo, lmin=0.0, lmax=1.0):
-   lfo.scale = (lmax - lmin)
-   lfo.offset = lmax - lfo.scale
-```
-
-We can create an LFO like this: 
-```py
-min_freq = 500
-max_freq = 5500
-lfo1 = syhnthio.LFO(rate=0.5, offset=, scale=...
-```
-
+This example raises and lowers the filter frequency using an LFO.
+This example also swaps out the default square wave waveform Note oscillator
+for a simple saw wave, which has more musical harmonics that are easier to hear
+being filtered out.
 
 ```py
-# 3_filters/code_lfomod.py
+# 3_filters/code_filter_lfomod.py
 import time, synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA, knobB
@@ -104,7 +152,7 @@ note.waveform = np.linspace(32000, -32000, num=128, dtype=np.int16)
 
 filter_lfo = synthio.LFO(rate=0.75, offset=5000, scale=4500)
 
-filter1 = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, 
+filter1 = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
                               frequency=filter_lfo, Q=1.5)
 note.filter = filter1
 synth.press(note)
@@ -114,59 +162,69 @@ while True:
           (note.frequency, filter1.frequency.value, filter1.Q))
     time.sleep(0.05)
 ```
+> [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
 
-## With Envelope on press
 
-A common synthesis technique is to put an envelope on the filter frequency, 
-much as you'd do this for the oscillator amplitude.  Many synths have two dedicated
-envelopes: one on amplitude and one on filter cutoff. 
-In `synthio`, the Envelopes cannot be plugged directly into anything other than
-`synthio.amplitude` or `note.amplitude`. 
+## Creating a filter envelope with LFOs
 
-Instead, we must create an approximation of an envelope using multiple one-time LFOs.
+A common synthesis technique is a ADSR filter envelope on the filter frequency,
+triggered similar to an amplitude envelope. Many synths have two dedicated
+envelopes: one on amplitude and one on filter cutoff.
+Remember in `synthio`, `Envelopes` cannot be plugged directly into anything other than
+`synthio.amplitude` or `note.amplitude`.
+
+Instead, we must create an approximation of an ADSR envelope using multiple one-shot LFOs.
 The most important segements of an envelope are the attack and the release.
-This makes it easier for us: we can assign a ramp-up LFO when a note is pressed 
+This makes it easier for us: we assign a ramp-up LFO when the note is pressed
 and a ramp-down LFO when the note is released.
+This is called an AHR (attack-hold-release) envelope.
 
 ```py
-# 3_filters/code_lfomod.py
+# 3_filters/code_filter_lfomod.py
 import time, random, synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA, knobB
 
+# extend the amplitude envelope release so we can hear the filter release
 synth.envelope = synthio.Envelope(attack_time=0.0, release_time=1.5)
 
+# use a saw wave sound oscillator instead of square wave to hear the filter better
 wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
 
-min_freq = 500
-max_freq = 2000
+# parameters for our filter "envelope"
+filt_attack_time = 1.0
+filt_release_time = 1.5
+filt_min_freq = 500
+filt_max_freq = 2000
 
-filter_attack_lfo = synthio.LFO(once=True, rate=1.0, offset=min_freq, scale=max_freq,
+# LFO to use as the ramp up in frequency on key press
+filter_attack_lfo = synthio.LFO(once=True, rate=filt_attack_time,
+                                offset=min_freq, scale=max_freq,
                                 waveform=np.array((0,32767), dtype=np.int16))
-                                
-filter_release_lfo = synthio.LFO(once=True, rate=1.5, offset=min_freq, scale=max_freq,
+# LFO to use to ramp down the frequency on key release
+filter_release_lfo = synthio.LFO(once=True, rate=filt_release_time,
+                                 offset=min_freq, scale=max_freq,
                                  waveform=np.array((32767,0), dtype=np.int16))
-                                 
-midi_note = 60
+
 while True:
+    midi_note = random.randint(48,72)  # pick a new note to play
     # press a note with attack filter
     note = synthio.Note(midi_note, waveform=wave_saw)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, 
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
                                       frequency=filter_attack_lfo, Q=1.8)
     filter_attack_lfo.retrigger()
     synth.press(note)  # trigger amp env and filter lfo
-            
+
     # wait for attack phase to complete, hold a bit, then
     time.sleep(1.0)
-    
+
     # release the note
     note.filter.frequency = filter_release_lfo
     filter_release_lfo.retrigger()
     synth.release(note)  # trigger amp env release
-    
+
     # let the release happen
-    time.sleep(1.0) 
+    time.sleep(1.0)
 
-    midi_note = random.randint(48,72)  # pick a new note to play
 ```
-
+> [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)

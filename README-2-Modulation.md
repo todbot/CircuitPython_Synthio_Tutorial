@@ -103,10 +103,10 @@ Common uses of LFOs are for vibrato and tremolo effects.
 
 #### LFO scale & offset
 
-In `synthio`, the default LFO waveform is a triangle wave that ranges from -1.0 to 1.0,
+In `synthio`, the default LFO waveform is a triangle wave ranging from -1.0 to 1.0,
 centered around zero.  You can change that range with `LFO.scale`.
 And with `LFO.offset`, the waveform doesn't have to be centered around zero.
-Some examples of LFOs:
+Some examples of synthio LFOs:
 
 ```py
 lfo1 = synthio.LFO(scale=0.3)  # ranges from -0.3 to +0.3
@@ -115,20 +115,22 @@ lfo2 = synthio.LFO(offset=1500, scale=500)   # ranges from 1000 to 2000
 ```
 
 In the last example the LFO to ranges between 1000 and 2000, but we specify it with
-offset=1500 and scale=500. That is, `offset` is the midpoint of the range and `scale` is
-how much above and below that midpoint to move.
+offset=1500 and scale=500. That is, `offset` acts as the midpoint of the range
+and `scale` is how much above and below that midpoint to move.
 
 Instead of midpoint/range, we sometimes want to think of an LFO ranging from a
 min/max.  To turn min/max to midpoint/range, use a function like this:
 
 ```py
 def lfo_set_min_max(lfo, lmin=0.0, lmax=1.0):
-    """Set an LFO's mininum and maximum values"""
+    """Set an LFO's mininum and maximum values, for default LFO waveform"""
     lfo.scale = (lmax - lmin)/2
     lfo.offset = lmax - lfo.scale
 ```
-
 Thinking of LFOs in terms of min/max will be very helpful when dealing with filters later.
+This function only applies to the default -1/+1 triangle wave; if you load up your
+own LFO waveform, the `.scale` and `.offset` functions will work a bit differently.
+
 
 #### LFO waveform
 

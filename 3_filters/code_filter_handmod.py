@@ -2,6 +2,7 @@
 # part of todbot circuitpython synthio tutorial
 # 10 Feb 2025 - @todbot / Tod Kurt
 #
+import time
 import synthio
 from synth_setup import synth
 midi_note = 48
