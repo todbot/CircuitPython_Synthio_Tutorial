@@ -36,8 +36,33 @@ This tutorial is broken up into sections.
 * [3. Filters](./README-3-Filters.md)
 -- How to use synthio's filters and modulate them
 
-* [4. Wavetables](./README-4-Wavetables.md)
--- Change a note's waveform, at any time
+* [4. Oscillators and Wavetables](./README-4-Oscillators-Wavetables.md)
+-- Change a note's waveform, at any time, even use WAVs
 
-* [5. MIDI](./README-MIDI.md)
--- How to respond to velocity and pitchbend in synthio
+* [5. MIDI](./README-5-MIDI.md)
+-- How to respond to MIDI messages (velocity, pitchbend, CCs) in synthio
+
+* [6. Synth Voice](./README-4-Synth-Voice.md)  [tbd]
+-- Buildling a full synth voice in synthio
+
+
+## Examples 
+
+Here's some simple examples using synthio showing what's possible
+
+* [tiny_lfo_song](https://www.youtube.com/watch?v=m_ALNCWXor0) -- song with just LFOs
+* [eighties_dystopia](https://www.youtube.com/watch?v=EcDqYh-DzVA) -- 80s-style miasma
+* [quicky_theremin]() -- simple theremin using `touchio`
+* [wavetable_midisynth](https://www.youtube.com/watch?v=CrxaB_AVQqM) -- Play wavetables with MIDI 
+* [monosynth1](https://www.youtube.com/watch?v=EcDqYh-DzVA) -- MIDI-controlled thick monosynth
+* [two_pot_drone_synth](https://www.youtube.com/watch?v=xEmhk-dVXqQ) -- 3-voice two-knob drone synth
+
+## Projects using synthio
+
+I and others have created several projects that use `synthio`.
+Some are listed here:
+
+* [circuitpython-syntho-tricks](https://github.com/todbot/circuitpython-synthio-tricks)
+* [pico_test_synth](https://github.com/todbot/pico_test_synth)
+* [qtpy_synth](https://github.com/todbot/qtpy_synth)
+* [Workshop Computer](https://github.com/todbot/Workshop_Computer/tree/main/Demonstrations%2BHelloWorlds/CircuitPython)

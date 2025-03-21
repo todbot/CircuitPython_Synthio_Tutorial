@@ -1,5 +1,4 @@
 
-##
 ## Synthio Tutorial: Modulation
 
 <!--ts-->

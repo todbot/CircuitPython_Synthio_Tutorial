@@ -1,4 +1,4 @@
-#
+
 # Synthio Tutorial: Filters
 
 <!--ts-->

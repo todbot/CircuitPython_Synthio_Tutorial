@@ -1,5 +1,4 @@
 
-#
 # Synthio Tutorial: Getting Started
 
 <!--ts-->
@@ -67,7 +66,7 @@ as normal.
 
 - Use your editor of choice to edit the .py files on the device's CIRCUITPY drive
 
-#
+
 # Make a Sound
 
 ## Hello boop!
