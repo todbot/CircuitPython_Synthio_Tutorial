@@ -33,10 +33,11 @@ This tutorial is broken up into sections.
 * [2. Modulation](./README-2-Modulation.md)
 -- Making those boops sound more alive with LFOs and Envelopes
 
-* [3. Filters and Advanced Modulation](./README-3-Filters.md)
+* [3. Filters](./README-3-Filters.md)
 -- How to use synthio's filters and modulate them
 
 * [4. Wavetables](./README-4-Wavetables.md)
 -- Change a note's waveform, at any time
 
 * [5. MIDI](./README-MIDI.md)
+-- How to respond to velocity and pitchbend in synthio

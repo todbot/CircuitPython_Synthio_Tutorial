@@ -17,12 +17,17 @@
 
 ## About Filters
 
-Something something about filters in synths
+Perhaps the most recognizable sound in synthesizers is the **bwwooooowwwww* of a
+high-resonance low-pass filter sweep moving across the frequency range.
+There are many different filter types in synthesis and digital recreation of those filters.
+But filter emulation is tricky and computationally expensive,
+so you'll see many microcontroller synthesis platforms with little or no filters available.
 
 In `synthio`, there is an efficient two-pole filter design with adjustable
 frequency and resonance based on the [Biquad Filter Formula](https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html)
-called [`synthio.BlockBiquad`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.BlockBiquad_)
-that provides the standard filter types:
+called [`synthio.BlockBiquad`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.BlockBiquad_).
+
+BlockBiquad provides the standard filter types:
 
 - low-pass
 - high-pass
@@ -44,6 +49,9 @@ The `synthio.Note` object has a `.filter` property that can be assigned with a `
 This `.filter` property can be re-assigned to change the filter type while the Note is sounding.
 This means that *each Note can have its own filter* with its own filter properties!
 
+This example creates a `synthio.Note` object, creating and assigning one of three different
+filter types in turn.  The frequency and resonance of the filters are fixed for now.
+
 ```py
 # 3_filters/code_filter_tryout.py
 import time, random
@@ -56,11 +64,11 @@ while True:
     note = synthio.Note(synthio.midi_to_hz(midi_note))
     synth.press(note)
     # try out each filter
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, frequency=1000, Q=1.0)
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, frequency=1500, Q=1.0)
     time.sleep(0.3)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.HIGH_PASS, frequency=1000, Q=1.0)
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.HIGH_PASS, frequency=1500, Q=1.0)
     time.sleep(0.3)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.BAND_PASS, frequency=1000, Q=1.0)
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.BAND_PASS, frequency=1500, Q=1.0)
     time.sleep(0.3)
     synth.release(note)
     time.sleep(0.1)
@@ -165,7 +173,7 @@ while True:
 > [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
 
 
-## Creating a filter envelope with LFOs
+## Creating AHR filter envelope with LFOs
 
 A common synthesis technique is a ADSR filter envelope on the filter frequency,
 triggered similar to an amplitude envelope. Many synths have two dedicated
@@ -174,7 +182,7 @@ Remember in `synthio`, `Envelopes` cannot be plugged directly into anything othe
 `synthio.amplitude` or `note.amplitude`.
 
 Instead, we must create an approximation of an ADSR envelope using multiple one-shot LFOs.
-The most important segements of an envelope are the attack and the release.
+The most important parts of an envelope are the attack and the release phases.
 This makes it easier for us: we assign a ramp-up LFO when the note is pressed
 and a ramp-down LFO when the note is released.
 This is called an AHR (attack-hold-release) envelope.
