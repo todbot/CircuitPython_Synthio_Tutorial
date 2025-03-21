@@ -121,8 +121,10 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
 This sounds like:
 
-[ .. insert code_helloboop.py video here .. ]
-
+ 
+```
+[ ... TBD video of code_helloboop.py TBD ... ]
+``` 
 
 ## Simple test, with buffer and organized
 
@@ -176,7 +178,10 @@ while True:
 
 And this sounds like:
 
-[ .. insert video of code_synth_setup here .. ]
+```
+[ ... TBD video of code_synth_setup.py TBD ... ]
+```
+
 
 The sleep times have been sped up, so you can hear the notes overlapping more.
 Also note there's been a special change at the end of `synth_setup.py` to make
@@ -211,6 +216,10 @@ while True:
 ```
 > [1_getting_started/code_generative_penta.py](./1_getting_started/code_generative_penta.py)
 
+```
+[ ... TBD video of code_synth_setup.py TBD ... ]
+```
+
 ### Play a chord melody
 
 A similar technique lets us play a melody with chords.
@@ -237,6 +246,7 @@ while True:
 ```
 > [1_getting_started/code_chord_melody.py](./1_getting_started/code_chord_melody.py)
 
+[ ... TBD video of code_synth_chord_melody.py TBD ... ]
 
 ## Controlling Notes
 
@@ -269,6 +279,10 @@ while True:
 ```
 > [1_getting_started/code_buttons.py](./1_getting_started/code_buttons.py)
 
+```
+[ ... TBD video of code_buttons.py TBD ... ]
+```
+
 
 ### Controlling with MIDI
 
@@ -292,3 +306,8 @@ while True:
             synth.release(msg.note)
 ```
 > [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)
+
+
+```
+[ ... TBD video of code_synth_midi.py TBD ... ]
+```

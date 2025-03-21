@@ -75,6 +75,9 @@ while True:
 ```
 > [3_filters/code_filter_tryout.py](./3_filters/code_filter_tryout.py)
 
+```
+[ ... TBD video of code_filter_tryout.py TBD ... ]
+```
 
 ## Changing filter parameters by hand
 
@@ -107,6 +110,9 @@ while True:
 ```
 > [3_filters/code_filter_handmod.py](./3_filters/code_filter_handmod.py)
 
+```
+[ ... TBD video of code_filter_handmod.py TBD ... ]
+```
 
 ## Changing filter with knobs
 
@@ -135,6 +141,10 @@ while True:
     time.sleep(0.05)
 ```
 > [3_filters/code_filter_knobmod.py](./3_filters/code_filter_knobmod.py)
+
+```
+[ ... TBD video of code_filter_knobmod.py TBD ... ]
+```
 
 
 ## Changing filter with LFO
@@ -172,6 +182,9 @@ while True:
 ```
 > [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
 
+```
+[ ... TBD video of code_filter_lfomod.py TBD ... ]
+```
 
 ## Creating AHR filter envelope with LFOs
 
@@ -236,3 +249,7 @@ while True:
 
 ```
 > [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
+
+```
+[ ... TBD video of code_filter_lfomod.py TBD ... ]
+```

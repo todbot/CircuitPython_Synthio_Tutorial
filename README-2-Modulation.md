@@ -92,6 +92,10 @@ while True:
 ```
 > [2_modulation/code_envelope.py](./2_modulation/code_envelope.py)
 
+```
+[ ... TBD video of code_envelope.py TBD ... ]
+```
+
 
 ### About LFOs
 
@@ -197,6 +201,10 @@ while True:
 ```
 > [2_modulation/code_vibrato.py](./2_modulation/code_vibrato.py)
 
+```
+[ ... TBD video of code_synth_vibrato.py TBD ... ]
+```
+
 ### Tremolo: Add LFO to amplitude
 
 Another common effect is tremolo, the regular varying of a note's loudness.
@@ -229,6 +237,9 @@ while True:
 ```
 > [2_modulation/code_tremolo.py](./2_modulation/code_tremolo.py)
 
+```
+[ ... TBD video of code_synth_tremolo.py TBD ... ]
+```
 
 <!--
 Instead we can use another `synthio` feature: [`synthio.Math`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Math) and [`synthio.MathOperation`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.MathOperation).
@@ -278,3 +289,7 @@ while True:
     time.sleep(1)
 ```
 > [2_modulation/code_tremolo_fadein.py](./2_modulation/code_tremolo_fadein.py)
+
+```
+[ ... TBD video of code_synth_tremolo_fadein.py TBD ... ]
+```
