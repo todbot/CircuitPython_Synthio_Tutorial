@@ -10,6 +10,8 @@ on microcontrollers such as the Pico (RP2040/RP2350).
 This tutorial assumes you know a bit of Python and CircuitPython already.
 It doesn't try to assume you know much about synthesizers or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
 
+The repo for this tutorial lives at https://github.com/todbot/CircuitPython_Synthio_Tutorial
+
 ## How this Guide is structured
 
 This guide is broken up into multiple sections. Each section focuses on a topic,
