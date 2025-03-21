@@ -2,6 +2,8 @@
 CircuitPython Synthio Tutorial
 ==============================
 
+Version: 0.0 - 21 Mar 2024
+
 Welcome to a little CircuitPython Synthio Tutorial.
 
 In CircuitPython, `synthio` is a built-in module for doing sound synthesis
@@ -10,7 +12,9 @@ on microcontrollers such as the Pico (RP2040/RP2350).
 This tutorial assumes you know a bit of Python and CircuitPython already.
 It doesn't try to assume you know much about synthesizers or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
 
-The repo for this tutorial lives at https://github.com/todbot/CircuitPython_Synthio_Tutorial
+The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
+[all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
+
 
 ## How this Guide is structured
 
