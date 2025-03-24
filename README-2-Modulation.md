@@ -5,12 +5,15 @@
    * [Synthio Tutorial: Modulation](#synthio-tutorial-modulation)
       * [About Envelopes](#about-envelopes)
       * [About LFOs](#about-lfos)
+         * [LFO scale &amp; offset](#lfo-scale--offset)
+         * [LFO waveform](#lfo-waveform)
+         * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
       * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
       * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
       * [Fade in LFO](#fade-in-lfo)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Tue Mar 18 10:18:51 PDT 2025 -->
+<!-- Added by: tod, at: Sun Mar 23 11:13:59 PDT 2025 -->
 
 <!--te-->
 
@@ -145,6 +148,7 @@ we can supply the smallest possible waveform of two numbers, like this:
 ```py
 import synthio
 import ulab.numpy as np
+
 # create a positive-only triangle wave
 lfo_positive = synthio.LFO(rate=0.5, waveform=np.array([0,32767], dtype=np.int16))
 ```
@@ -153,6 +157,8 @@ A few things to note:
 
 - `LFO.waveform` expects a list of signed 16-bit numbers, which it turns into a floating-point
 value between -1 and +1.  From the above example, 32767 corresponds to +1 (and 32768 would be -1)
+
+- We only need to specify two numbers as `synthio.LFO` will smoothly interpolate them for us.
 
 - `LFO` interpolates the last value back to the first value, so after the LFO goes from 0 to 32767,
 it will interpolate back down to 0 on the loop of the LFO.
@@ -164,6 +170,24 @@ To make a sawtooth wave, you need to specify a larger waveform with something li
 - The min/max discussion and code above changes if we specify a different waveform.
 For the positive-only waveform shown, its range is 1 instead of 2, so min/max calculations should remove the /2.
 
+- Note we're using `ulab.numpy` to actually create the waveforms.
+
+#### Making waveforms with `ulab.numpy`
+
+When dealing with waveforms, the [`ulab.numpy`](https://docs.circuitpython.org/en/latest/shared-bindings/ulab/numpy/index.html) library
+([Learn Guide](https://learn.adafruit.com/ulab-crunch-numbers-fast-with-circuitpython/ulab-numpy-phrasebook),
+[ulab book](https://micropython-ulab.readthedocs.io/en/latest/ulab-intro.html))
+is very handy as it's designed to operate on large lists of numbers.
+It's based on [`numpy`](https://numpy.org/doc/stable/reference/arrays.html), so one
+can often find `numpy` tips that work with `ulab.numpy`.
+
+For `synthio`, the most useful part is the basic creation of numpy arrays, with functions like:
+- `np.array([0,1,2,3], dtype=np.int16)`
+  -- create a 4-element numpy array of 16-bit signed integers with the contents of the Python list
+- `np.linspace(-100, 100, num=50, dtype=np.int16)`
+  -- create a 50-element numpy array of 16-bit signed integers, ranging from -100 to 100
+
+Any numpy array of `dtype=np.int16` can be used as a `synthio.LFO` waveform or a `synthio.Note.waveform`.
 
 ### Vibrato: Add LFO to pitch
 
@@ -177,10 +201,10 @@ so we can access per-note properties, like the `note.bend` property.
 The `note.bend` property will bend the note's frequency up an octave with a +1 input and
 down an octave with a -1 input. Attaching a default LFO that ranges from -1 to 1
 will cause a vibrato that's two octaves wide, way too intense.  Instead, we can set
-`scale=1/12` to only scale up and down a semitone, but I like only a single semitone of vibrato,
-so `scale=0.5 * 1/12'.
+`scale = 1/12` to only scale up and down a semitone, but I like only a single semitone of vibrato,
+so `scale = 0.5 * 1/12`.
 
-Alternatively, you can have knobA control the scale and get really crazy.
+Alternatively, you can uncomment the knobA line and have knobA control the scale and get really crazy.
 
 ```py
 # 2_modulation/code_vibrato.py

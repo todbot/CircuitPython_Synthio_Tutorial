@@ -10,7 +10,9 @@ midi_usb = tmidi.MIDI(midi_in=usb_midi.ports[0], midi_out=usb_midi.ports[1])
 while True:
     if msg := midi_usb.receive():
         print("midi:", msg)
+        # noteOn must have velocity > 0
         if msg.type == tmidi.NOTE_ON and msg.velocity > 0:
             synth.press(msg.note)
+        # some synths do noteOff as noteOn w/ zero velocity
         elif msg.type == tmidi.NOTE_OFF or msg.velocity == 0:
             synth.release(msg.note)

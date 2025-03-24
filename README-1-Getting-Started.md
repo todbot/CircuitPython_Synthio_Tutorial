@@ -121,10 +121,10 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
 This sounds like:
 
- 
+
 ```
 [ ... TBD video of code_helloboop.py TBD ... ]
-``` 
+```
 
 ## Simple test, with buffer and organized
 
@@ -286,22 +286,29 @@ while True:
 
 ### Controlling with MIDI
 
-MIDI control is very similar. Since USB MIDI is easier to set up (no extra circuitry needed),
-it's shown here.  Instead of using `adafruit_midi`, the [`tmidi`](https://github.com/todbot/CircuitPython_TMIDI) library is used (available via `circup` and in the [CircuitPython Community Bundle](https://github.com/adafruit/CircuitPython_Community_Bundle/))
+MIDI control is very similar, since it also has key press/release events called
+"noteOn"/"noteOff".  Since USB MIDI is easier to set up (no extra circuitry needed),
+it's shown here, but standard 5-pin MIDI over a UART works too.
 
+Instead of using `adafruit_midi`, the [`tmidi`](https://github.com/todbot/CircuitPython_TMIDI) library
+is shown here (available via `circup` and in the [CircuitPython Community Bundle](https://github.com/adafruit/CircuitPython_Community_Bundle/)).
+
+More details on handling MIDI is in [README-5-MIDI.md](README-5-MIDI.md)
 ```py
 # 1_getting_started/code_midi.py
 import synthio
 import usb_midi, tmidi
-from synth_setup import synth, keys
+from synth_setup import synth
 
 midi_usb = tmidi.MIDI(midi_in=usb_midi.ports[0], midi_out=usb_midi.ports[1])
 
 while True:
     if msg := midi_usb.receive():
         print("midi:", msg)
+        # noteOn must have velocity > 0
         if msg.type == tmidi.NOTE_ON and msg.velocity > 0:
             synth.press(msg.note)
+        # some synths do noteOff as noteOn w/ zero velocity
         elif msg.type == tmidi.NOTE_OFF or msg.velocity == 0:
             synth.release(msg.note)
 ```

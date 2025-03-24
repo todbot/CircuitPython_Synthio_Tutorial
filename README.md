@@ -4,13 +4,15 @@ CircuitPython Synthio Tutorial
 
 Version: 0.0 - 21 Mar 2024
 
-Welcome to a little CircuitPython Synthio Tutorial.
+Welcome to a CircuitPython Synthio Tutorial.
 
 In CircuitPython, `synthio` is a built-in module for doing sound synthesis
-on microcontrollers such as the Pico (RP2040/RP2350).
+on microcontrollers such as the Pico (RP2040/RP2350) and ESP32.
+This guide will focus on a Pico RP2040 and PCM5102a I2S DAC, 
+but it applies to [any board that supports `synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#module-synthio).
 
-This tutorial assumes you know a bit of Python and CircuitPython already.
-It doesn't try to assume you know much about synthesizers or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
+This tutorial assumes you know a bit of Python and [CircuitPython](https://circuitpython.org) already.
+It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
 
 The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
@@ -31,7 +33,6 @@ contain extra explanatory comments or print statements.
 
 ## Sections
 
-This tutorial is broken up into sections.
 
 * [1. Getting Started](./README-1-Getting-Started.md)
 -- Going from a fresh Pico to making boops and responding to inputs
