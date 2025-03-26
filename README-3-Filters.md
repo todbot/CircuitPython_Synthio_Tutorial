@@ -8,10 +8,10 @@
    * [Changing filter parameters by hand](#changing-filter-parameters-by-hand)
    * [Changing filter with knobs](#changing-filter-with-knobs)
    * [Changing filter with LFO](#changing-filter-with-lfo)
-   * [Creating a filter envelope with LFOs](#creating-a-filter-envelope-with-lfos)
+   * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Mar 19 22:00:36 PDT 2025 -->
+<!-- Added by: tod, at: Tue Mar 25 17:37:08 PDT 2025 -->
 
 <!--te-->
 
@@ -186,7 +186,7 @@ while True:
 [ ... TBD video of code_filter_lfomod.py TBD ... ]
 ```
 
-## Creating AHR filter envelope with LFOs
+## Creating filter envelope with LFOs
 
 A common synthesis technique is a ADSR filter envelope on the filter frequency,
 triggered similar to an amplitude envelope. Many synths have two dedicated

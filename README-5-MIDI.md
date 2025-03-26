@@ -8,9 +8,10 @@
    * [Responding to velocity](#responding-to-velocity)
    * [Responding to pitch-bend](#responding-to-pitch-bend)
    * [Responding to CCs](#responding-to-ccs)
+   * [Implementing portamento](#implementing-portamento)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Fri Mar 21 09:46:29 PDT 2025 -->
+<!-- Added by: tod, at: Tue Mar 25 17:34:52 PDT 2025 -->
 
 <!--te-->
 
@@ -26,6 +27,7 @@ from adafruit_midi.note_off import NoteOff
 from synth_setup import synth
 
 midi_usb = adafruit_midi.MIDI(midi_in=usb_midi.ports[0], in_channel=0 )
+
 while True:
     if msg := midi.receive():
         print("midi:",msg)

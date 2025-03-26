@@ -363,3 +363,7 @@ while True:
 
 
 ```
+
+```
+[ ... TBD video of code_synth_bendin.py TBD ... ]
+```

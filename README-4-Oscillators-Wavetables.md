@@ -8,13 +8,13 @@
       * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
    * [Making custom waveforms](#making-custom-waveforms)
    * [Mixing between waves](#mixing-between-waves)
-   * [Thicker sounds with detuned oscillators](#thicker-sounds-with-detuned-oscillators)
+   * [Fatter sounds with detuned oscillators](#fatter-sounds-with-detuned-oscillators)
    * [Use a WAV as an oscillator](#use-a-wav-as-an-oscillator)
    * [Use a Wavetable](#use-a-wavetable)
    * [Wavetable scanning](#wavetable-scanning)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 24 16:15:51 PDT 2025 -->
+<!-- Added by: tod, at: Tue Mar 25 17:34:47 PDT 2025 -->
 
 <!--te-->
 
@@ -141,7 +141,7 @@ from synth_setup import synth, knobA, knobB
 midi_note = 45
 while True:
     num_oscs = int(knobA.value/65535 * 6 + 1)  # up to 6 oscillators
-    detune = knobB.value/6535 * 0.01  # up to 10% detune
+    detune = (knobB.value/6535) * 0.01  # up to 10% detune
     print(f"num_oscs: {num_oscs} detune: {detune}")
     notes = []  # holds note objs being pressed
     # simple detune, always detunes up
@@ -152,7 +152,6 @@ while True:
     time.sleep(0.5)
     synth.release(notes)
     time.sleep(0.1)
-
 ```
 
 ## Use a WAV as an oscillator
