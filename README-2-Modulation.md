@@ -7,13 +7,15 @@
       * [About LFOs](#about-lfos)
          * [LFO scale &amp; offset](#lfo-scale--offset)
          * [LFO waveform](#lfo-waveform)
+         * [LFO resolution](#lfo-resolution)
          * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
       * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
       * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
       * [Fade in LFO](#fade-in-lfo)
+      * [Bend-in pitch envelope](#bend-in-pitch-envelope)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Mar 23 11:13:59 PDT 2025 -->
+<!-- Added by: tod, at: Tue Mar 25 10:24:08 PDT 2025 -->
 
 <!--te-->
 
@@ -172,6 +174,17 @@ For the positive-only waveform shown, its range is 1 instead of 2, so min/max ca
 
 - Note we're using `ulab.numpy` to actually create the waveforms.
 
+#### LFO resolution
+
+Internally, the LFO waveform is stored as signed 16-bit numbers (-32768 to +32767),
+which gets exposed to Python as -1 to +1. Thus LFOs have lower resolution
+that real CircuitPython floating point numbers.  This is normally not an issue.
+But it does mean that while you can use a waveform like
+`LFO(waveform=np.array([100,200],dtyp=np.int16))`,
+the result will be "steppier" than doing `LFO(offset=150,scale=100)`.
+The latter uses the full 16-bit range available to `LFO`.
+
+
 #### Making waveforms with `ulab.numpy`
 
 When dealing with waveforms, the [`ulab.numpy`](https://docs.circuitpython.org/en/latest/shared-bindings/ulab/numpy/index.html) library
@@ -316,4 +329,37 @@ while True:
 
 ```
 [ ... TBD video of code_synth_tremolo_fadein.py TBD ... ]
+```
+
+### Bend-in pitch envelope
+
+Many instruments when played don't hit their target pitch immediately.
+Guitar strings, for instance, start a little sharp when struck before settling
+down to their pitch.  Horn players often "bend-up" into a note to hit their pitch.
+
+We approximate that in synthesizers with an envelope on pitch.
+For bend-up or bend-in, we can use our "fade-in" LFO from our previous example,
+but applied directly to the `note.bend` property.
+
+```py
+# 2_modulation/code_bendin.py
+import time, random
+import synthio
+from synth_setup import synth, knobA
+
+while True:
+    midi_note = random.randint(48,60)
+    note = synthio.Note(synthio.midi_to_hz(midi_note))
+    bend_rate = 0.1
+    bend_amount = 1
+    bendin_lfo = synthio.LFO(once=True, rate=bend_rate, scale=bend_amount,
+                            waveform=np.array([0,32767], dtype=np.int16)))
+    note.bend = bendin_lfo
+
+    synth.press(note)
+    time.sleep(0.5)
+    synth.release(note)
+    time.sleep(0.2)
+
+
 ```

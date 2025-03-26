@@ -28,8 +28,8 @@
 The examples in this tutorial will use the following components:
 
 - 1 x Raspberry Pi Pico RP2040 or compatible (e.g. [PicoH](https://www.sparkfun.com/raspberry-pi-pico-h.html), Pico and solder your own   2[headers](https://amzn.to/3DG589t))
-- 1 x PCM5102 I2S DAC module or similar ([example](https://amzn.to/4bPbHD3))
-- 2 x 10k potentiometers ([example](https://amzn.to/43J0fa5))
+- 1 x PCM5102 I2S DAC module or similar ([example](https://amzn.to/4bPbHD3), [adafruit](https://www.adafruit.com/product/6251))
+- 2 x 10k potentiometers ([example](https://amzn.to/43J0fa5), 5k or 20k will also work)
 - 1+ x tact switch buttons ([breadboard-friendly versions](https://amzn.to/43J0fa5))
 
 But these examples will work with just about any board/chip that has
@@ -296,7 +296,6 @@ is shown here (available via `circup` and in the [CircuitPython Community Bundle
 More details on handling MIDI is in [README-5-MIDI.md](README-5-MIDI.md)
 ```py
 # 1_getting_started/code_midi.py
-import synthio
 import usb_midi, tmidi
 from synth_setup import synth
 
@@ -306,10 +305,10 @@ while True:
     if msg := midi_usb.receive():
         print("midi:", msg)
         # noteOn must have velocity > 0
-        if msg.type == tmidi.NOTE_ON and msg.velocity > 0:
+        if msg.type == tmidi.NOTE_ON and msg.velocity != 0:
             synth.press(msg.note)
         # some synths do noteOff as noteOn w/ zero velocity
-        elif msg.type == tmidi.NOTE_OFF or msg.velocity == 0:
+        elif msg.type in (tmidi.NOTE_OFF, tmidi.NOTE_ON) and msg.velocity == 0:
             synth.release(msg.note)
 ```
 > [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)

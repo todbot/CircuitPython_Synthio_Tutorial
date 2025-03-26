@@ -8,17 +8,25 @@ Welcome to a CircuitPython Synthio Tutorial.
 
 In CircuitPython, `synthio` is a built-in module for doing sound synthesis
 on microcontrollers such as the Pico (RP2040/RP2350) and ESP32.
-This guide will focus on a Pico RP2040 and PCM5102a I2S DAC, 
+This guide will focus on a Pico RP2040 and PCM5102a I2S DAC,
 but it applies to [any board that supports `synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#module-synthio).
-
-This tutorial assumes you know a bit of Python and [CircuitPython](https://circuitpython.org) already.
-It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
 
 The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
 
+## Who this guide is for
 
-## How this Guide is structured
+This tutorial assumes you know a bit of Python and [CircuitPython](https://circuitpython.org) already.
+It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
+
+## What this guide is
+
+This guide hopes to show how `synthio` "thinks" about sound synthesis,
+show techniques for implementing common synthesis concepts with `synthio`,
+and provide useful code snippets to help make new synth things in CircuitPython.
+
+
+## How this guide is structured
 
 This guide is broken up into multiple sections. Each section focuses on a topic,
 and will use techniques and terms discussed in the previous section.
@@ -34,42 +42,50 @@ contain extra explanatory comments or print statements.
 ## Sections
 
 
-* [1. Getting Started](./README-1-Getting-Started.md)
+### [1. Getting Started](./README-1-Getting-Started.md)
 -- Going from a fresh Pico to making boops and responding to inputs
 
-* [2. Modulation](./README-2-Modulation.md)
+### [2. Modulation](./README-2-Modulation.md)
 -- Making those boops sound more alive with LFOs and Envelopes
 
-* [3. Filters](./README-3-Filters.md)
+### [3. Filters](./README-3-Filters.md)
 -- How to use synthio's filters and modulate them
 
-* [4. Oscillators and Wavetables](./README-4-Oscillators-Wavetables.md)
+### [4. Oscillators and Wavetables](./README-4-Oscillators-Wavetables.md)
 -- Change a note's waveform, at any time, even use WAVs
 
-* [5. MIDI](./README-5-MIDI.md)
+### [5. MIDI](./README-5-MIDI.md)
 -- How to respond to MIDI messages (velocity, pitchbend, CCs) in synthio
 
-* [6. Synth Voice](./README-4-Synth-Voice.md)  [tbd]
+### [6. Synth Voice](./README-6-Synth-Voice.md)
 -- Buildling a full synth voice in synthio
 
+### [7. Audio Effects](./README-7-Audio-Effects.md)
+-- Using the `audiofilters` and `audiodelays` modules to add effects
 
-## Examples 
+
+## Examples
 
 Here's some simple examples using synthio showing what's possible
 
 * [tiny_lfo_song](https://www.youtube.com/watch?v=m_ALNCWXor0) -- song with just LFOs
 * [eighties_dystopia](https://www.youtube.com/watch?v=EcDqYh-DzVA) -- 80s-style miasma
 * [quicky_theremin]() -- simple theremin using `touchio`
-* [wavetable_midisynth](https://www.youtube.com/watch?v=CrxaB_AVQqM) -- Play wavetables with MIDI 
+* [wavetable_midisynth](https://www.youtube.com/watch?v=CrxaB_AVQqM) -- Play wavetables with MIDI
 * [monosynth1](https://www.youtube.com/watch?v=EcDqYh-DzVA) -- MIDI-controlled thick monosynth
 * [two_pot_drone_synth](https://www.youtube.com/watch?v=xEmhk-dVXqQ) -- 3-voice two-knob drone synth
 
 ## Projects using synthio
 
-I and others have created several projects that use `synthio`.
+I and others have created several projects and libraries that use `synthio`.
 Some are listed here:
 
-* [circuitpython-syntho-tricks](https://github.com/todbot/circuitpython-synthio-tricks)
-* [pico_test_synth](https://github.com/todbot/pico_test_synth)
-* [qtpy_synth](https://github.com/todbot/qtpy_synth)
-* [Workshop Computer](https://github.com/todbot/Workshop_Computer/tree/main/Demonstrations%2BHelloWorlds/CircuitPython)
+* todbot: [circuitpython-syntho-tricks](https://github.com/todbot/circuitpython-synthio-tricks)
+* todbot: [pico_test_synth](https://github.com/todbot/pico_test_synth)
+* todbot: [qtpy_synth](https://github.com/todbot/qtpy_synth)
+* todbot: [Workshop Computer](https://github.com/todbot/Workshop_Computer/tree/main/Demonstrations%2BHelloWorlds/CircuitPython)
+* gamblor: [synth drum sounds](https://gist.github.com/gamblor21/15a430929abf0e10eeaba8a45b01f5a8)
+* cedargrove [CircuitPython_WaveBuilder](https://github.com/CedarGroveStudios/CircuitPython_WaveBuilder)
+* cedargrove: [CircuitPython_Chime](https://github.com/CedarGroveStudios/CircuitPython_Chime)
+* relic-se: [PicoSynth_Sandbox](https://github.com/relic-se/PicoSynth_Sandbox/)
+* relic-se: [CircuitPython_SynthVoice](https://github.com/relic-se/CircuitPython_SynthVoice), [CircuitPython_Waveform](https://github.com/relic-se/CircuitPython_Waveform), [CircuitPython_KeyManager](https://github.com/relic-se/CircuitPython_KeyManager)
