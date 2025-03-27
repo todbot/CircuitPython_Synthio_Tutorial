@@ -9,9 +9,10 @@
    * [Changing filter with knobs](#changing-filter-with-knobs)
    * [Changing filter with LFO](#changing-filter-with-lfo)
    * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
+   * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Tue Mar 25 17:37:08 PDT 2025 -->
+<!-- Added by: tod, at: Thu Mar 27 10:39:22 PDT 2025 -->
 
 <!--te-->
 
@@ -201,7 +202,7 @@ and a ramp-down LFO when the note is released.
 This is called an AHR (attack-hold-release) envelope.
 
 ```py
-# 3_filters/code_filter_lfomod.py
+# 3_filters/code_filter_filterlerp.py
 import time, random, synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA, knobB
@@ -252,4 +253,59 @@ while True:
 
 ```
 [ ... TBD video of code_filter_lfomod.py TBD ... ]
+```
+
+## Creating filter envelope with lerp LFOs
+
+While having two LFOs like in the previous example works, the same
+trick for a bend-in pitch envelope using `MathOperation.CONSTRAINED_LERP` can
+be used to make an AHR filter envelope.
+
+The benefit of this technique is the same object is used for `note.frequency.filter`,
+no reassignment needed.
+
+```py
+# 3_filters/code_filter_lerp.py
+import time, random
+import ulab.numpy as np
+import synthio
+from synth_setup import synth
+
+filter_attack_time = 1.3
+filter_release_time = 0.5
+filter_min_freq = 200
+filter_max_freq = 2000
+
+# this LFO will automatically run the lerp position from 0 to 1 over a given timea
+lerp_pos = synthio.LFO(once=True, rate=1, waveform=np.array((0,32767), dtype=np.int16))
+
+# this MathOperation will then range from "start_val" to "end_val" over "lerp_time"
+# where "start_val" is our starting frequency and "end_val" is our hold frequency)
+filter_env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, 500, 2000, lerp_pos)
+
+# saw wave oscillators have nicer harmonics to filter
+wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
+
+while True:
+    midi_note = random.randint(32,60)
+    note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw)
+    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
+                                      frequency=filter_env, Q=2.0)
+    # press the note
+    # which means setting up the attack stage, the lerp and retriggering
+    filter_env.a = filter_min_freq  # start at min
+    filter_env.b = filter_max_freq  # end at max
+    lerp_pos.rate = 1 / filter_attack_time
+    lerp_pos.retrigger()
+    synth.press(note)
+    time.sleep(1.5)
+
+    # release the note
+    # which hmeans setting up the release stage, the lerp and retriggering
+    filter_env.a = filter_max_freq  # start at max
+    filter_env.b = filter_min_freq  # end at min
+    lerp_pos.rate = 1 / filter_release_time
+    lerp_pos.retrigger()
+    synth.release(note)
+    time.sleep(1.0)
 ```
