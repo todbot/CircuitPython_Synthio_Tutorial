@@ -36,35 +36,16 @@ if you shift to waveform that's very different)
 
 ## Change a note's oscillator waveform
 
-
-### Making waveforms with `ulab.numpy`
-
-When dealing with waveforms, the [`ulab.numpy`](https://docs.circuitpython.org/en/latest/shared-bindings/ulab/numpy/index.html) library
-([Learn Guide](https://learn.adafruit.com/ulab-crunch-numbers-fast-with-circuitpython/ulab-numpy-phrasebook),
-[ulab book](https://micropython-ulab.readthedocs.io/en/latest/ulab-intro.html))
-is very handy as it's designed to operate on large lists of numbers.
-It's based on [`numpy`](https://numpy.org/doc/stable/reference/arrays.html), so one
-can often find `numpy` tips that work with `ulab.numpy`.
-
-For `synthio`, the most useful part is the basic creation of numpy arrays, with functions like:
-- `np.array([0,1,2,3], dtype=np.int16)`
-  -- create a 4-element numpy array of 16-bit signed integers with the contents of the Python list
-- `np.linspace(-100, 100, num=50, dtype=np.int16)`
-  -- create a 50-element numpy array of 16-bit signed integers, ranging from -100 to 100
-
-Any numpy array of `dtype=np.int16` can be used as a `synthio.LFO` waveform or a `synthio.Note.waveform`.
-
-When dealing with waveforms, the [`ulab.numpy`](https://docs.circuitpython.org/en/latest/shared-bindings/ulab/numpy/index.html) library
-([Learn Guide](https://learn.adafruit.com/ulab-crunch-numbers-fast-with-circuitpython/ulab-numpy-phrasebook))
-is very handy as it's designed to operate on large lists of numbers.
-
-## Making custom waveforms
-
-To use a custom waveforom, just assign the `.waveform` property of the `synthio.Note` object.
+To use a different waveform than the stock square wave,
+assign the `.waveform` property of the `synthio.Note` object.
 You can do this when constructing the `Note` object or while the Note is sounding.
 
 Creating good waveforms is a whole other topic, but we can use some math and
-`numpy` commands to help us make some simple ones, like in this example:
+`numpy` commands to help us make some simple ones, like in this example below.
+
+This is similar to the `numpy` commands we used to generate custom LFO waveforms,
+but unlike LFO waveforms, a `Note`'s waveform doesn't interpolate between values
+for us.
 
 ```py
 # 4_oscillators/code_waveform1.py
@@ -103,9 +84,13 @@ while True:
 [ ... TBD video of code_waveform1.py TBD ... ]
 ```
 
-## Mixing between waves
+## Mixing between waveforms
 
-[discussion tbd]
+Thanks to `numpy` treating arrays of numbers as single values,
+we can create a simple `lerp()` function that mixes between two
+arrays, creating a new array that's the mix.
+
+[more discussion tbd]
 
 ```py
 # 4_oscillators/code_wavemix.py
