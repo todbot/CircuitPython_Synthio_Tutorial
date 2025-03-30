@@ -16,8 +16,10 @@ The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Syn
 
 ## Who this guide is for
 
-This tutorial assumes you know a bit of Python and [CircuitPython](https://circuitpython.org) already.
-It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0).
+This tutorial assumes you know some Python and [CircuitPython](https://circuitpython.org) already.
+It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0),
+but of course, knowing the basics of ["subtractive synthesis"](https://en.wikipedia.org/wiki/Subtractive_synthesis) will help understand
+how `synthio` works and how it differs from that standard.
 
 ## What this guide is
 
@@ -29,15 +31,17 @@ and provide useful code snippets to help make new synth things in CircuitPython.
 ## How this guide is structured
 
 This guide is broken up into multiple sections. Each section focuses on a topic,
-and will use techniques and terms discussed in the previous section.
+and will use techniques and terms discussed in previous sections.
 
-Every example code block is a fully working program, no code snippets here, but
-some functionality will be provided by external libraries or an included script
-(most notable [`synth_setup.py`](./1_getting_started/synth_setup.py)).
+Every example code block is a fully working program, no code snippets here, with
+download links to ready-to-run code.
+Some functionality will be provided by external libraries or an included script
+(most notably [`synth_setup.py`](./1_getting_started/synth_setup.py)).
 
 Each code block also exists as a `code_[name].py` file that can be copied to
 your device's CIRCUITPY drive as `code.py` to run.  The file will sometimes
-contain extra explanatory comments or print statements.
+contain extra explanatory comments or print statements that will be elided
+in this guide.
 
 ## Sections
 
