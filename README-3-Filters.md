@@ -309,3 +309,7 @@ while True:
     synth.release(note)
     time.sleep(1.0)
 ```
+
+```
+[ ... TBD video of code_filter_lerp.py TBD ... ]
+```

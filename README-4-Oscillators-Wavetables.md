@@ -14,7 +14,7 @@
    * [Wavetable scanning](#wavetable-scanning)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Tue Mar 25 17:34:47 PDT 2025 -->
+<!-- Added by: tod, at: Sun Mar 30 14:20:32 PDT 2025 -->
 
 <!--te-->
 
@@ -35,6 +35,7 @@ exactly *when* in the waveform to switch to the new one, so you can get glitches
 if you shift to waveform that's very different)
 
 ## Change a note's oscillator waveform
+
 
 ### Making waveforms with `ulab.numpy`
 
@@ -98,7 +99,13 @@ while True:
     time.sleep(0.3)
 ```
 
+```
+[ ... TBD video of code_waveform1.py TBD ... ]
+```
+
 ## Mixing between waves
+
+[discussion tbd]
 
 ```py
 # 4_oscillators/code_wavemix.py
@@ -129,7 +136,33 @@ while True:
   time.sleep(0.01)
 ```
 
+```
+[ ... TBD video of code_filter_wavemix.py TBD ... ]
+```
+
+
 ## Fatter sounds with detuned oscillators
+
+Typical synthesizer architectures have two or three oscillators
+(with potentially different waveforms) that are mixed together and then fed
+through the amp (controlled by the amplitude envelope) and filter (controlled
+by the filter envelope).  While `synthio` only has a single oscillator in its
+voice architecture, we can double- or triple-up those voices, triggering them
+at the same time, to approximate a typical synth.  Yes, the filters get doubled,
+but the modulators (amp & filter envs) can be shared and it does open the possibily
+of having different filters on each oscillator.
+
+One technique to quickly make a synth patch sound better is to detune its oscillators.
+We have fine-grained control over a `synthio.Note`'s frequency with `note.frequency`,
+so we can do use that to "detune" oscilators to get a "fatter" sound.  We could
+even attach a very subtle LFO to `note.bend` to emulate the small tuning fluctuations
+of an analog synth.
+
+Also good to note that `synthio.midi_to_hz()` allows a floating-point
+value for the MIDI note number.  This allows you to detune more musically
+than doing it on frequency.
+
+[more discussion tbd]
 
 ```py
 # 4_oscillators_wavetables/code_detune.py
@@ -154,14 +187,119 @@ while True:
     time.sleep(0.1)
 ```
 
+```
+[ ... TBD video of code_detune.py TBD ... ]
+```
+
+
 ## Use a WAV as an oscillator
+
+When loading a standard WAV file, the `Note.frequency` needed
+to get the WAV to play back normally is based on the WAV size
+and the original sample rate.
+
+[more discussion tbd]
+
+```py
+# 4_oscillators_wavetables/code_wavewav.py
+import time
+import ulab.numpy as np
+import synthio
+from synth_setup import synth, knobA, knobB
+import adafruit_wave
+
+# reads in entire wave into RAM
+def read_waveform(filename):
+    with adafruit_wave.open(filename) as w:
+        if w.getsampwidth() != 2 or w.getnchannels() != 1:
+            raise ValueError("unsupported format")
+        return memoryview(w.readframes(w.getnframes())).cast('h')
+
+wave_wav = readwaveform("/test.wav")
+
+while True:
+    note = synthio.Note(frequency=1.3, waveform=wave_wav)  # FIXME
+    synth.press(note)
+    time.sleep(0.5)
+    synth.release(note)
+    time.sleep(0.1)
+
+```
+
+```
+[ ... TBD video of code_wavewav.py TBD ... ]
+```
 
 
 ## Use a Wavetable
 
-Note in the above example, the waves were put in an array so we could switch
+Note in the `code_waveform1` example above, the waves were put in an array so we could switch
 them out easily. This is basically how wavetables work.
 
+Wavetables let us store several different (potentially harmonically related) waveforms
+in a single file and call them up immediately.
+
+[more discussion tbd]
+
+```py
+# 4_oscillators_wavetables/code_wavetable.py
+[tbd]
+
+```
+
+```
+[ ... TBD video of code_wavetable.py TBD ... ]
+```
 
 
 ## Wavetable scanning
+
+[discussion tbd]
+
+```py
+# 4_oscillators_wavetables/code_wavetable_scan.py
+import time
+import ulab.numpy as np
+import synthio
+from synth_setup import synth, knobA, knobB
+import adafruit_wave
+
+wavetable_fname = "wav/PLAITS02.WAV"  # from http://waveeditonline.com/index-17.html
+wavetable_sample_size = 256  # number of samples per wave in wavetable (256 is standard)
+
+# mix between values a and b, works with numpy arrays too,  t ranges 0-1
+def lerp(a, b, t):  return (1-t)*a + t*b
+
+class Wavetable:
+    """ A 'waveform' for synthio.Note that uses a wavetable w/ a scannable wave position."""
+    def __init__(self, filepath, wave_len=256):
+        self.w = adafruit_wave.open(filepath)
+        self.wave_len = wave_len  # how many samples in each wave
+        if self.w.getsampwidth() != 2 or self.w.getnchannels() != 1:
+            raise ValueError("unsupported WAV format")
+        self.waveform = np.zeros(wave_len, dtype=np.int16)  # empty buffer we'll copy into
+        self.num_waves = self.w.getnframes() // self.wave_len
+        self.set_wave_pos(0)
+
+    def set_wave_pos(self, pos):
+        """Pick where in wavetable to be, morphing between waves"""
+        pos = min(max(pos, 0), self.num_waves-1)  # constrain
+        samp_pos = int(pos) * self.wave_len  # get sample position
+        self.w.setpos(samp_pos)
+        waveA = np.frombuffer(self.w.readframes(self.wave_len), dtype=np.int16)
+        self.w.setpos(samp_pos + self.wave_len)  # one wave up
+        waveB = np.frombuffer(self.w.readframes(self.wave_len), dtype=np.int16)
+        pos_frac = pos - int(pos)  # fractional position between wave A & B
+        self.waveform[:] = lerp(waveA, waveB, pos_frac) # mix waveforms A & B
+
+wavetable1 = Wavetable(wavetable_fname, wave_len=wavetable_sample_size)
+
+midi_note = 48
+note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wavetable1.waveform)
+wave_lfo = synthio.LFO(rate=0.1, waveform=np.array((0,32767), dtype=np.int16) )
+synth.blocks.append(wave_lfo)
+
+while True:
+    wavetable1.set_wave_pos( wave_lfo.value )
+    time.sleep(0.01)
+```
