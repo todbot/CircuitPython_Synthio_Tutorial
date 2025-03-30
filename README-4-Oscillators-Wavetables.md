@@ -5,16 +5,14 @@
 * [Synthio Tutorial: Oscillators &amp; Wavetables](#synthio-tutorial-oscillators--wavetables)
    * [About Oscillators](#about-oscillators)
    * [Change a note's oscillator waveform](#change-a-notes-oscillator-waveform)
-      * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
-   * [Making custom waveforms](#making-custom-waveforms)
-   * [Mixing between waves](#mixing-between-waves)
+   * [Mixing between waveforms](#mixing-between-waveforms)
    * [Fatter sounds with detuned oscillators](#fatter-sounds-with-detuned-oscillators)
    * [Use a WAV as an oscillator](#use-a-wav-as-an-oscillator)
    * [Use a Wavetable](#use-a-wavetable)
    * [Wavetable scanning](#wavetable-scanning)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Mar 30 14:20:32 PDT 2025 -->
+<!-- Added by: tod, at: Sun Mar 30 14:31:33 PDT 2025 -->
 
 <!--te-->
 
