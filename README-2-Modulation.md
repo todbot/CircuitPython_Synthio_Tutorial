@@ -1,5 +1,5 @@
 
-## [Synthio Tutorial](..): Modulation
+## [Synthio Tutorial](.): Modulation
 
 <!--ts-->
    * [Synthio Tutorial: Modulation](#synthio-tutorial-modulation)
