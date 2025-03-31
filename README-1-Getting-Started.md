@@ -1,5 +1,5 @@
 
-# Synthio Tutorial: Getting Started
+# [Synthio Tutorial](..): Getting Started
 
 <!--ts-->
 * [Synthio Tutorial: Getting Started](#synthio-tutorial-getting-started)

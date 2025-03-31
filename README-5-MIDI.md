@@ -1,4 +1,4 @@
-# Synthio Tutorial: MIDI
+# [Synthio Tutorial](..): MIDI
 
 <!--ts-->
 * [Synthio Tutorial: MIDI](#synthio-tutorial-midi)

@@ -1,5 +1,5 @@
 
-# Synthio Tutorial: Oscillators & Wavetables
+# [Synthio Tutorial](..): Oscillators & Wavetables
 
 <!--ts-->
 * [Synthio Tutorial: Oscillators &amp; Wavetables](#synthio-tutorial-oscillators--wavetables)

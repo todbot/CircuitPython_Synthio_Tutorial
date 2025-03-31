@@ -1,4 +1,4 @@
-# Synthio Tutorial: Synth Voice
+# [Synthio Tutorial](..): Synth Voice
 
 <!--ts-->
 * [Synthio Tutorial: Synth Voice](#synthio-tutorial-synth-voice)
