@@ -1,3 +1,4 @@
 # theme: jekyll-theme-slate
-remote_theme: olivier3lanc/Jekyll-LibDoc
+#remote_theme: olivier3lanc/Jekyll-LibDoc
+remote_theme: "tareqdandachi/jekyll-shell-theme"
 google_analytics: G-J526WL5LT4
