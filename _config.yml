@@ -3,6 +3,7 @@
 #remote_theme: "tareqdandachi/jekyll-shell-theme"
 # this minimalist one is okay, but sidebar is weird
 #remote_theme: BDHU/minimalist
-remote_theme: just-the-docs/just-the-docs
+#remote_theme: just-the-docs/just-the-docs
+remote_theme: aksakalli/jekyll-doc-theme
 
 google_analytics: G-J526WL5LT4
