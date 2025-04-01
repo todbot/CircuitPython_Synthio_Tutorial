@@ -1,7 +1,6 @@
-# [Synthio Tutorial](.): Synth Voice
+# [Synthio Tutorial](.): 6. Synth Voice
 
 <!--ts-->
-* [Synthio Tutorial: Synth Voice](#synthio-tutorial-synth-voice)
    * [Features of our synth voice](#features-of-our-synth-voice)
    * [Helper classes](#helper-classes)
    * [Storing patches](#storing-patches)
@@ -10,7 +9,7 @@
    * [Using it as a polysynth](#using-it-as-a-polysynth)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Mar 30 14:22:10 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 31 18:08:53 PDT 2025 -->
 
 <!--te-->
 

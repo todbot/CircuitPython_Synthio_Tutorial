@@ -1,8 +1,7 @@
 
-## [Synthio Tutorial](.): Modulation
+## [Synthio Tutorial](.): 2. Modulation
 
 <!--ts-->
-   * [Synthio Tutorial: Modulation](#synthio-tutorial-modulation)
       * [About Envelopes](#about-envelopes)
       * [About LFOs](#about-lfos)
          * [LFO scale &amp; offset](#lfo-scale--offset)
@@ -12,10 +11,10 @@
       * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
       * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
       * [Fade in LFO](#fade-in-lfo)
-      * [Bend-in pitch envelope](#bend-in-pitch-envelope)
+      * [Bend-in pitch envelope with lerp](#bend-in-pitch-envelope-with-lerp)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Tue Mar 25 10:24:08 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 31 18:08:34 PDT 2025 -->
 
 <!--te-->
 

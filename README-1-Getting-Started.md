@@ -1,8 +1,7 @@
 
-# [Synthio Tutorial](.): Getting Started
+# [Synthio Tutorial](.): 1. Getting Started
 
 <!--ts-->
-* [Synthio Tutorial: Getting Started](#synthio-tutorial-getting-started)
    * [Wiring up](#wiring-up)
       * [With a breadboard](#with-a-breadboard)
       * [Using the pico_test_synth PCB](#using-the-pico_test_synth-pcb)
@@ -18,7 +17,7 @@
       * [Controlling with MIDI](#controlling-with-midi)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Mar 12 09:29:37 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 31 18:06:25 PDT 2025 -->
 
 <!--te-->
 

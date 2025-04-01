@@ -1,4 +1,4 @@
-# [Synthio Tutorial](.): Audio Effects
+# [Synthio Tutorial](.): 7. Audio Effects
 
 <!--ts-->
 * [Synthio Tutorial: Audio Effects](#synthio-tutorial-audio-effects)

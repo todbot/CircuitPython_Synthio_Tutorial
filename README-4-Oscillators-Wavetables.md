@@ -1,8 +1,7 @@
 
-# [Synthio Tutorial](.): Oscillators & Wavetables
+# [Synthio Tutorial](.): 4. Oscillators & Wavetables
 
 <!--ts-->
-* [Synthio Tutorial: Oscillators &amp; Wavetables](#synthio-tutorial-oscillators--wavetables)
    * [About Oscillators](#about-oscillators)
    * [Change a note's oscillator waveform](#change-a-notes-oscillator-waveform)
    * [Mixing between waveforms](#mixing-between-waveforms)
@@ -12,7 +11,7 @@
    * [Wavetable scanning](#wavetable-scanning)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Mar 30 14:31:33 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 31 18:08:47 PDT 2025 -->
 
 <!--te-->
 

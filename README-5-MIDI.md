@@ -1,7 +1,6 @@
-# [Synthio Tutorial](.): MIDI
+# [Synthio Tutorial](.): 5. MIDI
 
 <!--ts-->
-* [Synthio Tutorial: MIDI](#synthio-tutorial-midi)
    * [Using adafruit_midi for NoteOn/NoteOff](#using-adafruit_midi-for-noteonnoteoff)
    * [Using TMIDI for NoteOn/NoteOff](#using-tmidi-for-noteonnoteoff)
    * [Keeping track of playing notes](#keeping-track-of-playing-notes)
@@ -11,7 +10,7 @@
    * [Implementing portamento](#implementing-portamento)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Mar 30 14:20:36 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 31 18:08:51 PDT 2025 -->
 
 <!--te-->
 

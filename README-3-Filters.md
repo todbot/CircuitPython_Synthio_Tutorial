@@ -1,8 +1,7 @@
 
-# [Synthio Tutorial](.): Filters
+# [Synthio Tutorial](.): 3. Filters
 
 <!--ts-->
-* [Synthio Tutorial: Filters](#synthio-tutorial-filters)
    * [About Filters](#about-filters)
    * [Add a filter](#add-a-filter)
    * [Changing filter parameters by hand](#changing-filter-parameters-by-hand)
@@ -12,7 +11,7 @@
    * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Thu Mar 27 10:39:22 PDT 2025 -->
+<!-- Added by: tod, at: Mon Mar 31 18:08:43 PDT 2025 -->
 
 <!--te-->
 
