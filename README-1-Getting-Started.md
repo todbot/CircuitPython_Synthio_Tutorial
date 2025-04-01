@@ -52,10 +52,21 @@ intermittent, making them frustrating.
 
 <img src="./docs/synthio_tutorial_wiring1.png" width=400/>
 
+Fitting that all on a half-sized breadboard is cramped, here's how you might
+wire it up on a full-sized breadboard:
+
+<img src="./docs/synthio_tutorial_wiring1_full.png" width=800/>
+
 
 ### Using the pico_test_synth PCB
 
-[ image of pico_test_synth ]
+You can also use my [pico_test_synth](https://github.com/todbot/pico_test_synth) PCB
+to handle all the wiring for you.
+It includes two knobs, a button, and a PCM5102 I2S DAC, as well as a
+little I2C OLED display and 16 captouch pads.
+
+<a href="https://github.com/todbot/pico_test_synth"><img src="./docs/pico_test_synth1.jpg" width=400/></a>
+
 
 ## Code setup
 
