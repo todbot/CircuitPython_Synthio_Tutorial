@@ -1,20 +1,20 @@
 
-## [Synthio Tutorial](.): 2. Modulation
+# [Synthio Tutorial](.): 2. Modulation
 
 <!--ts-->
-      * [About Envelopes](#about-envelopes)
-      * [About LFOs](#about-lfos)
-         * [LFO scale &amp; offset](#lfo-scale--offset)
-         * [LFO waveform](#lfo-waveform)
-         * [LFO resolution](#lfo-resolution)
-         * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
-      * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
-      * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
-      * [Fade in LFO](#fade-in-lfo)
-      * [Bend-in pitch envelope with lerp](#bend-in-pitch-envelope-with-lerp)
+   * [About Envelopes](#about-envelopes)
+   * [About LFOs](#about-lfos)
+      * [LFO scale &amp; offset](#lfo-scale--offset)
+      * [LFO waveform](#lfo-waveform)
+      * [LFO resolution](#lfo-resolution)
+      * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
+   * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
+   * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
+   * [Fade in LFO](#fade-in-lfo)
+   * [Bend-in pitch envelope with lerp](#bend-in-pitch-envelope-with-lerp)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 31 18:08:34 PDT 2025 -->
+<!-- Added by: tod, at: Wed Apr  2 13:37:20 PDT 2025 -->
 
 <!--te-->
 
@@ -31,7 +31,7 @@ In `synthio` there are two types of modulators:
 The `synthio` LFO modulation system is very rich, offering a set of [`MathOperations`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.MathOperation)
 to let you combine an LFO with other LFOs or other parameters in your code.
 
-### About Envelopes
+## About Envelopes
 
 The simplest modulation tool in `synthio` is the amplitude envelope, aka `synthio.Envelope`.
 Unlike other synthesis systems, `Envelope` can only be used for the amplitude envelope,
@@ -101,14 +101,14 @@ while True:
 ```
 
 
-### About LFOs
+## About LFOs
 
 Low-frequency oscillators ("LFOs") are common in sound synthesis as a way of automating
 the "knob twiddling" one might physically do to a parameter on a synthesizer.
 Common uses of LFOs are for vibrato and tremolo effects.
 
 
-#### LFO scale & offset
+### LFO scale & offset
 
 In `synthio`, the default LFO waveform is a triangle wave ranging from -1.0 to 1.0,
 centered around zero.  You can change that range with `LFO.scale`.
@@ -139,7 +139,7 @@ This function only applies to the default -1/+1 triangle wave; if you load up yo
 own LFO waveform, the `.scale` and `.offset` functions will work a bit differently.
 
 
-#### LFO waveform
+### LFO waveform
 
 The default waveform of `LFO` is a zero-centered triangle wave that goes 0 -> +1 -> 0 -> -1 -> 0.
 What if we want a different action? We can do that by setting `LFO.waveform`.
@@ -173,7 +173,7 @@ For the positive-only waveform shown, its range is 1 instead of 2, so min/max ca
 
 - Note we're using `ulab.numpy` to actually create the waveforms.
 
-#### LFO resolution
+### LFO resolution
 
 Internally, the LFO waveform is stored as signed 16-bit numbers (-32768 to +32767),
 which gets exposed to Python as -1 to +1. Thus LFOs have lower resolution
@@ -184,7 +184,7 @@ the result will be "steppier" than doing `LFO(offset=150,scale=100)`.
 The latter uses the full 16-bit range available to `LFO`.
 
 
-#### Making waveforms with `ulab.numpy`
+### Making waveforms with `ulab.numpy`
 
 When dealing with waveforms, the [`ulab.numpy`](https://docs.circuitpython.org/en/latest/shared-bindings/ulab/numpy/index.html) library
 ([Learn Guide](https://learn.adafruit.com/ulab-crunch-numbers-fast-with-circuitpython/ulab-numpy-phrasebook),
@@ -201,7 +201,7 @@ For `synthio`, the most useful part is the basic creation of numpy arrays, with 
 
 Any numpy array of `dtype=np.int16` can be used as a `synthio.LFO` waveform or a `synthio.Note.waveform`.
 
-### Vibrato: Add LFO to pitch
+## Vibrato: Add LFO to pitch
 
 To give the notes some "motion", let's add pitch vibrato to them with an LFO.
 Vibrato is a slight "warble" in a note's pitch.
@@ -241,7 +241,7 @@ while True:
 [ ... TBD video of code_synth_vibrato.py TBD ... ]
 ```
 
-### Tremolo: Add LFO to amplitude
+## Tremolo: Add LFO to amplitude
 
 Another common effect is tremolo, the regular varying of a note's loudness.
 This is can be done with an LFO too.  Let's also adjust the "strength" of the
@@ -286,7 +286,7 @@ Think of it as a generalization of the `.scale` & `.offset` features of LFO.
 -->
 
 
-### Fade in LFO
+## Fade in LFO
 
 If we want to "automate the automation" of turning the knob to increase and decrease
 the strength of the tremolo LFO, we can use another `synthio` feature to combine two LFOs:
@@ -330,7 +330,7 @@ while True:
 [ ... TBD video of code_synth_tremolo_fadein.py TBD ... ]
 ```
 
-### Bend-in pitch envelope with lerp
+## Bend-in pitch envelope with lerp
 
 Many instruments when played don't hit their target pitch immediately.
 Guitar strings, for instance, start a little sharp when struck before settling
