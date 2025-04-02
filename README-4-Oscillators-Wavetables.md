@@ -9,9 +9,10 @@
    * [Use a WAV as an oscillator](#use-a-wav-as-an-oscillator)
    * [Use a Wavetable](#use-a-wavetable)
    * [Wavetable scanning](#wavetable-scanning)
+   * [Fun with wavetables: wavetabledrone](#fun-with-wavetables-wavetabledrone)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 31 18:08:47 PDT 2025 -->
+<!-- Added by: tod, at: Wed Apr  2 13:32:56 PDT 2025 -->
 
 <!--te-->
 
@@ -44,14 +45,22 @@ This is similar to the `numpy` commands we used to generate custom LFO waveforms
 but unlike LFO waveforms, a `Note`'s waveform doesn't interpolate between values
 for us.
 
+There are two main parameters when creating waveforms: how many samples in the wave
+(`NUM_SAMPLES`) and the maximum amplitude of the those samples (`VOLUME`).  For
+complex waves, having more samples will be a more accurate representation of your
+sound at the expense of using up more RAM.  The maximum amplitude of a waveform
+in `synthio` is a +/-32767, since internally the samples are stored as 16-bit
+signed integers. In practice, it's usually good to have your waveform's max
+be a little understand to help prevent clipping.
+
 ```py
 # 4_oscillators/code_waveform1.py
 import time
 import ulab.numpy as np
 import synthio
-from synth_setup import synth
+from synth_setup import synth, knobA
 
-NUM_SAMPLES = 256
+NUM_SAMPLES = 256  # how many datapoints in our waveform
 VOLUME = 32000  # np.int16 ranges from -32678 to 32767, this gives a little headroom
 
 wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM_SAMPLES, endpoint=False)) * VOLUME, dtype=np.int16)
@@ -74,7 +83,7 @@ i=0
 while True:
     i=(i+1) % len(my_waves)  # pick a new waveform
     note1.waveform = my_waves[i]  # set new waveform
-    time.sleep(0.3)
+    time.sleep( 0.001 + knobA.value / 65535 )  # use knobA to change wave switch time
 ```
 
 ```
@@ -246,11 +255,7 @@ import synthio
 from synth_setup import synth, knobA, knobB
 import adafruit_wave
 
-wavetable_fname = "wav/PLAITS02.WAV"  # from http://waveeditonline.com/index-17.html
-wavetable_sample_size = 256  # number of samples per wave in wavetable (256 is standard)
-
-# mix between values a and b, works with numpy arrays too,  t ranges 0-1
-def lerp(a, b, t):  return (1-t)*a + t*b
+wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
 
 class Wavetable:
     """ A 'waveform' for synthio.Note that uses a wavetable w/ a scannable wave position."""
@@ -261,9 +266,13 @@ class Wavetable:
             raise ValueError("unsupported WAV format")
         self.waveform = np.zeros(wave_len, dtype=np.int16)  # empty buffer we'll copy into
         self.num_waves = self.w.getnframes() // self.wave_len
-        self.set_wave_pos(0)
+        self._wave_pos = 0
 
-    def set_wave_pos(self, pos):
+    @property
+    def wave_pos(self): return self._wave_pos
+
+    @wave_pos.setter
+    def wave_pos(self, pos):
         """Pick where in wavetable to be, morphing between waves"""
         pos = min(max(pos, 0), self.num_waves-1)  # constrain
         samp_pos = int(pos) * self.wave_len  # get sample position
@@ -272,16 +281,78 @@ class Wavetable:
         self.w.setpos(samp_pos + self.wave_len)  # one wave up
         waveB = np.frombuffer(self.w.readframes(self.wave_len), dtype=np.int16)
         pos_frac = pos - int(pos)  # fractional position between wave A & B
-        self.waveform[:] = lerp(waveA, waveB, pos_frac) # mix waveforms A & B
+        self.waveform[:] = Wavetable.lerp(waveA, waveB, pos_frac) # mix waveforms A & B
+        self._wave_pos = pos
 
-wavetable1 = Wavetable(wavetable_fname, wave_len=wavetable_sample_size)
+    # mix between values a and b, works with numpy arrays too, t ranges 0-1
+    def lerp(a, b, t):  return (1-t)*a + t*b
+
+wavetable1 = Wavetable(wavetable_fname)
 
 midi_note = 48
 note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wavetable1.waveform)
-wave_lfo = synthio.LFO(rate=0.1, waveform=np.array((0,32767), dtype=np.int16) )
-synth.blocks.append(wave_lfo)
+synth.press(note)
+
+# create a positive ramp-up-down LFO to scan through the waveetable
+wave_lfo = synthio.LFO(rate=0.05, waveform=np.array((0,32767), dtype=np.int16) )
+wave_lfo.scale = wavetable1.num_waves
+synth.blocks.append(wave_lfo)  # must do this to activate the LFO since not attached to Note
 
 while True:
-    wavetable1.set_wave_pos( wave_lfo.value )
+    # regularly copy LFO to wave_pos by hand
+    wavetable1.wave_pos =  wave_lfo.value
+    print("%.2f" % wavetable1.wave_pos)
     time.sleep(0.01)
+```
+
+```
+[ ... TBD video of code_wavetable_scan.py TBD ... ]
+```
+
+
+## Fun with wavetables: wavetabledrone
+
+Now we have some ability to load and play wavetables, let's use them to make
+a slowly evolving dronesynth with some oscillators scanning at different rates
+through a harmonically-rich wavetable.
+
+```py
+# 4_oscillators_wavetables/code_wavetabledrone.py
+import time
+import ulab.numpy as np
+import synthio
+from synth_setup import synth, knobA, knobB
+from wavetable import Wavetable
+
+wavetable1 = Wavetable(wavetable_fname)
+wavetable2 = Wavetable(wavetable_fname)
+wavetable3 = Wavetable(wavetable_fname)
+
+midi_note = 48
+note = synthio.Note(synthio.midi_to_hz(midi_note-12), waveform=wavetable1.waveform)
+note2 = synthio.Note(synthio.midi_to_hz(midi_note-7), waveform=wavetable2.waveform)
+note3 = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wavetable3.waveform)
+note3.bend = synthio.LFO(rate=0.01, scale=0.5)
+note4 = synthio.Note(synthio.midi_to_hz(midi_note-24), waveform=wavetable3.waveform)
+
+wave_lfo = synthio.LFO(rate=0.005, waveform=np.array((0,32767), dtype=np.int16) )
+wave_lfo.scale = wavetable1.num_waves
+wave_lfo2 = synthio.LFO(rate=0.01, waveform=np.array((32767,0), dtype=np.int16) )
+wave_lfo2.scale = wavetable1.num_waves
+wave_lfo2.phase_offset = 0.25
+synth.blocks.append(wave_lfo)
+synth.blocks.append(wave_lfo2)
+
+synth.press( (note,note2,note3,note4) )
+
+while True:
+    wavetable1.wave_pos =  wave_lfo.value
+    wavetable2.wave_pos =  wave_lfo2.value
+    wavetable3.wave_pos = 0 + 16.0 * (knobA.value/65535)
+    print("%.2f %.2f %.2f" % (wave_lfo.value, wave_lfo2.value, wavetable3.wave_pos))
+    time.sleep(0.05)
+```
+
+```
+[ ... TBD video of code_wavetabledrone.py TBD ... ]
 ```

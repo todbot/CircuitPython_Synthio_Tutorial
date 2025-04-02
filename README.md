@@ -38,10 +38,15 @@ download links to ready-to-run code.
 Some functionality will be provided by external libraries or an included script
 (most notably [`synth_setup.py`](./1_getting_started/synth_setup.py)).
 
-Each code block also exists as a `code_[name].py` file that can be copied to
+Each example code block also exists as a `code_[name].py` file that can be copied to
 your device's CIRCUITPY drive as `code.py` to run.  The file will sometimes
 contain extra explanatory comments or print statements that will be elided
 in this guide.
+
+Each example (with a few exceptions) will do something sonically interesting by
+itself, but also have a bit of interactivity with the knobs and button.  So even
+if you don't have the knobs & button wired up, you should still get a sense of
+what the example is about.
 
 ## Sections
 

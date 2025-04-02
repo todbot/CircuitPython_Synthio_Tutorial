@@ -1,11 +1,11 @@
-# 4_oscillators_wavetables/code_wavetable_scan.py
-import time
+# 4_oscillators_wavetables/wavetable.py
+# simple wavetable class for synthio
+#
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA, knobB
 import adafruit_wave
 
-wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/index-17.html
+wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
 
 class Wavetable:
     """ A 'waveform' for synthio.Note that uses a wavetable w/ a scannable wave position."""    
@@ -36,21 +36,3 @@ class Wavetable:
 
     # mix between values a and b, works with numpy arrays too, t ranges 0-1
     def lerp(a, b, t):  return (1-t)*a + t*b
-
-wavetable1 = Wavetable(wavetable_fname)
-
-midi_note = 48
-note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wavetable1.waveform)
-synth.press(note)
-
-# create a positive ramp-up-down LFO to scan through the waveetable
-wave_lfo = synthio.LFO(rate=0.05, waveform=np.array((0,32767), dtype=np.int16) )
-wave_lfo.scale = wavetable1.num_waves
-synth.blocks.append(wave_lfo)  # must do this to activate the LFO since not attached to Note
-
-while True:
-    # regularly copy LFO to wave_pos by hand
-    wavetable1.wave_pos =  wave_lfo.value
-    print("%.2f" % wavetable1.wave_pos)
-    time.sleep(0.01)
-

@@ -35,7 +35,17 @@ But these examples will work with just about any board/chip that has
 CircuitPython `synthio` support and some sort of audio output,
 like a [QTPy RP2040 with PWM output](https://github.com/todbot/qtpy_synth).
 
-You will also need either headphones or a powered speaker to hear the synth.
+Most of the examples do not *require* the pots or buttons, but they will form
+the main interactivity for the examples.
+
+For the USB MIDI examples, you should have an app on your computer that can
+generate MIDI.  For the Mac, the free [MIDIKeys](https://github.com/flit/MidiKeys)
+app is great. For Windows/Linux/Mac, there's the free [VPMK](https://vmpk.sourceforge.io/).
+If you have a DAW program on your computer like [Ableton Live](https://www.ableton.com/en/products/live-lite/), [Garageband](https://www.apple.com/mac/garageband/),
+[Reaper](https://www.reaper.fm/), or [Traktion](https://www.tracktion.com/products/waveform-free),
+those can also generate MIDI as well as forward MIDI from a MIDI keyboard, if you have that.
+
+You will also need a powered speaker (or headphones in a pinch) to hear the synth.
 
 
 ### With a breadboard
