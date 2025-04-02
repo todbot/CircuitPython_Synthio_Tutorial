@@ -6,9 +6,8 @@
       * [With a breadboard](#with-a-breadboard)
       * [Using the pico_test_synth PCB](#using-the-pico_test_synth-pcb)
    * [Code setup](#code-setup)
-* [Make a Sound](#make-a-sound)
-   * [Hello boop!](#hello-boop)
-   * [Simple test, with buffer and organized](#simple-test-with-buffer-and-organized)
+   * [Make a Sound: Hello boop!](#make-a-sound-hello-boop)
+   * [Hello Boop reorganized and with buffer](#hello-boop-reorganized-and-with-buffer)
    * [Fun with boops](#fun-with-boops)
       * [Generative tunes on a pentatonic scale](#generative-tunes-on-a-pentatonic-scale)
       * [Play a chord melody](#play-a-chord-melody)
@@ -17,7 +16,7 @@
       * [Controlling with MIDI](#controlling-with-midi)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 31 18:06:25 PDT 2025 -->
+<!-- Added by: tod, at: Wed Apr  2 13:41:26 PDT 2025 -->
 
 <!--te-->
 
@@ -87,9 +86,7 @@ as normal.
 - Use your editor of choice to edit the .py files on the device's CIRCUITPY drive
 
 
-# Make a Sound
-
-## Hello boop!
+## Make a Sound: Hello boop!
 
 Let's test out the wiring.  Create a `code.py` file
 on the CIRCUITPY drive with the contents of the
@@ -146,7 +143,7 @@ This sounds like:
 [ ... TBD video of code_helloboop.py TBD ... ]
 ```
 
-## Simple test, with buffer and organized
+## Hello Boop reorganized and with buffer
 
 There is an issue with the above code however.
 With the synth plugged directly into the audio output, there's very little buffer
@@ -272,6 +269,11 @@ while True:
 
 So far, the code has been triggering notes by itself.  But it's pretty easy to trigger
 with keypresses or MIDI.
+
+By it's nature, `synthio` thinks in terms of `synth.press()` and `synth.release()` events.
+This makes it easier for us writing code but is different than most synths that
+have always-running oscillators feeding into envelopes that are then triggered when a
+press event occurs.
 
 ### Controlling with buttons
 
