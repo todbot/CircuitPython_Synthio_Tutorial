@@ -5,5 +5,6 @@ theme: jekyll-theme-slate
 #remote_theme: BDHU/minimalist
 #remote_theme: just-the-docs/just-the-docs
 #remote_theme: aksakalli/jekyll-doc-theme
+remote_theme: "jekyll/minima@c6e74bb"
 
 google_analytics: G-J526WL5LT4
