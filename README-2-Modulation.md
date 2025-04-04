@@ -10,11 +10,12 @@
       * [Making waveforms with ulab.numpy](#making-waveforms-with-ulabnumpy)
    * [Vibrato: Add LFO to pitch](#vibrato-add-lfo-to-pitch)
    * [Tremolo: Add LFO to amplitude](#tremolo-add-lfo-to-amplitude)
-   * [Fade in LFO](#fade-in-lfo)
-   * [Bend-in pitch envelope with lerp](#bend-in-pitch-envelope-with-lerp)
+   * [Fade in LFO, using LERP](#fade-in-lfo-using-lerp)
+   * [Bend-in pitch envelope](#bend-in-pitch-envelope)
+   * [Portamento: glide between notes](#portamento-glide-between-notes)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Apr  2 13:37:20 PDT 2025 -->
+<!-- Added by: tod, at: Thu Apr  3 17:16:06 PDT 2025 -->
 
 <!--te-->
 
@@ -286,7 +287,7 @@ Think of it as a generalization of the `.scale` & `.offset` features of LFO.
 -->
 
 
-## Fade in LFO
+## Fade in LFO, using LERP
 
 If we want to "automate the automation" of turning the knob to increase and decrease
 the strength of the tremolo LFO, we can use another `synthio` feature to combine two LFOs:
@@ -295,7 +296,23 @@ the strength of the tremolo LFO, we can use another `synthio` feature to combine
 They operate at LFO update speeds in the background, so we don't have to write Python to
 copy a value from an LFO, modify it, then write it to what the LFO is modifying.
 
-In the case of fading in the tremolo effect, we can do that with a one-shot ramp-up LFO.
+One of the most useful is `MathOperation.CONSTRAINED_LERP`.  This function has three inputs:
+a, b, and t.  The "a" and "b" inputs are the two signals to mix and "t" is the how much of
+each you want. If t==0.0, you get just "a", if t==1.0, you get just "b", if t==0.5, you get a 50/50
+mix of "a" & "b". And if you scan "t" from 0.0 to 1.0, the output of LERP looks like it's
+morphing "a" into "b".  "LERP" is shorthand for "linear interpolation", which just means
+making a new signal by smoothly mixing between two inputs.
+A related concept is ["easing function"](https://easings.net/),
+which you may be familiar with if you've done animation
+
+In the case of fading in the tremolo effect, we can do scanning of "t" with a one-shot ramp-up LFO.
+If we pass in `once=True` when making a `synthio.LFO`, the LFO only runs once, perfect for a
+one-time effect. That one-time ramp LFO will be the the "t" part "mix control" of the
+`MathOperation.CONSTRAINED_LERP` function, fading from "a" input of "no effect"
+(i.e. amplitude is just "1.0") and the "b" input of the tremolo LFO from before.
+
+The `CONSTRAINED_LERP` (or just "lerp") concept is so useful in `synthio` that you'll see
+many times to let you choose an "amount" of something that is itself varying, like this LFO.
 
 ```py
 # 2_modulation/code_tremolo_fadein.py
@@ -308,10 +325,9 @@ fadein_lfo = synthio.LFO(rate=1, once=True, waveform=np.array([0,32767], dtype=n
 tremolo_lfo = synthio.LFO(rate=5, scale=0.5, offset=0.5)
 
 fadein_tremolo_lfo = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
-                                  1,
-                                  tremolo_lfo,
-                                  fadein_lfo)
-
+                                  1.0,          # the 'a' input of the LERP
+                                  tremolo_lfo,  # the 'b' input of the LERP
+                                  fadein_lfo)   # the 't' mix amount for how much a & b (0=a, 1=b)
 while True:
     midi_note = random.randint(48,60)
     note = synthio.Note(synthio.midi_to_hz(midi_note))
@@ -330,7 +346,7 @@ while True:
 [ ... TBD video of code_synth_tremolo_fadein.py TBD ... ]
 ```
 
-## Bend-in pitch envelope with lerp
+## Bend-in pitch envelope
 
 Many instruments when played don't hit their target pitch immediately.
 Guitar strings, for instance, start a little sharp when struck before settling
@@ -341,6 +357,8 @@ We could use our "fade-in" LFO from our previous example,
 applied directly to the `note.bend` property.
 
 But instead let's use `synthio.MathOperation.CONSTRAINED_LERP`.
+In this case, we're using the lerp to smoothly "fade" from our starting bend amount
+to 0.0, no bend, i.e. our destination pitch.
 
 ```py
 # 2_modulation/code_lerpbend.py
@@ -358,7 +376,7 @@ while True:
                            waveform=np.array((0,32767), dtype=np.int16))
     # this MathOperation will then range from "start_val" to "end_val" over "lerp_time"
     # where "start_val" is our bend_amount and "end_val" is 0 (our root pitch)
-    bend_lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, bend_amount, 0, lerp_pos)
+    bend_lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, bend_amount, 0.0, lerp_pos)
 
     midi_note = random.randint(48,60)
     note = synthio.Note(synthio.midi_to_hz(midi_note))
@@ -368,35 +386,73 @@ while True:
 
     synth.press(note)
     time.sleep(1)  # wait for bend to happen
-
     synth.release(note)
     time.sleep(0.1)
 ```
 
-
-```py
-# 2_modulation/code_bendin.py
-import time, random
-import synthio
-from synth_setup import synth, knobA
-
-while True:
-    midi_note = random.randint(48,60)
-    note = synthio.Note(synthio.midi_to_hz(midi_note))
-    bend_rate = 0.1
-    bend_amount = 1
-    bendin_lfo = synthio.LFO(once=True, rate=bend_rate, scale=bend_amount,
-                            waveform=np.array([0,32767], dtype=np.int16)))
-    note.bend = bendin_lfo
-
-    synth.press(note)
-    time.sleep(0.5)
-    synth.release(note)
-    time.sleep(0.2)
-
-
-```
-
 ```
 [ ... TBD video of code_synth_bendin.py TBD ... ]
+```
+
+## Portamento: glide between notes
+
+Portamento, or "glide", is the sliding of an instrument's note from one pitch to another.
+This is different from pitch bend, which is usually a temporary deviation from a set pitch.
+
+In `synthio`, we don't have an explicit portamento feature.
+But we can use the lerp trick used above to glide between a "start" and "end" note.
+Let's bundle up the both the concept of the lerp and of a portamento glide as
+being an amount of pitch bend into a class called `Glider`. `Glider` owns both a
+`MathOperation.CONSTRAINED_LERP` and a ramp-up LFO use to automatically fade between
+the
+
+```py
+# 2_modulation/code_portamento.py
+import time, random
+import synthio
+import ulab.numpy as np
+from synth_setup import synth, knobA
+
+class Glider:
+    """Attach a Glider to note.bend to implement portamento"""
+    def __init__(self, glide_time, midi_note):
+        self.pos = synthio.LFO(once=True, rate=1/glide_time, waveform=np.array((0,32767), dtype=np.int16))
+        self.lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, 0, 0, self.pos)
+        self.midi_note = midi_note
+
+    def update(self, new_midi_note):
+        """Update the glide destination based on new midi note"""
+        self.lerp.a = self.lerp.value  # current value is now start value
+        self.lerp.b = self.lerp.a + self.bend_amount(self.midi_note, new_midi_note)
+        self.pos.retrigger()  # restart the lerp
+        self.midi_note = new_midi_note
+
+    def bend_amount(self, old_midi_note, new_midi_note):
+        """Calculate how much note.bend has to happen between two notes"""
+        return (new_midi_note - old_midi_note)  * (1/12)
+
+    @property
+    def glide_time(self):
+        return 1/self.pos.rate
+    @glide_time.setter
+    def glide_time(self, glide_time):
+        self.pos.rate = 1/glide_time
+
+glide_time = 0.25
+midi_notes = [48, 36, 24, 36]
+new_midi_note = midi_notes[0]
+
+# create a portamento glider and attach it to a note
+glider = Glider(glide_time, new_midi_note)
+note = synthio.Note(synthio.midi_to_hz(new_midi_note), bend=glider.lerp)
+synth.press(note)   # start the note sounding
+
+i=0
+while True:
+    glider.glide_time =  0.01 + 1 * (knobA.value/65535)  #
+    new_midi_note = midi_notes[i]  # new note to glide to
+    i = (i+1) % len(midi_notes)
+    print("new:", new_midi_note, "old:", glider.midi_note, "glide_time:", glider.glide_time)
+    glider.update(new_midi_note)  # glide up to new note
+    time.sleep(0.5)
 ```

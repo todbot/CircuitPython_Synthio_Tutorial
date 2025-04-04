@@ -16,6 +16,15 @@
 
 ## Using adafruit_midi for NoteOn/NoteOff
 
+In most CircuitPython MIDI examples, you will see [`adafruit_midi`](https://docs.circuitpython.org/projects/midi/en/latest/api.html)
+used as the MIDI parser. It's full-featured and pretty easy to use.
+It let's you filter events based on channel when you construct the parser.
+Since every MIDI message type is represented by its own class,
+it requires you to import every message type you could conceivably receive.
+
+The below example is the same from the Getting Started section: a simple
+square-wave MIDI synth.
+
 ```py
 # 5_midi/code_midi.py
 import usb_midi
@@ -40,6 +49,14 @@ while True:
 ```
 
 ## Using TMIDI for NoteOn/NoteOff
+
+The [`tmidi`](https://circuitpython-tmidi.readthedocs.io/en/latest/api.html) library
+is much more stripped down. It is based on [`winterbloom_smolmidi`](https://github.com/wntrblm/Winterbloom_SmolMIDI), which is intentionally
+minimal and low-level. It's my belief that `tmidi` is more efficent at handling
+higher MIDI rates since it's less complex.  In regular use for noteOn/noteOff,
+it's very similar to `adafruit_midi`.  The examples in this tutorial use `tmidi`
+but translating to `adafruit_midi` is pretty simple.
+Here is the Getting Started example again.
 
 ```py
 # 5_midi/code_tmidi.py
@@ -68,36 +85,41 @@ keep track of which notes, `synthio` will do that for you. But for the more comp
 `Note` objects, we need to keep track of those so we can properly call `synth.release()`
 on them.
 
-A simple solution is to use a Python dict, with keys as the MIDI note number
-and value being the `Note` object.
+A simple solution is to use a Python dict, let's call it `notes_playing`,
+with keys as the MIDI note number and value being the `Note` object that's sounding.
+
+In this example, the synth voice is two sawtooth oscillators, detuned slightly,
+so we keep them both as the value of the `notes_playing` dict.
 
 ```py
-# 5_midi/code_notetrack.py
+# 5_midi/code_midi_notetrack.py
 import usb_midi
 import synthio
 import ulab.numpy as np
 import tmidi
-from synth_setup import synth
+from synth_setup import synth, knobA
 
 # saw wavs sound cool
 wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
 
 midi_usb = tmidi.MIDI(midi_in=usb_midi.ports[0], midi_out=usb_midi.ports[1])
 
-notes_playing = {}  # keys = midi_note, value = synthio.Note
+notes_playing = {}  # keys = midi_note, value = (synthio.Note1, synthio.Note2)
 while True:
+    DETUNE = 1 + 0.01*(knobA.value/65535)  # lets knobA control how much detune
     if msg := midi_usb.receive():
         print("midi:", msg)
         # noteOn must have velocity > 0
         if msg.type == tmidi.NOTE_ON and msg.velocity != 0:
-            note = synthio.Note(synthio.midi_to_hz(msg.note), waveform=wave_saw)
-            notes_playing[msg.note] = note   # save Note by midi note
-            synth.press(note)
+            notes = (synthio.Note(synthio.midi_to_hz(msg.note), waveform=wave_saw),
+                     synthio.Note(synthio.midi_to_hz(msg.note*DETUNE), waveform=wave_saw))
+            notes_playing[msg.note] = notes   # save Notes with midi note key
+            synth.press(notes)
         # some synths do noteOff as noteOn w/ zero velocity
         elif msg.type in (tmidi.NOTE_OFF, tmidi.NOTE_ON) and msg.velocity == 0:
             # get Note object for note playing with this midi note
-            if note := notes_playing.get(msg.note):
-                synth.release(note)
+            if notes := notes_playing.get(msg.note):
+                synth.release(notes)
 ```
 
 ## Responding to velocity
@@ -108,7 +130,7 @@ to amplitude envelope attack time to emulate a harder vs softer striking of a st
 
 
 ```py
-# 5_midi/code_velocity.py
+# 5_midi/code_midi_velocity.py
 import usb_midi
 import synthio
 import tmidi

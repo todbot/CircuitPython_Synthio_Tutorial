@@ -5,6 +5,8 @@ import synthio
 from synth_setup import synth, knobA, knobB
 from wavetable import Wavetable
 
+wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
+
 wavetable1 = Wavetable(wavetable_fname)
 wavetable2 = Wavetable(wavetable_fname)
 wavetable3 = Wavetable(wavetable_fname)

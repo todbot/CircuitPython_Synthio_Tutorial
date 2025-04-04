@@ -5,8 +5,6 @@ import ulab.numpy as np
 import synthio
 import adafruit_wave
 
-wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
-
 class Wavetable:
     """ A 'waveform' for synthio.Note that uses a wavetable w/ a scannable wave position."""    
     def __init__(self, filepath, wave_len=256):

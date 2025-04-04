@@ -1,4 +1,5 @@
-# 5_midi/code_notetrack.py
+# 5_midi/code_midi_notetrack.py
+
 import usb_midi
 import synthio
 import ulab.numpy as np
