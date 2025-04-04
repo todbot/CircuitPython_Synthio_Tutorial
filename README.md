@@ -2,7 +2,7 @@
 CircuitPython Synthio Tutorial
 ==============================
 
-Version: 0.0 - 21 Mar 2024
+Version: 0.1 - 4 Apr 2024
 
 Welcome to a CircuitPython Synthio Tutorial.
 
