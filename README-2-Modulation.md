@@ -321,13 +321,13 @@ import synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA
 
-fadein_lfo = synthio.LFO(rate=1, once=True, waveform=np.array([0,32767], dtype=np.int16)))
+fadein_amount = synthio.LFO(rate=1, once=True, waveform=np.array([0,32767], dtype=np.int16)))
 tremolo_lfo = synthio.LFO(rate=5, scale=0.5, offset=0.5)
 
 fadein_tremolo_lfo = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
-                                  1.0,          # the 'a' input of the LERP
-                                  tremolo_lfo,  # the 'b' input of the LERP
-                                  fadein_lfo)   # the 't' mix amount for how much a & b (0=a, 1=b)
+                                  1.0,           # the 'a' input of the LERP
+                                  tremolo_lfo,   # the 'b' input of the LERP
+                                  fadein_amount) # the 't' mix amount for how much a & b (0=a, 1=b)
 while True:
     midi_note = random.randint(48,60)
     note = synthio.Note(synthio.midi_to_hz(midi_note))
@@ -401,10 +401,11 @@ This is different from pitch bend, which is usually a temporary deviation from a
 
 In `synthio`, we don't have an explicit portamento feature.
 But we can use the lerp trick used above to glide between a "start" and "end" note.
-Let's bundle up the both the concept of the lerp and of a portamento glide as
-being an amount of pitch bend into a class called `Glider`. `Glider` owns both a
-`MathOperation.CONSTRAINED_LERP` and a ramp-up LFO use to automatically fade between
-the
+Let's bundle up both the lerp and the glide-as-pitch-bend into a class called `Glider`.
+`Glider` owns both a `MathOperation.CONSTRAINED_LERP` and a ramp-up LFO use
+to automatically go between the current pitch and a new destination pitch.
+The `Glider` class also knows how to calculate the difference in pitch-bend amount
+to get to that new pitch.
 
 ```py
 # 2_modulation/code_portamento.py
