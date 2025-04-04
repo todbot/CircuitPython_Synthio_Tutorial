@@ -6,5 +6,10 @@
 #remote_theme: just-the-docs/just-the-docs
 #remote_theme: aksakalli/jekyll-doc-theme
 #remote_theme: "jekyll/minima@c6e74bb"
-remote_theme: pages-themes/dinky@v0.2.0
+#remote_theme: pages-themes/dinky@v0.2.0
+remote_theme: pages-themes/cayman@v0.2.0
+
+title: CircuitPython Synthio Tutorial
+description: Getting started with sound synthesis in CircuitPython and synthio
+
 google_analytics: G-J526WL5LT4
