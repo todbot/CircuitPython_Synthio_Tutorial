@@ -78,12 +78,24 @@ little I2C OLED display and 16 captouch pads.
 
 ## Code setup
 
-- [Install CircuitPython for Pico](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/circuitpython)
-as normal.
+- [Install CircuitPython 10.x for Pico](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/circuitpython)
 
-- Considering [installing circup](https://learn.adafruit.com/keep-your-circuitpython-libraries-on-devices-up-to-date-with-circup/install-circup) to make adding libraries easier
+  Be sure to [download CircuitPython 10.x](https://circuitpython.org/board/raspberry_pi_pico/).
+  `synthio` is getting new features all the time and several were added in 10.x.
+  This guide uses these new features.
 
-- Use your editor of choice to edit the .py files on the device's CIRCUITPY drive
+- [Installing circup](https://learn.adafruit.com/keep-your-circuitpython-libraries-on-devices-up-to-date-with-circup/install-circup) will make adding libraries easier. It's like "pip" for CircuitPython.
+
+- Prepare your editor of choice to edit the .py files on your board's CIRCUITPY drive.
+  You can use any text editor, but some will work better than others with CircuitPython.
+  Some recommendations are:
+
+  - [Mu](https://learn.adafruit.com/welcome-to-circuitpython/installing-mu-editor)
+  - [Pycharm](https://learn.adafruit.com/welcome-to-circuitpython/pycharm-and-circuitpython)
+  - [other recommendations](https://learn.adafruit.com/welcome-to-circuitpython/recommended-editors)
+
+- If you prefer to access the CircuitPython REPL via a terminal window,
+  the [`tio` program](https://github.com/tio/tio) is highly recommended ([Parsec video on tio](https://www.youtube.com/watch?v=gAs45AOycrg))
 
 
 ## Make a Sound: Hello boop!
