@@ -4,6 +4,7 @@
 <!--ts-->
    * [Wiring up](#wiring-up)
       * [With a breadboard](#with-a-breadboard)
+         * [Modifying pots for breadboard use](#modifying-pots-for-breadboard-use)
       * [Using the pico_test_synth PCB](#using-the-pico_test_synth-pcb)
    * [Code setup](#code-setup)
    * [Make a Sound: Hello boop!](#make-a-sound-hello-boop)
@@ -16,7 +17,7 @@
       * [Controlling with MIDI](#controlling-with-midi)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Apr  2 13:41:26 PDT 2025 -->
+<!-- Added by: tod, at: Sun Apr  6 20:18:57 PDT 2025 -->
 
 <!--te-->
 
@@ -65,6 +66,16 @@ wire it up on a full-sized breadboard:
 
 <img src="./docs/synthio_tutorial_wiring1_full.png" width=800/>
 
+#### Modifying pots for breadboard use
+
+Potentiometers have two features that make them hard to use in breadboards:
+mounting lugs and stand-offs.  Fortunately, these are easily bent or cut to
+allow the pot to plug into the breadboard better.  Here's how I bend the lugs
+and stand-offs on these pots:
+
+<img src="./docs/pots_for_breadboard.jpg" width=400/>
+
+
 
 ### Using the pico_test_synth PCB
 
@@ -78,11 +89,12 @@ little I2C OLED display and 16 captouch pads.
 
 ## Code setup
 
-- [Install CircuitPython 10.x for Pico](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/circuitpython)
+- [Install CircuitPython for Pico](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/circuitpython)
 
-  Be sure to [download CircuitPython 10.x](https://circuitpython.org/board/raspberry_pi_pico/).
-  `synthio` is getting new features all the time and several were added in 10.x.
-  This guide uses these new features.
+  While most examples work with CircuitPython 9.x, there are some changes to filters and audio effects
+  in CircuitPython 10 that will make it even more fun to use. At the moment CircuitPython 10
+  is in alpha and doesn't quite work with `circup` though.
+  This guide will call out when a feature requires CircuitPython 10.
 
 - [Installing circup](https://learn.adafruit.com/keep-your-circuitpython-libraries-on-devices-up-to-date-with-circup/install-circup) will make adding libraries easier. It's like "pip" for CircuitPython.
 
