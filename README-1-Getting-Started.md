@@ -163,7 +163,8 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 This sounds like :
 
 <a href="https://www.youtube.com/watch?v=dDN38qjhgMM">
-<img alt="code_helloboop demo" src="https://img.youtube.com/vi/dDN38qjhgMM/maxresdefault.jpg"></a>
+<img alt="code_helloboop demo" width=640 height=480
+    src="https://img.youtube.com/vi/dDN38qjhgMM/maxresdefault.jpg"></a>
 
 [youtube video](https://www.youtube.com/watch?v=dDN38qjhgMM)
 
