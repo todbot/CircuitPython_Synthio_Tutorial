@@ -162,6 +162,7 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
 This sounds like:
 
+./movs/1_helloboop.mp4
 
 ```
 [ ... TBD video of code_helloboop.py TBD ... ]
@@ -251,9 +252,9 @@ while True:
     midi_note = random.choice( [root_note+x for x in scale_pentatonic] )
     print("playing!", midi_note)
     synth.press(midi_note)
-    time.sleep(0.1)
+    time.sleep(0.05)
     synth.release(midi_note) # release the note we pressed, notice it keeps sounding
-    time.sleep(0.2)
+    time.sleep(0.25)
 ```
 > [1_getting_started/code_generative_penta.py](./1_getting_started/code_generative_penta.py)
 
@@ -268,22 +269,29 @@ In this case, we have a list of notes for our melody
 (the timing between notes is still fixed)
 and a list of offsets for the block chord to play based on a note.
 
+Let's also throw in the ability to adjust the melody octave with knobA.
+(if you don't have one wired up yet, don't worry, it'll still sound cool)
+
 ```py
 # 1_getting_started/code_chord_melody.py
-import time, random
-from synth_setup import synth
+# part of todbot circuitpython synthio tutorial
+# 10 Feb 2025 - @todbot / Tod Kurt
+#
+import time
+from synth_setup import synth, knobA
 
 melody_midi_notes = (50, 55, 57, 59, 59, 59, 57, 59, 55, 55)
 chord = [0,4,7]
-
+i=0
 while True:
-    midi_note = melody_midi_notes[i]
+    octave = -1 + int((knobA.value/65535) * 3)  # knobA is octave offset
+    midi_note = melody_midi_notes[i] + (octave*12)
     i = (i+1) % len(melody_midi_notes)
     print("playing!", midi_note)
     for n in chord: synth.press(midi_note + n)
-    time.sleep(0.1)
+    time.sleep(0.05)
     for n in chord: synth.release(midi_note + n)
-    time.sleep(0.1)
+    time.sleep(0.25)  # play around with this time for slower/faster
 ```
 > [1_getting_started/code_chord_melody.py](./1_getting_started/code_chord_melody.py)
 
