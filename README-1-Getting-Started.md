@@ -198,6 +198,9 @@ Also, to make it easier to see what's different each time,
 let's pull out all that setup and [put it into a new file called
 `synth_setup.py`](./1_getting_started/synth_setup.py).
 
+Another thing in `synth_setup.py` is putting a nicer amplitude envelope on the sound.
+We'll go into more details on that in the next section.
+
 Our [`code.py`](./1_getting_started/code_synth_setup.py) now looks like the below.
 We'll use this technique going forward.
 
@@ -221,9 +224,11 @@ while True:
 
 And this sounds like:
 
-```
-[ ... TBD video of code_synth_setup.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=XFT7mV3DepM">
+<img alt="code_synth_setup demo" width=640 height=360
+    src="https://img.youtube.com/vi/XFT7mV3DepM/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=XFT7mV3DepM)
 
 
 The sleep times have been sped up, so you can hear the notes overlapping more.
@@ -259,9 +264,14 @@ while True:
 ```
 > [1_getting_started/code_generative_penta.py](./1_getting_started/code_generative_penta.py)
 
-```
-[ ... TBD video of code_synth_setup.py TBD ... ]
-```
+And that sounds like:
+
+<a href="https://www.youtube.com/watch?v=svZuAAjuiBs">
+<img alt="code_synth_setup demo" width=640 height=360
+    src="https://img.youtube.com/vi/svZuAAjuiBs/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=svZuAAjuiBs)
+
 
 ### Play a chord melody
 
