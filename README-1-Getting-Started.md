@@ -198,9 +198,6 @@ Also, to make it easier to see what's different each time,
 let's pull out all that setup and [put it into a new file called
 `synth_setup.py`](./1_getting_started/synth_setup.py).
 
-Another thing in `synth_setup.py` is putting a nicer amplitude envelope on the sound.
-We'll go into more details on that in the next section.
-
 Our [`code.py`](./1_getting_started/code_synth_setup.py) now looks like the below.
 We'll use this technique going forward.
 
@@ -215,12 +212,16 @@ midi_note = 60  # midi note to play, 60 = C4
 while True:
     print("boop!")
     synth.press(midi_note) # start note playing
-    time.sleep(0.2)
+    time.sleep(0.1)
     synth.release(midi_note) # release the note we pressed, notice it keeps sounding
-    time.sleep(0.5)
+    time.sleep(0.3)
     midi_note = random.randint(32,72)   # pick a new random note
 ```
 > [1_getting_started/code_synth_setup.py](./1_getting_started/code_synth_setup.py)
+
+The sleep times have been sped up, so you can hear the notes overlapping more.
+Also note there's been a special change at the end of `synth_setup.py` to make
+the boops more appealing. More on that later. (Hint: it's called an "amplitude envelope")
 
 And this sounds like:
 
@@ -230,10 +231,6 @@ And this sounds like:
 
 [youtube video](https://www.youtube.com/watch?v=XFT7mV3DepM)
 
-
-The sleep times have been sped up, so you can hear the notes overlapping more.
-Also note there's been a special change at the end of `synth_setup.py` to make
-the boops more appealing. More on that later.
 
 ## Fun with boops
 
@@ -258,9 +255,9 @@ while True:
     midi_note = random.choice( [root_note+x for x in scale_pentatonic] )
     print("playing!", midi_note)
     synth.press(midi_note)
-    time.sleep(0.05)
+    time.sleep(0.1)
     synth.release(midi_note) # release the note we pressed, notice it keeps sounding
-    time.sleep(0.25)
+    time.sleep(0.1)
 ```
 > [1_getting_started/code_generative_penta.py](./1_getting_started/code_generative_penta.py)
 
@@ -306,6 +303,13 @@ while True:
 ```
 > [1_getting_started/code_chord_melody.py](./1_getting_started/code_chord_melody.py)
 
+<a href="https://www.youtube.com/watch?v=5at6IMn2YyM">
+<img alt="code_synth_setup demo" width=640 height=360
+    src="https://img.youtube.com/vi/5at6IMn2YyM/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=5at6IMn2YyM)
+
+
 [ ... TBD video of code_synth_chord_melody.py TBD ... ]
 
 ## Controlling Notes
@@ -344,9 +348,11 @@ while True:
 ```
 > [1_getting_started/code_buttons.py](./1_getting_started/code_buttons.py)
 
-```
-[ ... TBD video of code_buttons.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=I8R7uiOD65Q">
+<img alt="code_synth_setup demo" width=640 height=360
+    src="https://img.youtube.com/vi/I8R7uiOD65Q/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=I8R7uiOD65Q)
 
 
 ### Controlling with MIDI
@@ -379,6 +385,14 @@ while True:
 > [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)
 
 
-```
-[ ... TBD video of code_synth_midi.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=nLH4wXKvQq8">
+<img alt="code_synth_setup demo" width=640 height=360
+    src="https://img.youtube.com/vi/I8R7uiOD65Q/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
+
+
+## Next steps
+
+Now you can make some sounds and control those sounds with buttons or MIDI,
+it's time to start sculpting those sounds.  Time for [Modulation](README-2-Modulation.md)!
