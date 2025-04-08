@@ -160,11 +160,12 @@ and "word_select" pins must be adjacent.
 - To start a sound, use `synth.press()`.
 This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
-This sounds like:
+This sounds like :
 
-<video width="640" height="480">
-    <source type="video/mp4" src="https://github.com/todbot/CircuitPython_Synthio_Tutorial/raw/refs/heads/main/movs/1_helloboop.mp4">
-</video>
+<a href="https://www.youtube.com/watch?v=dDN38qjhgMM">
+<img alt="code_helloboop demo" src="https://img.youtube.com/vi/dDN38qjhgMM/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=dDN38qjhgMM)
 
 
 ## Hello Boop reorganized and with buffer
