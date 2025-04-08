@@ -162,7 +162,7 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
 This sounds like :
 
-<a href="https://www.youtube.com/watch?v=dDN38qjhgMM">
+<a href="https://www.youtube.com/watch?v=dDN38qjhgMM" target="_blank">
 <img alt="code_helloboop demo" width=640 height=360
     src="https://img.youtube.com/vi/dDN38qjhgMM/maxresdefault.jpg"></a>
 
@@ -225,7 +225,7 @@ the boops more appealing. More on that later. (Hint: it's called an "amplitude e
 
 And this sounds like:
 
-<a href="https://www.youtube.com/watch?v=XFT7mV3DepM">
+<a href="https://www.youtube.com/watch?v=XFT7mV3DepM" target="_blank">
 <img alt="code_synth_setup demo" width=640 height=360
     src="https://img.youtube.com/vi/XFT7mV3DepM/maxresdefault.jpg"></a>
 
@@ -263,7 +263,7 @@ while True:
 
 And that sounds like:
 
-<a href="https://www.youtube.com/watch?v=svZuAAjuiBs">
+<a href="https://www.youtube.com/watch?v=svZuAAjuiBs" target="_blank">
 <img alt="code_synth_setup demo" width=640 height=360
     src="https://img.youtube.com/vi/svZuAAjuiBs/maxresdefault.jpg"></a>
 
@@ -303,7 +303,7 @@ while True:
 ```
 > [1_getting_started/code_chord_melody.py](./1_getting_started/code_chord_melody.py)
 
-<a href="https://www.youtube.com/watch?v=5at6IMn2YyM">
+<a href="https://www.youtube.com/watch?v=5at6IMn2YyM" target="_blank">
 <img alt="code_synth_setup demo" width=640 height=360
     src="https://img.youtube.com/vi/5at6IMn2YyM/maxresdefault.jpg"></a>
 
@@ -348,7 +348,7 @@ while True:
 ```
 > [1_getting_started/code_buttons.py](./1_getting_started/code_buttons.py)
 
-<a href="https://www.youtube.com/watch?v=I8R7uiOD65Q">
+<a href="https://www.youtube.com/watch?v=I8R7uiOD65Q" target="_blank">
 <img alt="code_synth_setup demo" width=640 height=360
     src="https://img.youtube.com/vi/I8R7uiOD65Q/maxresdefault.jpg"></a>
 
@@ -385,7 +385,7 @@ while True:
 > [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)
 
 
-<a href="https://www.youtube.com/watch?v=nLH4wXKvQq8">
+<a href="https://www.youtube.com/watch?v=nLH4wXKvQq8" target="_blank">
 <img alt="code_synth_setup demo" width=640 height=360
     src="https://img.youtube.com/vi/I8R7uiOD65Q/maxresdefault.jpg"></a>
 
