@@ -162,7 +162,8 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
 This sounds like:
 
-https://github.com/todbot/CircuitPython_Synthio_Tutorial/raw/refs/heads/main/movs/1_helloboop.mp4
+https://github.com/user-attachments/assets/4047ba05-de28-4d1f-9bbc-a1a2c7c5992d
+
 
 
 ## Hello Boop reorganized and with buffer
