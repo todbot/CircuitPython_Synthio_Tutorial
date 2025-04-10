@@ -1,5 +1,5 @@
 
-# [Synthio Tutorial](.): 4. Oscillators & Wavetables
+# [Synthio Tutorial](.#sections): 4. Oscillators & Wavetables
 
 <!--ts-->
    * [About Oscillators](#about-oscillators)
@@ -12,7 +12,7 @@
    * [Fun with wavetables: wavetabledrone](#fun-with-wavetables-wavetabledrone)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Apr  2 13:32:56 PDT 2025 -->
+<!-- Added by: tod, at: Wed Apr  9 17:31:32 PDT 2025 -->
 
 <!--te-->
 

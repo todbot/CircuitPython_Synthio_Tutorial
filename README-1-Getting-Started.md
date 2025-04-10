@@ -15,9 +15,10 @@
    * [Controlling Notes](#controlling-notes)
       * [Controlling with buttons](#controlling-with-buttons)
       * [Controlling with MIDI](#controlling-with-midi)
+   * [Next steps](#next-steps)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Apr  6 20:18:57 PDT 2025 -->
+<!-- Added by: tod, at: Wed Apr  9 17:31:22 PDT 2025 -->
 
 <!--te-->
 

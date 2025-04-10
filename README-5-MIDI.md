@@ -1,4 +1,4 @@
-# [Synthio Tutorial](.): 5. MIDI
+# [Synthio Tutorial](.#sections): 5. MIDI
 
 <!--ts-->
    * [Using adafruit_midi for NoteOn/NoteOff](#using-adafruit_midi-for-noteonnoteoff)
@@ -10,7 +10,7 @@
    * [Implementing portamento](#implementing-portamento)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Mon Mar 31 18:08:51 PDT 2025 -->
+<!-- Added by: tod, at: Wed Apr  9 17:31:36 PDT 2025 -->
 
 <!--te-->
 
@@ -166,6 +166,40 @@ while True:
 
 ## Responding to pitch-bend
 
+From the [modulation section](README-2-Modulation.md) you'll recall the `note.bend`
+property.
+
+```py
+
+
+```
+
 ## Responding to CCs
 
+```py
+```
+
 ## Implementing portamento
+
+Portamento, or "glide", is the sliding of an instrument's note from one pitch to another.
+This is different from pitch bend, which is usually a temporary deviation from a set pitch.
+
+In `synthio`, we don't have an explicit portamento feature. We can implement it in a
+variety of ways.  One way is to add a `MathOperation.CONSTRAINED_LERP` to the `note.frequency`.
+
+
+```py
+import time, random
+import synthio
+from synth_setup import synth, knobA
+
+midi_note = 48
+note = synthio.Note(synthio.midi_to_hz(midi_note))
+synth.press(note)   # start the note sounding
+
+while True:
+    new_midi_note = random.randint(36, 72)
+    new_pitch = synthio.midi_to_hz(new_midi_note)
+
+
+```
