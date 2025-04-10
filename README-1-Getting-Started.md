@@ -162,7 +162,7 @@ This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
 
 This sounds like :
 
-<a href="https://www.youtube.com/watch?v=dDN38qjhgMM" target="_blank">
+<a href="https://www.youtube.com/watch?v=dDN38qjhgMM">
 <img alt="code_helloboop demo" width=640 height=360
     src="https://img.youtube.com/vi/dDN38qjhgMM/maxresdefault.jpg"></a>
 
@@ -309,8 +309,6 @@ while True:
 
 [youtube video](https://www.youtube.com/watch?v=5at6IMn2YyM)
 
-
-[ ... TBD video of code_synth_chord_melody.py TBD ... ]
 
 ## Controlling Notes
 

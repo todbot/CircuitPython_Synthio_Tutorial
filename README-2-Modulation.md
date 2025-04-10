@@ -91,9 +91,11 @@ while True:
         )
     midi_note = random.randint(48,60)
     synth.press(midi_note)
-    time.sleep(synth.envelope.attack_time)  # wait enough time to hear the attack finish
+    # wait enough time to hear the attack finish
+    time.sleep(synth.envelope.attack_time)
     synth.release(midi_note)
-    time.sleep(synth.envelope.release_time)  # wait enough time to hear the release finish
+    # wait enough time to hear the release finish, but with some overlap
+    time.sleep(synth.envelope.release_time * 0.75)
 ```
 > [2_modulation/code_envelope.py](./2_modulation/code_envelope.py)
 
@@ -314,6 +316,9 @@ one-time effect. That one-time ramp LFO will be the the "t" part "mix control" o
 The `CONSTRAINED_LERP` (or just "lerp") concept is so useful in `synthio` that you'll see
 many times to let you choose an "amount" of something that is itself varying, like this LFO.
 
+In the example below, `fadein_pos` is our one-time ramp controlling how much `tremolo_lfo`
+to use. On each new note, `fadein_pos.retrigger()` must be called to restart that ramp.
+
 ```py
 # 2_modulation/code_tremolo_fadein.py
 import time, random
@@ -321,26 +326,28 @@ import synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA
 
-fadein_amount = synthio.LFO(rate=1, once=True, waveform=np.array([0,32767], dtype=np.int16)))
+fadein_pos = synthio.LFO(rate=1, once=True, waveform=np.array([0,32767], dtype=np.int16))
 tremolo_lfo = synthio.LFO(rate=5, scale=0.5, offset=0.5)
 
 fadein_tremolo_lfo = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
-                                  1.0,           # the 'a' input of the LERP
-                                  tremolo_lfo,   # the 'b' input of the LERP
-                                  fadein_amount) # the 't' mix amount for how much a & b (0=a, 1=b)
+                                  1,
+                                  tremolo_lfo,
+                                  fadein_pos)
 while True:
     midi_note = random.randint(48,60)
     note = synthio.Note(synthio.midi_to_hz(midi_note))
     note.amplitude = fadein_tremolo_lfo
+    fadein_pos.retrigger()
     synth.press(note)
-    for i in range(50):
-        print(note.amplitude.value)
+    for i in range(25):
+        print("%.2f" % fadein_pos.value)
         time.sleep(0.05)
-    #time.sleep(5)
     synth.release(note)
     time.sleep(1)
 ```
 > [2_modulation/code_tremolo_fadein.py](./2_modulation/code_tremolo_fadein.py)
+
+Here's what the above code sounds like:
 
 ```
 [ ... TBD video of code_synth_tremolo_fadein.py TBD ... ]
