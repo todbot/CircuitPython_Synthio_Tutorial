@@ -1,5 +1,5 @@
 
-# [Synthio Tutorial](.): 2. Modulation
+# [Synthio Tutorial](.#sections): 2. Modulation
 
 <!--ts-->
    * [About Envelopes](#about-envelopes)

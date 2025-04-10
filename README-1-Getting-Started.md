@@ -1,5 +1,5 @@
 
-# [Synthio Tutorial](.): 1. Getting Started
+# [Synthio Tutorial](.#sections): 1. Getting Started
 
 <!--ts-->
    * [Wiring up](#wiring-up)
