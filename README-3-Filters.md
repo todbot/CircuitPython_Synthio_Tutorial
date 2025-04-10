@@ -1,5 +1,5 @@
 
-# [Synthio Tutorial](.): 3. Filters
+# [Synthio Tutorial](.#sections): 3. Filters
 
 <!--ts-->
    * [About Filters](#about-filters)
