@@ -358,3 +358,12 @@ while True:
 ```
 [ ... TBD video of code_wavetabledrone.py TBD ... ]
 ```
+
+
+## Wavetable in RAM, one approach
+
+The above examples have tried to minimize RAM usage by only loading two waveforms
+from the wavetable.  This allows the wavetable to be quite large, but it can
+introduce glitching as we load the next wave up. 
+
+

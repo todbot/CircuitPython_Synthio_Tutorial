@@ -25,9 +25,9 @@ so you'll see many microcontroller synthesis platforms with little or no filters
 
 In `synthio`, there is an efficient two-pole filter design with adjustable
 frequency and resonance based on the [Biquad Filter Formula](https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html)
-called [`synthio.BlockBiquad`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.BlockBiquad_).
+called [`synthio.Biquad`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Biquad_).
 
-BlockBiquad provides the standard filter types:
+Biquad provides the standard filter types:
 
 - low-pass
 - high-pass
@@ -36,8 +36,8 @@ BlockBiquad provides the standard filter types:
 - high-/low-shelf
 - peaking
 
-The reason why it's called "BlockBiquad" is because its inputs are can be modulated
-with LFOs, which are of type `BlockInput`.
+(Note: `Biquad` used to be `BlockBiquad` because its inputs could be modulated
+with LFOs, which are of type `BlockInput`. As of CircuitPython 10, it's just called `Biquad`)
 
 Only one filter can be attached to a `synthio.Note`, filters cannot be stacked. However,
 if your platform supports the [`audiofilters` module](https://docs.circuitpython.org/en/latest/shared-bindings/audiofilters/index.html) then you have
@@ -45,7 +45,7 @@ access to [`audiofilters.Filter`](), which can be stacked.
 
 ## Add a filter
 
-The `synthio.Note` object has a `.filter` property that can be assigned with a `BlockBiquad` object.
+The `synthio.Note` object has a `.filter` property that can be assigned with a `Biquad` object.
 This `.filter` property can be re-assigned to change the filter type while the Note is sounding.
 This means that *each Note can have its own filter* with its own filter properties!
 
@@ -64,11 +64,11 @@ while True:
     note = synthio.Note(synthio.midi_to_hz(midi_note))
     synth.press(note)
     # try out each filter
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, frequency=1500, Q=1.0)
+    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS, frequency=1500, Q=1.0)
     time.sleep(0.3)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.HIGH_PASS, frequency=1500, Q=1.0)
+    note.filter = synthio.Biquad(synthio.FilterMode.HIGH_PASS, frequency=1500, Q=1.0)
     time.sleep(0.3)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.BAND_PASS, frequency=1500, Q=1.0)
+    note.filter = synthio.Biquad(synthio.FilterMode.BAND_PASS, frequency=1500, Q=1.0)
     time.sleep(0.3)
     synth.release(note)
     time.sleep(0.1)
@@ -86,27 +86,30 @@ starting high then closing down the filter.
 
 ```py
 # 3_filters/code_filter_handmod.py
+# part of todbot circuitpython synthio tutorial
+# 10 Feb 2025 - @todbot / Tod Kurt
 import time
 import synthio
 from synth_setup import synth
 midi_note = 48
-note = synthio.Note(synthio.midi_to_hz(midi_note))
-note.filter = filter1
-synth.press(note)
-
 filter_types = (synthio.FilterMode.LOW_PASS,
                 synthio.FilterMode.HIGH_PASS,
+                synthio.FilterMode.NOTCH,
                 )
+i=0     # which filter we're trying
+note = synthio.Note(synthio.midi_to_hz(midi_note))
+synth.press(note)
 
 while True:
-    print("selecting filter_type", filter_type)
-    filter1 = synthio.BlockBiquad(filter_types[i], frequency=3000, Q=1.0)
+    print("selecting filter_type", filter_types[i])
+    filter1 = synthio.Biquad(filter_types[i], frequency=3000, Q=1.2)
+    note.filter = filter1
 
-    print("changing filter frequency")
     while filter1.frequency > 250:
+        print("changing filter frequency: %d" % filter1.frequency)
         filter1.frequency = filter1.frequency * 0.95  # do modulation by hand
-        time.sleep(0.01)
-    i = (i+1) % len(filter_types)
+        time.sleep(0.05)
+    i = (i+1) % len(filter_types)  # go to next filter type
 ```
 > [3_filters/code_filter_handmod.py](./3_filters/code_filter_handmod.py)
 
@@ -129,7 +132,7 @@ import time, synthio
 from synth_setup import synth, knobA, knobB
 midi_note = 60
 note = synthio.Note(synthio.midi_to_hz(midi_note))
-filter1 = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS, frequency=8000, Q=1.0)
+filter1 = synthio.Biquad(synthio.FilterMode.LOW_PASS, frequency=8000, Q=1.0)
 note.filter = filter1
 synth.press(note)
 
@@ -170,7 +173,7 @@ note.waveform = np.linspace(32000, -32000, num=128, dtype=np.int16)
 
 filter_lfo = synthio.LFO(rate=0.75, offset=5000, scale=4500)
 
-filter1 = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
+filter1 = synthio.Biquad(synthio.FilterMode.LOW_PASS,
                               frequency=filter_lfo, Q=1.5)
 note.filter = filter1
 synth.press(note)
@@ -201,13 +204,13 @@ and a ramp-down LFO when the note is released.
 This is called an AHR (attack-hold-release) envelope.
 
 ```py
-# 3_filters/code_filter_filterlerp.py
+# 3_filters/code_filter_lfoenv.py
 import time, random, synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA, knobB
 
 # extend the amplitude envelope release so we can hear the filter release
-synth.envelope = synthio.Envelope(attack_time=0.0, release_time=1.5)
+synth.envelope = synthio.Envelope(attack_time=0.0, release_time=1.0)
 
 # use a saw wave sound oscillator instead of square wave to hear the filter better
 wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
@@ -220,19 +223,19 @@ filt_max_freq = 2000
 
 # LFO to use as the ramp up in frequency on key press
 filter_attack_lfo = synthio.LFO(once=True, rate=filt_attack_time,
-                                offset=min_freq, scale=max_freq,
+                                offset=filt_min_freq, scale=filt_max_freq,
                                 waveform=np.array((0,32767), dtype=np.int16))
 # LFO to use to ramp down the frequency on key release
 filter_release_lfo = synthio.LFO(once=True, rate=filt_release_time,
-                                 offset=min_freq, scale=max_freq,
+                                 offset=filt_min_freq, scale=filt_max_freq,
                                  waveform=np.array((32767,0), dtype=np.int16))
 
 while True:
     midi_note = random.randint(48,72)  # pick a new note to play
     # press a note with attack filter
     note = synthio.Note(midi_note, waveform=wave_saw)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
-                                      frequency=filter_attack_lfo, Q=1.8)
+    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
+                                 frequency=filter_attack_lfo, Q=1.8)
     filter_attack_lfo.retrigger()
     synth.press(note)  # trigger amp env and filter lfo
 
@@ -248,10 +251,10 @@ while True:
     time.sleep(1.0)
 
 ```
-> [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
+> [3_filters/code_filter_lfoenv.py](./3_filters/code_filter_lfoenv.py)
 
 ```
-[ ... TBD video of code_filter_lfomod.py TBD ... ]
+[ ... TBD video of code_filter_lfoenv.py TBD ... ]
 ```
 
 ## Creating filter envelope with lerp LFOs
@@ -288,7 +291,7 @@ wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
 while True:
     midi_note = random.randint(32,60)
     note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
+    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
                                       frequency=filter_env, Q=2.0)
     # press the note
     # which means setting up the attack stage, the lerp and retriggering

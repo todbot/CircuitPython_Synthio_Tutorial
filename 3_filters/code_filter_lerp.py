@@ -21,7 +21,7 @@ wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
 while True:
     midi_note = random.randint(48,72)
     note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw)
-    note.filter = synthio.BlockBiquad(synthio.FilterMode.LOW_PASS,
+    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
                                       frequency=filter_env, Q=1.8)
     # press the note
     # which means setting up the attack stage, the lerp and retriggering
