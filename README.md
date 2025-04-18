@@ -66,11 +66,11 @@ what the example is about.
 ### [5. MIDI](./README-5-MIDI.md)
 -- How to respond to MIDI messages (velocity, pitchbend, CCs) in synthio
 
-### [6. Synth Voice](./README-6-Synth-Voice.md)
--- Buildling a full synth voice in synthio
-
-### [7. Audio Effects](./README-7-Audio-Effects.md)
+### [6. Audio Effects](./README-6-Audio-Effects.md)
 -- Using the `audiofilters` and `audiodelays` modules to add effects
+
+### [7. Synth Voice](./README-7-Synth-Voice.md)
+-- Buildling a full synth voice in synthio
 
 
 ## Examples

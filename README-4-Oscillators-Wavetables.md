@@ -11,10 +11,6 @@
    * [Wavetable scanning](#wavetable-scanning)
    * [Fun with wavetables: wavetabledrone](#fun-with-wavetables-wavetabledrone)
    * [Wavetable in RAM, one approach](#wavetable-in-ram-one-approach)
-
-<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Fri Apr 18 11:46:21 PDT 2025 -->
-
 <!--te-->
 
 ## About Oscillators
@@ -377,3 +373,8 @@ while True:
 The above examples have tried to minimize RAM usage by only loading two waveforms
 from the wavetable.  This allows the wavetable to be quite large, but it can
 introduce glitching as we load the next wave up.
+
+## Next Steps
+
+We now have enough control over `synthio` to make just about any sound.
+So let's figure out how to control the sounds with [MIDI](README-5-MIDI.md).

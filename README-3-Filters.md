@@ -9,10 +9,6 @@
    * [Changing filter with LFO](#changing-filter-with-lfo)
    * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
    * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
-
-<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Fri Apr 18 11:46:20 PDT 2025 -->
-
 <!--te-->
 
 ## About Filters
@@ -321,3 +317,9 @@ while True:
 ```
 [ ... TBD video of code_filter_lerp.py TBD ... ]
 ```
+
+## Next steps
+
+Filters are a key way to sculpt a sound, but in `synthio` we have an even 
+more powerful technique for sound sculpting: 
+[Oscillators and Wavetables](README-4-Oscillators-Wavetables.md).

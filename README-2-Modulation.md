@@ -13,10 +13,6 @@
    * [Fade in LFO, using LERP](#fade-in-lfo-using-lerp)
    * [Bend-in pitch envelope](#bend-in-pitch-envelope)
    * [Portamento: glide between notes](#portamento-glide-between-notes)
-
-<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Fri Apr 18 11:46:20 PDT 2025 -->
-
 <!--te-->
 
 Modulation is the automation of changing a parameter over time in a synthesizer.
@@ -464,3 +460,8 @@ while True:
     glider.update(new_midi_note)  # glide up to new note
     time.sleep(0.5)
 ```
+
+## Next steps
+
+Now that we have some of the basics of modulation down, we can use that to 
+start modulating [Filters](README-3-Filters.md).

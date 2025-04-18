@@ -7,10 +7,6 @@
    * [Synth voice class](#synth-voice-class)
    * [Using it as a monosynth](#using-it-as-a-monosynth)
    * [Using it as a polysynth](#using-it-as-a-polysynth)
-
-<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Fri Apr 18 11:46:22 PDT 2025 -->
-
 <!--te-->
 
 ## Features of our synth voice

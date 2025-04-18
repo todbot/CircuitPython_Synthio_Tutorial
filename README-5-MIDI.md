@@ -8,10 +8,6 @@
    * [Responding to pitch-bend](#responding-to-pitch-bend)
    * [Responding to CCs](#responding-to-ccs)
    * [Implementing portamento](#implementing-portamento)
-
-<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Fri Apr 18 11:46:21 PDT 2025 -->
-
 <!--te-->
 
 ## Using adafruit_midi for NoteOn/NoteOff
