@@ -1,7 +1,6 @@
 # [Synthio Tutorial](.#sections): 7. Audio Effects
 
 <!--ts-->
-* [Synthio Tutorial: Audio Effects](#synthio-tutorial-audio-effects)
    * [Which chips/boards can run audio effects?](#which-chipsboards-can-run-audio-effects)
    * [Quick Demo](#quick-demo)
    * [How to chain effects](#how-to-chain-effects)
@@ -11,7 +10,7 @@
    * [audiofilters Filter](#audiofilters-filter)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Sun Mar 30 14:24:44 PDT 2025 -->
+<!-- Added by: tod, at: Fri Apr 18 11:46:22 PDT 2025 -->
 
 <!--te-->
 

@@ -10,9 +10,10 @@
    * [Use a Wavetable](#use-a-wavetable)
    * [Wavetable scanning](#wavetable-scanning)
    * [Fun with wavetables: wavetabledrone](#fun-with-wavetables-wavetabledrone)
+   * [Wavetable in RAM, one approach](#wavetable-in-ram-one-approach)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Apr  9 17:31:32 PDT 2025 -->
+<!-- Added by: tod, at: Fri Apr 18 11:46:21 PDT 2025 -->
 
 <!--te-->
 

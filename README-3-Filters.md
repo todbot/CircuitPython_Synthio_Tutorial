@@ -4,14 +4,14 @@
 <!--ts-->
    * [About Filters](#about-filters)
    * [Add a filter](#add-a-filter)
-   * [Changing filter parameters by hand](#changing-filter-parameters-by-hand)
+   * [Changing filter parameters with Python](#changing-filter-parameters-with-python)
    * [Changing filter with knobs](#changing-filter-with-knobs)
    * [Changing filter with LFO](#changing-filter-with-lfo)
    * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
    * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
-<!-- Added by: tod, at: Wed Apr  9 17:31:30 PDT 2025 -->
+<!-- Added by: tod, at: Fri Apr 18 11:46:20 PDT 2025 -->
 
 <!--te-->
 
