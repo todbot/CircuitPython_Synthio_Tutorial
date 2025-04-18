@@ -92,11 +92,18 @@ while True:
 
 ## Mixing between waveforms
 
-Thanks to `numpy` treating arrays of numbers as single values,
-we can create a simple `lerp()` function that mixes between two
-arrays, creating a new array that's the mix.
+Many synths have the ability to "morph" between two different waveform shapes,
+like sine wave to saw wave. With synthio waveforms, we can do that too, by taking
+two existing waveforms and mixing them together.
 
-[more discussion tbd]
+The `numpy` library can help here. It efficiently performs operations on arrays
+of numbers (our waveform). So we can use `numpy` to create a simple `lerp()`
+function that mixes between two numpy arrays, resulting in a mixed waveform.
+
+Note we have to do this mixing "by hand", we cannot use `synthio.MathOperation.CONSTRAINED_LERP`
+because it only works on single values, not arrays/lists.
+(But we *can* use a `synthio.LFO` as our mix position, we just have to copy "by hand"
+the value from the LFO to our `lerp()` function)
 
 ```py
 # 4_oscillators/code_wavemix.py
@@ -107,6 +114,7 @@ from synth_setup import synth, knobA
 
 NUM_SAMPLES = 256
 VOLUME = 32000
+MIX_SPEED = 0.01
 
 wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM_SAMPLES, endpoint=False)) * VOLUME, dtype=np.int16)
 wave_saw = np.linspace(VOLUME, -VOLUME, num=NUM_SAMPLES, dtype=np.int16)
@@ -123,25 +131,27 @@ wave_pos = 0
 while True:
   print(wave_pos)
   note.waveform[:] = lerp(wave_sine, wave_saw, wave_pos)
-  wave_pos = (wave_pos + 0.01) % 1.0
+  wave_pos = (wave_pos + MIX_SPEED) % 1.0  # move our mix position
   time.sleep(0.01)
 ```
 
 ```
-[ ... TBD video of code_filter_wavemix.py TBD ... ]
+[ ... TBD video of code_wavemix.py TBD ... ]
 ```
 
 
 ## Fatter sounds with detuned oscillators
 
 Typical synthesizer architectures have two or three oscillators
-(with potentially different waveforms) that are mixed together and then fed
-through the amp (controlled by the amplitude envelope) and filter (controlled
+(with potentially different waveforms) that sound together and then fed
+through the amplifier (controlled by the amplitude envelope) and filter (controlled
 by the filter envelope).  While `synthio` only has a single oscillator in its
 voice architecture, we can double- or triple-up those voices, triggering them
-at the same time, to approximate a typical synth.  Yes, the filters get doubled,
+at the same time, to approximate this type of typical synth.  Yes, the filters get doubled,
 but the modulators (amp & filter envs) can be shared and it does open the possibily
 of having different filters on each oscillator.
+(And it does mean we could use different filters for each oscillator, something most
+synths *cannot* do!)
 
 One technique to quickly make a synth patch sound better is to detune its oscillators.
 We have fine-grained control over a `synthio.Note`'s frequency with `note.frequency`,
@@ -153,7 +163,8 @@ Also good to note that `synthio.midi_to_hz()` allows a floating-point
 value for the MIDI note number.  This allows you to detune more musically
 than doing it on frequency.
 
-[more discussion tbd]
+The example below sets up "knobA" to control the number of oscillators sounding
+(from 1 to 6) and "knobB" controls how much detune between each oscillator.
 
 ```py
 # 4_oscillators_wavetables/code_detune.py
@@ -165,12 +176,12 @@ from synth_setup import synth, knobA, knobB
 midi_note = 45
 while True:
     num_oscs = int(knobA.value/65535 * 6 + 1)  # up to 6 oscillators
-    detune = (knobB.value/6535) * 0.01  # up to 10% detune
+    detune = (knobB.value/65535) * 0.01  # up to 10% detune
     print(f"num_oscs: {num_oscs} detune: {detune}")
     notes = []  # holds note objs being pressed
     # simple detune, always detunes up
     for i in range(num_oscs):
-        f = synthio.midi_to_hz(midi_note) * (1 + i*detune)
+        f = synthio.midi_to_hz(midi_note) * (1 + i*detune)  # detune!
         notes.append( synthio.Note(f) )
     synth.press(notes)
     time.sleep(0.5)
@@ -364,6 +375,4 @@ while True:
 
 The above examples have tried to minimize RAM usage by only loading two waveforms
 from the wavetable.  This allows the wavetable to be quite large, but it can
-introduce glitching as we load the next wave up. 
-
-
+introduce glitching as we load the next wave up.

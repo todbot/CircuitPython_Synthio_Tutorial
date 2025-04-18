@@ -79,10 +79,15 @@ while True:
 [ ... TBD video of code_filter_tryout.py TBD ... ]
 ```
 
-## Changing filter parameters by hand
+## Changing filter parameters with Python
+
+The `synthio.Biquad` filter's `frequency` and `Q` parameters can be changed at
+any time once the filter has been created.  This let's us do filter sweeps,
+one of the hallmarks of making complex sounds.  The simplest way of adjusting
+these parameters is setting them directly.
 
 This example changes the filter frequency using Python statements,
-starting high then closing down the filter.
+starting at a high frequency then closing down the filter by lowering the frequency.
 
 ```py
 # 3_filters/code_filter_handmod.py
@@ -120,11 +125,12 @@ while True:
 ## Changing filter with knobs
 
 Here's a similar idea but with using the knobs to adjust filter cutoff and resonance.
+It's a fun way to find good combinations of those parameters.
 
 Note the filter becomes glitchy and unstable when its frequency approaches the
 note frequency, especially at high resonsance ("Q") values.  This is a feature of how
 the filter is currently implemented in `synthio` and the work-around is to make sure your
-filter frequency stays above 1.5x the note frequency.
+filter frequency stays about 1.5x above the note frequency.
 
 ```py
 # 3_filters/code_filter_knobmod.py

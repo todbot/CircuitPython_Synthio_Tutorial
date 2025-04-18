@@ -1,4 +1,6 @@
 # 3_filters/code_filter_lfoenv.py
+# part of todbot circuitpython synthio tutorial
+# 10 Feb 2025 - @todbot / Tod Kurt
 import time, random, synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA, knobB
