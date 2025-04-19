@@ -9,6 +9,7 @@
    * [Changing filter with LFO](#changing-filter-with-lfo)
    * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
    * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
+   * [Next steps](#next-steps)
 <!--te-->
 
 ## About Filters

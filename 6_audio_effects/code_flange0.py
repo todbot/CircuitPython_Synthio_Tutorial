@@ -1,10 +1,10 @@
-# 6_effects/code_echo.py
+# 6_effects/code_flange.py
 # part of todbot circuitpython synthio tutorial
-# 10 Feb 2025 - @todbot / Tod Kurt
+# 14 Apr 2025 - @todbot / Tod Kurt
 import time
 import ulab.numpy as np
 import synthio
-import audiodelays
+import audiodelays, audiofilters
 from synth_setup import mixer, synth, SAMPLE_RATE, CHANNEL_COUNT, knobA
 
 time.sleep(1)
@@ -21,9 +21,8 @@ echo1 = audiodelays.Echo(
     buffer_size = 1024,
 )
 
-mixer.voice[0].play(echo1)  # plug echo into the mixer (unplugs synth)
-echo1.play(synth)           # and plug synth into echo
-
+mixer.voice[0].play(echo1)  # plug effect into the mixer (unplugs synth)
+echo1.play(synth)           # and plug synth into effect
 
 while True:
   print("ping")

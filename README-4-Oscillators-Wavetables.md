@@ -11,6 +11,7 @@
    * [Wavetable scanning](#wavetable-scanning)
    * [Fun with wavetables: wavetabledrone](#fun-with-wavetables-wavetabledrone)
    * [Wavetable in RAM, one approach](#wavetable-in-ram-one-approach)
+   * [Next Steps](#next-steps)
 <!--te-->
 
 ## About Oscillators

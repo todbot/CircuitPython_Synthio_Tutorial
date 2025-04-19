@@ -249,7 +249,7 @@ root_note = 48
 scale_pentatonic = (0, 2, 4, 7, 9, 12, 14, 16, 19, 21)  # two octaves of offsets
 
 while True:
-    midi_note = random.choice( [root_note+x for x in scale_pentatonic] )
+    midi_note = root_note + random.choice(scale_pentatonic)
     print("playing!", midi_note)
     synth.press(midi_note)
     time.sleep(0.1)
