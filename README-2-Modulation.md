@@ -34,17 +34,25 @@ to let you combine an LFO with other LFOs or other parameters in your code.
 The simplest modulation tool in `synthio` is the amplitude envelope, aka `synthio.Envelope`.
 Unlike other synthesis systems, `Envelope` can only be used for the amplitude envelope,
 i.e. either `synth.envelope` (amp envelope for all notes) or `note.envelope` parameter
-(per-note amp envelope). For other case where we might use an envelope,
+(per-note amp envelope). Note the ramps up and down in Envelope are linear,
+not logarithmic/exponential. This is easier computationally, but not always what you want
+as realistic sounds usually decay in volume exponetially.
+
+For other case where we might use an envelope,
 like a pitch envelope or filter envelope, we must instead use one-shot LFOs.
 
 In our [`synth_setup.py`](./1_getting_started/synth_setup.py) file, we set up a default
-amplitude envelope that works for most of the example:
+amplitude envelope that works for most of the examples:
 
 ```py
 synth.envelope = synthio.Envelope(attack_time=0.0, release_time=0.6)
 ```
-This sets the amplitude envelope for all notes played on that synth.
-`synthio.Envelope` has these parameters:
+
+This sets the amplitude envelope for all notes played on that synth,
+while if you set `note.envelope`, it's only for that `synthio.Note` object, so
+different Notes can have different envelopes.
+
+The `synthio.Envelope` object has these parameters:
 
 - `attack_time` – at the start of the note, how long to go from silence to `attack_level`
 - `decay_time` – once at `attack_level`, how long to go to `decay_level`
@@ -68,11 +76,14 @@ Some examples of amplitude envelopes you might see:
 synth.envelope = synthio.Envelope(attack_time=1.0, release_time=1.0)
 
 # like a plucked string
-synth.envelope = synthio.Envelope(attack_time=0, decay_time=0, release_time=0.5, sustain_level=0.0 )
+synth.envelope = synthio.Envelope(attack_time=0, decay_time=0, release_time=0.5, sustain_level=0.0)
+
+# like a drum hit
+synth.envelope = synthio.Envelope(attack_time=0, decay_time=0.05, release_time=0, attack_level=1, sustain_level=0)
 ```
 
-Here's an example of showing how to use an Envelope.  Notice that an Envelope's parameters
-are read-only once created.
+Here's an example of showing how to use an Envelope.
+Notice that an Envelope's parameters are read-only once created.
 Use the knobs to play around with different attack and release times to get different effects:
 
 ```py
@@ -238,7 +249,7 @@ while True:
 > [2_modulation/code_vibrato.py](./2_modulation/code_vibrato.py)
 
 ```
-[ ... TBD video of code_synth_vibrato.py TBD ... ]
+[ ... TBD video of code_vibrato.py TBD ... ]
 ```
 
 ## Tremolo: Add LFO to amplitude
@@ -274,16 +285,8 @@ while True:
 > [2_modulation/code_tremolo.py](./2_modulation/code_tremolo.py)
 
 ```
-[ ... TBD video of code_synth_tremolo.py TBD ... ]
+[ ... TBD video of code_tremolo.py TBD ... ]
 ```
-
-<!--
-Instead we can use another `synthio` feature: [`synthio.Math`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Math) and [`synthio.MathOperation`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.MathOperation).
-These are a collection of common 3-input, 1-output tools that operate on LFOs and that
-operate at LFO update speeds in the background, so we don't have to write Python to
-copy a value from an LFO, modify it, then write it to what the LFO is modifying.
-Think of it as a generalization of the `.scale` & `.offset` features of LFO.
--->
 
 
 ## Fade in LFO, using LERP
@@ -347,7 +350,7 @@ while True:
 Here's what the above code sounds like:
 
 ```
-[ ... TBD video of code_synth_tremolo_fadein.py TBD ... ]
+[ ... TBD video of code_tremolo_fadein.py TBD ... ]
 ```
 
 ## Bend-in pitch envelope
@@ -393,9 +396,10 @@ while True:
     synth.release(note)
     time.sleep(0.1)
 ```
+> [2_modulation/code_lerpbend.py](./2_modulation/code_lerpbend.py)
 
 ```
-[ ... TBD video of code_synth_bendin.py TBD ... ]
+[ ... TBD video of code_synth_lerpbend.py TBD ... ]
 ```
 
 ## Portamento: glide between notes
@@ -462,7 +466,65 @@ while True:
     time.sleep(0.5)
 ```
 
+> [2_modulation/code_portamento.py](./2_modulation/code_portamento.py)
+
+```
+[ ... TBD video of code_portamento.py TBD ... ]
+```
+
+
+
+## Faking Exponential Amplitude Decays with LFOs
+
+As noted at the top, `synthio.Envelope` attack and decay rates are currently linear.
+And the `note.envelope` attribute can only be assigned an `Envelope`.
+But we also have `synthio.Note.amplitude` that *can* be assigned a one-shot LFO,
+so we can approximate an exponential release rate (or decay rate) of an ADSR
+envelope by assigning an LFO to `note.amplitude` on key release.
+
+It would look something like the example below.  Here, it's switching between
+the normal linear release rate and an exponential decay release
+
+```py
+# 2_modulation/code_expdecay.py
+import time, random
+import ulab.numpy as np
+import synthio
+from synth_setup import synth, knobA
+
+RELEASE_TIME = 4
+RELEASE_CURVE = 2.8   # 1 == linear, higher is "tighter"
+env_lin = synthio.Envelope(attack_time=0, release_time=RELEASE_TIME)
+env_exp = synthio.Envelope(attack_time=0, release_time=RELEASE_TIME*2)   # so it doesn't get in the way
+
+# a waveform that's an exponential decay from 32767 to 0, shaped on RELEASE_CURVE
+exp_fall_wave =  np.array(32767 * np.linspace(1, 0, num=128, endpoint=True)**RELEASE_CURVE, dtype=np.int16)
+# a one-shot LFO lasting for RELEASE_TIME using the above wave
+exp_fall_lfo = synthio.LFO(rate=1/RELEASE_TIME, once=True, waveform=exp_fall_wave)
+
+i=0
+while True:
+    midi_note1 = 48
+    if i%2==0:
+        print("linear")
+        note1 = synthio.Note(synthio.midi_to_hz(midi_note1), envelope=env_lin)
+        synth.press(note1)
+        time.sleep(0.01)
+        synth.release(note1)
+    else:   # every other time do linear or exponential
+        print("exponential")
+        note1 = synthio.Note(synthio.midi_to_hz(midi_note1), envelope=env_exp)
+        synth.press(note1)
+        time.sleep(0.01)
+        synth.release(note1)
+        exp_fall_lfo = synthio.LFO(rate=1/RELEASE_TIME, once=True, waveform=exp_fall_wave)
+        note1.amplitude = exp_fall_lfo
+    time.sleep(RELEASE_TIME*1.25)
+    i+=1
+```
+
+
 ## Next steps
 
-Now that we have some of the basics of modulation down, we can use that to 
+Now that we have some of the basics of modulation down, we can use that to
 start modulating [Filters](README-3-Filters.md).

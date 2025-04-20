@@ -92,8 +92,6 @@ while True:
 
 ```py
 # 6_effects/code_chorus.py
-# part of todbot circuitpython synthio tutorial
-# 10 Feb 2025 - @todbot / Tod Kurt
 import time, random
 import synthio
 import audiodelays, audiofilters

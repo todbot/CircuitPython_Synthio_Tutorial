@@ -375,6 +375,12 @@ The above examples have tried to minimize RAM usage by only loading two waveform
 from the wavetable.  This allows the wavetable to be quite large, but it can
 introduce glitching as we load the next wave up.
 
+## Research links
+
+- [waveeditonline.com](https://waveeditonline.com/) (archive homepage)
+- [deeper look at single-cycle waveforms](https://blog.synthesizerwriter.com/2020/10/a-deeper-look-at-single-cycle-waveforms.html)
+- [free wavetables](https://forum.vital.audio/t/free-wavetables-128-wavetables-serum-format-plus-single-cycle-waveforms-from-a-huge-forthcoming-collection/13344)
+
 ## Next Steps
 
 We now have enough control over `synthio` to make just about any sound.
