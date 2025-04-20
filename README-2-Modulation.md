@@ -13,6 +13,7 @@
    * [Fade in LFO, using LERP](#fade-in-lfo-using-lerp)
    * [Bend-in pitch envelope](#bend-in-pitch-envelope)
    * [Portamento: glide between notes](#portamento-glide-between-notes)
+   * [Faking Exponential Amplitude Decays with LFOs](#faking-exponential-amplitude-decays-with-lfos)
    * [Next steps](#next-steps)
 <!--te-->
 
