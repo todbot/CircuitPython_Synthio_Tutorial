@@ -111,9 +111,11 @@ while True:
 ```
 > [2_modulation/code_envelope.py](./2_modulation/code_envelope.py)
 
-```
-[ ... TBD video of code_envelope.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=CAu_C-53MBk" target="_blank">
+<img alt="code_envelope demo" width=640 height=360
+    src="https://img.youtube.com/vi/CAu_C-53MBk/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=CAu_C-53MBk)
 
 
 ## About LFOs
@@ -251,9 +253,12 @@ while True:
 ```
 > [2_modulation/code_vibrato.py](./2_modulation/code_vibrato.py)
 
-```
-[ ... TBD video of code_vibrato.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=wdXAjhVb1iY" target="_blank">
+<img alt="code_envelope demo" width=640 height=360
+    src="https://img.youtube.com/vi/wdXAjhVb1iY/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=wdXAjhVb1iY)
+
 
 ## Tremolo: Add LFO to amplitude
 
@@ -287,9 +292,11 @@ while True:
 ```
 > [2_modulation/code_tremolo.py](./2_modulation/code_tremolo.py)
 
-```
-[ ... TBD video of code_tremolo.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=3Meb5Vd8Gw8" target="_blank">
+<img alt="code_envelope demo" width=640 height=360
+    src="https://img.youtube.com/vi/3Meb5Vd8Gw8/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=3Meb5Vd8Gw8)
 
 
 ## Fade in LFO, using LERP
@@ -352,9 +359,12 @@ while True:
 
 Here's what the above code sounds like:
 
-```
-[ ... TBD video of code_tremolo_fadein.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=iMqMUAzHII" target="_blank">
+<img alt="code_envelope demo" width=640 height=360
+    src="https://img.youtube.com/vi/iMqMUAzHII/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=iMqMUAzHII)
+
 
 ## Bend-in pitch envelope
 
@@ -404,9 +414,12 @@ while True:
 ```
 > [2_modulation/code_lerpbend.py](./2_modulation/code_lerpbend.py)
 
-```
-[ ... TBD video of code_synth_lerpbend.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=4jHAdlDbcgM" target="_blank">
+<img alt="code_envelope demo" width=640 height=360
+    src="https://img.youtube.com/vi/4jHAdlDbcgM/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=4jHAdlDbcgM)
+
 
 ## Portamento: glide between notes
 
@@ -476,10 +489,11 @@ while True:
 
 > [2_modulation/code_portamento.py](./2_modulation/code_portamento.py)
 
-```
-[ ... TBD video of code_portamento.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=v1MuPJxHKDg" target="_blank">
+<img alt="code_envelope demo" width=640 height=360
+    src="https://img.youtube.com/vi/v1MuPJxHKDg/maxresdefault.jpg"></a>
 
+[youtube video](https://www.youtube.com/watch?v=v1MuPJxHKDg)
 
 
 ## Faking Exponential Amplitude Decays with LFOs
@@ -491,7 +505,10 @@ so we can approximate an exponential release rate (or decay rate) of an ADSR
 envelope by assigning an LFO to `note.amplitude` on key release.
 
 It would look something like the example below.  Here, it's switching between
-the normal linear release rate and an exponential decay release
+the normal linear release rate and an exponential decay release.
+The difference can be subtle, but generally the exponential decay feels
+"snappier" while still ringing out the same amount of time.  Try changing the
+RELEASE_TIME and RELEASE_CURVE values to see how they affect the sound.
 
 ```py
 # 2_modulation/code_expdecay.py
@@ -530,6 +547,14 @@ while True:
     time.sleep(RELEASE_TIME*1.25)
     i+=1
 ```
+
+> [2_modulation/code_expdecay.py](./2_modulation/code_expdecay.py)
+
+<a href="https://www.youtube.com/watch?v=suuwS9hF0PY" target="_blank">
+<img alt="code_expdecay demo" width=640 height=360
+    src="https://img.youtube.com/vi/suuwS9hF0PY/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=suuwS9hF0PY)
 
 
 ## Next steps
