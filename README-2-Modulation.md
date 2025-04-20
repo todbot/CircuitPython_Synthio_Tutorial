@@ -85,6 +85,7 @@ synth.envelope = synthio.Envelope(attack_time=0, decay_time=0.05, release_time=0
 
 Here's an example of showing how to use an Envelope.
 Notice that an Envelope's parameters are read-only once created.
+The `attack_time` and `release_time` are the two most common ones used.
 Use the knobs to play around with different attack and release times to get different effects:
 
 ```py
@@ -93,18 +94,20 @@ import time, random
 import synthio
 from synth_setup import synth, knobA, knobB
 while True:
-    synth.envelope = synthio.Envelope(
+    amp_env = synthio.Envelope(
         attack_level = 0.8, sustain_level = 0.8,
-        attack_time = 2 * (knobA.value/65535),  # range from 0-2 seconds
+        attack_time = 1 * (knobA.value/65535),  # range from 0-1 seconds
         release_time = 2 * (knobB.value/65535),  # range from 0-2 seconds
-        )
+    )
+    synth.envelope = amp_env
+    print("attack_time:%.2f release_time:%.2f" %
+          (amp_env.attack_time, amp_env.release_time))
     midi_note = random.randint(48,60)
     synth.press(midi_note)
-    # wait enough time to hear the attack finish
-    time.sleep(synth.envelope.attack_time)
+    time.sleep(amp_env.attack_time)  # wait to hear the attack finish
     synth.release(midi_note)
     # wait enough time to hear the release finish, but with some overlap
-    time.sleep(synth.envelope.release_time * 0.75)
+    time.sleep(max(amp_env.release_time * 0.75, 0.1))  # 0.1 sec smallest sleep
 ```
 > [2_modulation/code_envelope.py](./2_modulation/code_envelope.py)
 
@@ -161,7 +164,6 @@ we can supply the smallest possible waveform of two numbers, like this:
 ```py
 import synthio
 import ulab.numpy as np
-
 # create a positive-only triangle wave
 lfo_positive = synthio.LFO(rate=0.5, waveform=np.array([0,32767], dtype=np.int16))
 ```
@@ -373,25 +375,28 @@ to 0.0, no bend, i.e. our destination pitch.
 import time, random
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA
+from synth_setup import synth, knobA, knobB
 
 while True:
-    bend_amount = random.uniform(-1, 1)   # set bend start pitch based on current note, up or down one octave
-    bend_time = random.uniform(0.1, 0.5)  # pick a new bend time
+    # set bend start pitch based on current note, up or down one octave
+    bend_amount = random.uniform(-1, 1)
+    # pick a new bend time 0.1 to 0.5
+    bend_time = random.uniform(0.1, 0.5)
+    # or if you want to use the knobs
+    #bend_amount = -1 + knobA.value/65535 * 2
+    #bend_time = (knobB.value/65535) * 0.4 + 0.1
 
-    # this LFO will automatically run the lerp position from 0 to 1 over a given timea
+    # this LFO automatically runs the lerp position from 0-1 over a given time
     lerp_pos = synthio.LFO(once=True, rate=1/bend_time,
                            waveform=np.array((0,32767), dtype=np.int16))
-    # this MathOperation will then range from "start_val" to "end_val" over "lerp_time"
+    # this MathOperation ranges from "start_val" to "end_val" over "bend_time"
     # where "start_val" is our bend_amount and "end_val" is 0 (our root pitch)
-    bend_lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, bend_amount, 0.0, lerp_pos)
+    bend_lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
+                             bend_amount, 0.0, lerp_pos)
+    note = synthio.Note(synthio.midi_to_hz(random.randint(48,60)))
+    note.bend = bend_lerp   # attach our lerp to the bend
 
-    midi_note = random.randint(48,60)
-    note = synthio.Note(synthio.midi_to_hz(midi_note))
-    note.bend = bend_lerp
-
-    print("bending from %.2f in %.2f seconds" % (bend_lerp.a, lerp_pos.rate))
-
+    print("bending from %.2f in %.2f seconds" % (bend_lerp.a, 1/lerp_pos.rate))
     synth.press(note)
     time.sleep(1)  # wait for bend to happen
     synth.release(note)
@@ -426,8 +431,10 @@ from synth_setup import synth, knobA
 class Glider:
     """Attach a Glider to note.bend to implement portamento"""
     def __init__(self, glide_time, midi_note):
-        self.pos = synthio.LFO(once=True, rate=1/glide_time, waveform=np.array((0,32767), dtype=np.int16))
-        self.lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, 0, 0, self.pos)
+        self.pos = synthio.LFO(once=True, rate=1/glide_time,
+                               waveform=np.array((0,32767), dtype=np.int16))
+        self.lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
+                                 0, 0, self.pos)
         self.midi_note = midi_note
 
     def update(self, new_midi_note):
@@ -459,10 +466,10 @@ synth.press(note)   # start the note sounding
 
 i=0
 while True:
-    glider.glide_time =  0.01 + 1 * (knobA.value/65535)  #
+    glider.glide_time = 0.5 * (knobA.value/65535)
     new_midi_note = midi_notes[i]  # new note to glide to
     i = (i+1) % len(midi_notes)
-    print("new:", new_midi_note, "old:", glider.midi_note, "glide_time:", glider.glide_time)
+    print("new: %d old: %d glide_time: %.2f" % (new_midi_note, glider.midi_note, glider.glide_time))
     glider.update(new_midi_note)  # glide up to new note
     time.sleep(0.5)
 ```
@@ -491,7 +498,7 @@ the normal linear release rate and an exponential decay release
 import time, random
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA
+from synth_setup import synth
 
 RELEASE_TIME = 4
 RELEASE_CURVE = 2.8   # 1 == linear, higher is "tighter"

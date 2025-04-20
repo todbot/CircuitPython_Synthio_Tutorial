@@ -1,4 +1,7 @@
 # 2_modulation/code_portamento.py
+# part of todbot circuitpython synthio tutorial
+# 10 Feb 2025 - @todbot / Tod Kurt
+#
 import time, random
 import synthio
 import ulab.numpy as np
@@ -7,8 +10,10 @@ from synth_setup import synth, knobA
 class Glider:
     """Attach a Glider to note.bend to implement portamento"""
     def __init__(self, glide_time, midi_note):
-        self.pos = synthio.LFO(once=True, rate=1/glide_time, waveform=np.array((0,32767), dtype=np.int16))
-        self.lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, 0, 0, self.pos)
+        self.pos = synthio.LFO(once=True, rate=1/glide_time,
+                               waveform=np.array((0,32767), dtype=np.int16))
+        self.lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
+                                 0, 0, self.pos)
         self.midi_note = midi_note
 
     def update(self, new_midi_note):
@@ -40,9 +45,9 @@ synth.press(note)   # start the note sounding
 
 i=0
 while True:
-    glider.glide_time =  0.01 + 1 * (knobA.value/65535)  # 
+    glider.glide_time = 0.5 * (knobA.value/65535) 
     new_midi_note = midi_notes[i]  # new note to glide to
     i = (i+1) % len(midi_notes)
-    print("new:", new_midi_note, "old:", glider.midi_note, "glide_time:", glider.glide_time)
+    print("new: %d old: %d glide_time: %.2f" % (new_midi_note, glider.midi_note, glider.glide_time))
     glider.update(new_midi_note)  # glide up to new note
     time.sleep(0.5)
