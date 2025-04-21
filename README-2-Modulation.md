@@ -14,6 +14,7 @@
    * [Bend-in pitch envelope](#bend-in-pitch-envelope)
    * [Portamento: glide between notes](#portamento-glide-between-notes)
    * [Faking Exponential Amplitude Decays with LFOs](#faking-exponential-amplitude-decays-with-lfos)
+   * [Fun with modulation: Drum sounds with pitch bend](#fun-with-modulation-drum-sounds-with-pitch-bend)
    * [Next steps](#next-steps)
 <!--te-->
 
