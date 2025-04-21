@@ -2,7 +2,7 @@
 CircuitPython Synthio Tutorial
 ==============================
 
-Version: 0.1 - 4 Apr 2024
+Version: 0.2 - 14 Apr 2025
 
 Welcome to a CircuitPython Synthio Tutorial.
 
@@ -98,3 +98,10 @@ Some are listed here:
 * cedargrove: [CircuitPython_Chime](https://github.com/CedarGroveStudios/CircuitPython_Chime)
 * relic-se: [PicoSynth_Sandbox](https://github.com/relic-se/PicoSynth_Sandbox/)
 * relic-se: [CircuitPython_SynthVoice](https://github.com/relic-se/CircuitPython_SynthVoice), [CircuitPython_Waveform](https://github.com/relic-se/CircuitPython_Waveform), [CircuitPython_KeyManager](https://github.com/relic-se/CircuitPython_KeyManager)
+
+
+## Changelog
+
+
+- 0.2 - 14 Apr 2025 - added video examples for Section 1 & 2
+- 0.1 - 4 Apr 2025 - initial release for review
