@@ -360,11 +360,11 @@ while True:
 
 Here's what the above code sounds like:
 
-<a href="https://www.youtube.com/watch?v=-iMqMUAzHII" target="_blank">
+<a href="https://www.youtube.com/watch?v=8RAVexx5Oqc" target="_blank">
 <img alt="code_tremolo_fadein demo" width=640 height=360
-    src="https://img.youtube.com/vi/-iMqMUAzHII/maxresdefault.jpg"></a>
+    src="https://img.youtube.com/vi/8RAVexx5Oqc/maxresdefault.jpg"></a>
 
-[youtube video](https://www.youtube.com/watch?v=-iMqMUAzHII)
+[youtube video](https://www.youtube.com/watch?v=8RAVexx5Oqc)
 
 
 ## Bend-in pitch envelope
