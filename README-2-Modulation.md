@@ -14,7 +14,6 @@
    * [Bend-in pitch envelope](#bend-in-pitch-envelope)
    * [Portamento: glide between notes](#portamento-glide-between-notes)
    * [Faking Exponential Amplitude Decays with LFOs](#faking-exponential-amplitude-decays-with-lfos)
-   * [Fun with modulation: Drum sounds with pitch bend](#fun-with-modulation-drum-sounds-with-pitch-bend)
    * [Next steps](#next-steps)
 <!--te-->
 
@@ -360,11 +359,11 @@ while True:
 
 Here's what the above code sounds like:
 
-<a href="https://www.youtube.com/watch?v=8RAVexx5Oqc" target="_blank">
+<a href="https://www.youtube.com/watch?v=-iMqMUAzHII" target="_blank">
 <img alt="code_tremolo_fadein demo" width=640 height=360
-    src="https://img.youtube.com/vi/8RAVexx5Oqc/maxresdefault.jpg"></a>
+    src="https://img.youtube.com/vi/-iMqMUAzHII/maxresdefault.jpg"></a>
 
-[youtube video](https://www.youtube.com/watch?v=8RAVexx5Oqc)
+[youtube video](https://www.youtube.com/watch?v=-iMqMUAzHII)
 
 
 ## Bend-in pitch envelope
@@ -628,11 +627,11 @@ while True:
 ```
 > [2_modulation/code_drum_tom.py](./2_modulation/code_drum_tom.py)
 
-<a href="https://www.youtube.com/watch?v=suuwS9hF0PY" target="_blank">
+<a href="https://www.youtube.com/watch?v=8RAVexx5Oqc" target="_blank">
 <img alt="code_drum_tom demo" width=640 height=360
-    src="https://img.youtube.com/vi/suuwS9hF0PY/maxresdefault.jpg"></a>
+    src="https://img.youtube.com/vi/8RAVexx5Oqc/maxresdefault.jpg"></a>
 
-[youtube video](https://www.youtube.com/watch?v=suuwS9hF0PY)
+[youtube video](https://www.youtube.com/watch?v=8RAVexx5Oqc)
 
 
 
