@@ -166,13 +166,14 @@ while True:
 ## Changing filter with LFO
 
 While changing a filter directly in Python works, it's less efficient and not as smooth
-sounding as using an LFO, since an LFO works in the background, not requiring any
-code on our part.
+sounding as it could be.  By using attaching a `synthio.LFO` to the `.frequency`
+parameter of the filter, synthio do all the twiddling of the filter for us,
+giving a smooth result and freeing up our main code to do other things.
 
-This example raises and lowers the filter frequency using an LFO.
-This example also swaps out the default square wave waveform Note oscillator
+The example below raises and lowers the filter frequency using an LFO.
+This example also swaps out the default square wave oscillator
 for a simple saw wave, which has more musical harmonics that are easier to hear
-being filtered out.
+being filtered.
 
 ```py
 # 3_filters/code_filter_lfomod.py
@@ -214,14 +215,22 @@ while True:
 A common synthesis technique is a ADSR filter envelope on the filter frequency,
 triggered similar to an amplitude envelope. Many synths have two dedicated
 envelopes: one on amplitude and one on filter cutoff.
-Remember in `synthio`, `Envelopes` cannot be plugged directly into anything other than
-`synthio.amplitude` or `note.amplitude`.
+In `synthio`, we can only use `synthio.Envelope` on `synthio.amplitude` or `note.amplitude`,
+and so we must find another way to make a filter envelope.
 
-Instead, we must create an approximation of an ADSR envelope using multiple one-shot LFOs.
-The most important parts of an envelope are the attack and the release phases.
-This makes it easier for us: we assign a ramp-up LFO when the note is pressed
-and a ramp-down LFO when the note is released.
+We can create an approximation of an ADSR envelope using multiple one-shot LFOs.
+The most noticable parts of a filter envelope are the attack and release phases.
+This makes it easier for us: we can assign a ramp-up LFO going from our minimum
+frequency to maximum frequency when the note is pressed and a ramp-down LFO
+going from max frequency to min frequency when the note is released.
 This is called an AHR (attack-hold-release) envelope.
+
+The example creates those two LFOs, using the parameters at the top.
+When we `synth.press()` a note, we must also retrigger the attack LFO, and
+when we `synth.release() a note, we must retrigger the release LFO.
+
+Note, that we could also use a more complex LFO waveform instead of simple
+ramp-up and ramp-downs to work more like multi-stage envelopes.
 
 ```py
 # 3_filters/code_filter_lfoenv.py
@@ -273,13 +282,14 @@ while True:
 
 [youtube video](https://www.youtube.com/watch?v=KoIuInQ0yR8)
 
+
 ## Creating filter envelope with lerp LFOs
 
-While having two LFOs like in the previous example works, the same
-trick for a bend-in pitch envelope using `MathOperation.CONSTRAINED_LERP` can
-be used to make an AHR filter envelope.
+While using two LFOs like in the previous example works, we can make things
+simpler by using a `MathOperation.CONSTRAINED_LERP` and adjusting lerp start/end
+values based on `press()` and `release()`.
 
-The benefit of this technique is the same object is used for `note.frequency.filter`,
+The benefit of this technique is the same object is used for `note.filter`,
 no reassignment needed. So it's more efficient (for CircuitPython)
 and easier to think about (for us).
 
