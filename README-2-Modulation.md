@@ -604,20 +604,18 @@ ni=0
 while True:
     n,t = notes[ni]  # sequence step (note, time), used in release_time below
     tenv = t + ((knobA.value/65535)-0.1)  # let the knob control how drum rings out
+    print("%d note:%d time:%.2f tenv:%.2f" %(ni,n,t,tenv))
     ni = (ni+1) % len(notes)  # set up next note in sequence for next time
-    print("note:%d time:%.2f" %(n,t))
     ramp_down_lfo = synthio.LFO(rate=1/tenv, once=True, waveform=ramp_down)
     drum_env = synthio.Envelope(attack_time=0, release_time=tenv, decay_time=0)
     drum_env2 = synthio.Envelope(attack_time=0, release_time=tenv/2, decay_time=0, attack_level=0.1,)
-    note = synthio.Note(synthio.midi_to_hz(n),
+    note = synthio.Note(synthio.midi_to_hz(n), envelope=drum_env,
                         waveform=wave_sine,
-                        envelope=drum_env,
                         bend=ramp_down_lfo,
                         )
     # second note "beefs" up the low end of the drum or adds "snare" if note==34
-    note2 = synthio.Note(synthio.midi_to_hz(n/4),
-                         waveform=wave_noise if n==34 else wave_sine,
-                         envelope=drum_env2)
+    note2 = synthio.Note(synthio.midi_to_hz(n/4), envelope=drum_env2,
+                         waveform=wave_noise if n==34 else wave_sine)
     synth.press(note)
     synth.press(note2)
     time.sleep(0)
