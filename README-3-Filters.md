@@ -57,19 +57,19 @@ import synthio
 from synth_setup import synth
 
 while True:
-    midi_note = random.randint(48,72)
+    midi_note = random.randint(36,60)
     print("playing note", midi_note)
     note = synthio.Note(synthio.midi_to_hz(midi_note))
     synth.press(note)
-    # try out each filter
-    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS, frequency=1500, Q=1.0)
-    time.sleep(0.3)
-    note.filter = synthio.Biquad(synthio.FilterMode.HIGH_PASS, frequency=1500, Q=1.0)
-    time.sleep(0.3)
-    note.filter = synthio.Biquad(synthio.FilterMode.BAND_PASS, frequency=1500, Q=1.0)
-    time.sleep(0.3)
+    # try out each filter by assigning to note.filter
+    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS, frequency=1000, Q=1.0)
+    time.sleep(0.5)
+    note.filter = synthio.Biquad(synthio.FilterMode.HIGH_PASS, frequency=1000, Q=1.0)
+    time.sleep(0.5)
+    note.filter = synthio.Biquad(synthio.FilterMode.BAND_PASS, frequency=1000, Q=1.0)
+    time.sleep(0.5)
     synth.release(note)
-    time.sleep(0.1)
+    time.sleep(0.2)
 ```
 > [3_filters/code_filter_tryout.py](./3_filters/code_filter_tryout.py)
 
@@ -89,29 +89,27 @@ starting at a high frequency then closing down the filter by lowering the freque
 
 ```py
 # 3_filters/code_filter_handmod.py
-# part of todbot circuitpython synthio tutorial
-# 10 Feb 2025 - @todbot / Tod Kurt
 import time
 import synthio
 from synth_setup import synth
-midi_note = 48
+midi_note = 48  # C2
 filter_types = (synthio.FilterMode.LOW_PASS,
                 synthio.FilterMode.HIGH_PASS,
-                synthio.FilterMode.NOTCH,
-                )
+                synthio.FilterMode.BAND_PASS,
+                synthio.FilterMode.NOTCH)
 i=0     # which filter we're trying
 note = synthio.Note(synthio.midi_to_hz(midi_note))
 synth.press(note)
 
 while True:
-    print("selecting filter_type", filter_types[i])
-    filter1 = synthio.Biquad(filter_types[i], frequency=3000, Q=1.2)
-    note.filter = filter1
+    print("selecting filter_type:\n  ", filter_types[i])
+    filter1 = synthio.Biquad(filter_types[i], frequency=4000, Q=1.2)
+    note.filter = filter1  # set the filter for this note
 
     while filter1.frequency > 250:
-        print("changing filter frequency: %d" % filter1.frequency)
+        print("filter frequency: %d" % filter1.frequency)
         filter1.frequency = filter1.frequency * 0.95  # do modulation by hand
-        time.sleep(0.05)
+        time.sleep(0.03)
     i = (i+1) % len(filter_types)  # go to next filter type
 ```
 > [3_filters/code_filter_handmod.py](./3_filters/code_filter_handmod.py)
@@ -134,18 +132,22 @@ filter frequency stays about 1.5x above the note frequency.
 # 3_filters/code_filter_knobmod.py
 import time, synthio
 from synth_setup import synth, knobA, knobB
-midi_note = 60
-note = synthio.Note(synthio.midi_to_hz(midi_note))
+midi_notes = (43, 48, 55, 60)
+mi=0
+note = synthio.Note(synthio.midi_to_hz(midi_notes[mi]))
 filter1 = synthio.Biquad(synthio.FilterMode.LOW_PASS, frequency=8000, Q=1.0)
 note.filter = filter1
 synth.press(note)
 
 while True:
-    filter1.frequency = (knobA.value / 65535) * 8000;  # convert to 0-8000
-    filter1.Q = (knobB.value / 65535) * 2;  # convert to 0-2
-    print("note freq: %4.2f filter freq: %4.2f Q: %1.2f" %
-          (note.frequency, filter1.frequency, filter1.Q))
-    time.sleep(0.05)
+    for _ in range(20):
+        filter1.frequency = (knobA.value / 65535) * 8000;  # 0-8000
+        filter1.Q = (knobB.value / 65535) * 2;  # convert to 0-2
+        print("note freq: %6.2f filter freq: %4d Q: %1.2f" %
+              (note.frequency, filter1.frequency, filter1.Q))
+        time.sleep(0.05)
+    mi = (mi+1) % len(midi_notes)  # go to next note
+    note.frequency = synthio.midi_to_hz(midi_notes[mi])
 ```
 > [3_filters/code_filter_knobmod.py](./3_filters/code_filter_knobmod.py)
 
@@ -170,22 +172,27 @@ being filtered out.
 import time, synthio
 import ulab.numpy as np
 from synth_setup import synth, knobA, knobB
-midi_note = 60
-note = synthio.Note(synthio.midi_to_hz(midi_note))
-# make a custom waveform, a sawtooth wave, more on this later
+midi_notes = (43, 48, 55, 60)   # a little arpeggio
+mi = 0  # which midi note to play
+note = synthio.Note(synthio.midi_to_hz(midi_notes[mi]))
+# make a custom sawtooth waveform, more on this later
 note.waveform = np.linspace(32000, -32000, num=128, dtype=np.int16)
-
-filter_lfo = synthio.LFO(rate=0.75, offset=5000, scale=4500)
-
-filter1 = synthio.Biquad(synthio.FilterMode.LOW_PASS,
-                              frequency=filter_lfo, Q=1.5)
+# lfo to turn the filter frequency "knob" for us
+filter_lfo = synthio.LFO(rate=0.75, offset=4000, scale=3700)
+filter1 = synthio.Biquad(synthio.FilterMode.BAND_PASS,
+                         frequency=filter_lfo, Q=1.5)
 note.filter = filter1
 synth.press(note)
 
 while True:
-    print("note freq: %4.2f filter freq: %4.2f Q: %1.2f" %
-          (note.frequency, filter1.frequency.value, filter1.Q))
-    time.sleep(0.05)
+    for _ in range(20):
+        print("note freq: %6.2f filter freq: %4d Q: %1.2f" %
+              (note.frequency, filter1.frequency.value, filter1.Q))
+        filter_lfo.rate = (knobA.value/65535) * 20  # 0-20
+        filter1.Q = (knobB.value/65535) * 2  # 0-2
+        time.sleep(0.05)
+    mi = (mi+1) % len(midi_notes)  # go to next note
+    note.frequency = synthio.midi_to_hz(midi_notes[mi])
 ```
 > [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
 
@@ -211,31 +218,28 @@ This is called an AHR (attack-hold-release) envelope.
 # 3_filters/code_filter_lfoenv.py
 import time, random, synthio
 import ulab.numpy as np
-from synth_setup import synth, knobA, knobB
-
+from synth_setup import synth
 # extend the amplitude envelope release so we can hear the filter release
-synth.envelope = synthio.Envelope(attack_time=0.0, release_time=1.0)
-
-# use a saw wave sound oscillator instead of square wave to hear the filter better
+synth.envelope = synthio.Envelope(attack_time=0.0, release_time=1.2)
+# use a saw wave oscillator instead of square wave to hear the filter better
 wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
-
 # parameters for our filter "envelope"
-filt_attack_time = 1.0
-filt_release_time = 1.5
-filt_min_freq = 500
+filt_attack_time = 1.5
+filt_release_time = 0.75
+filt_min_freq = 100
 filt_max_freq = 2000
 
 # LFO to use as the ramp up in frequency on key press
-filter_attack_lfo = synthio.LFO(once=True, rate=filt_attack_time,
+filter_attack_lfo = synthio.LFO(once=True, rate=1/filt_attack_time,
                                 offset=filt_min_freq, scale=filt_max_freq,
                                 waveform=np.array((0,32767), dtype=np.int16))
 # LFO to use to ramp down the frequency on key release
-filter_release_lfo = synthio.LFO(once=True, rate=filt_release_time,
+filter_release_lfo = synthio.LFO(once=True, rate=1/filt_release_time,
                                  offset=filt_min_freq, scale=filt_max_freq,
                                  waveform=np.array((32767,0), dtype=np.int16))
-
 while True:
     midi_note = random.randint(48,72)  # pick a new note to play
+    print("filter up!")
     # press a note with attack filter
     note = synthio.Note(midi_note, waveform=wave_saw)
     note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
@@ -243,17 +247,14 @@ while True:
     filter_attack_lfo.retrigger()
     synth.press(note)  # trigger amp env and filter lfo
 
-    # wait for attack phase to complete, hold a bit, then
-    time.sleep(1.0)
+    time.sleep(filt_attack_time)  # wait for note attack to finish, then
 
-    # release the note
-    note.filter.frequency = filter_release_lfo
+    note.filter.frequency = filter_release_lfo   # release the note
     filter_release_lfo.retrigger()
     synth.release(note)  # trigger amp env release
+    print("filter down!")
 
-    # let the release happen
-    time.sleep(1.0)
-
+    time.sleep(filt_release_time)   # let the release happen
 ```
 > [3_filters/code_filter_lfoenv.py](./3_filters/code_filter_lfoenv.py)
 
@@ -275,45 +276,45 @@ no reassignment needed.
 import time, random
 import ulab.numpy as np
 import synthio
-from synth_setup import synth
+from synth_setup import synth, knobA
 
-filter_attack_time = 1.3
-filter_release_time = 0.5
-filter_min_freq = 200
-filter_max_freq = 2000
+filter_attack_time = 0.1   # some example values to start out with
+filter_release_time = 0.6  # change them to see how it affects the sound
+filter_min_freq = 100
+filter_max_freq = 4000
 
 # this LFO will automatically run the lerp position from 0 to 1 over a given timea
-lerp_pos = synthio.LFO(once=True, rate=1, waveform=np.array((0,32767), dtype=np.int16))
+lerp_pos = synthio.LFO(once=True, waveform=np.array((0,32767), dtype=np.int16))
 
-# this MathOperation will then range from "start_val" to "end_val" over "lerp_time"
+# this MathOperation will range from "start_val" to "end_val" over "lerp_time"
 # where "start_val" is our starting frequency and "end_val" is our hold frequency)
-filter_env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP, 500, 2000, lerp_pos)
+filter_env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
+                          filter_min_freq, filter_max_freq, lerp_pos)
 
-# saw wave oscillators have nicer harmonics to filter
+def set_filter_lerp(fstart, fend, ftime):
+    filter_env.a = fstart
+    filter_env.b = fend
+    lerp_pos.rate = 1 / ftime
+    lerp_pos.retrigger()  # must make sure to retrigger the positioner
+
+# nice little saw wave oscillator sounds better than default sqaure
 wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
 
 while True:
-    midi_note = random.randint(32,60)
+    midi_note = 32 + int((knobA.value/65535)*32)  #random.randint(48,60)
+    print("playing note:", midi_note)
     note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw)
     note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
-                                      frequency=filter_env, Q=2.0)
-    # press the note
-    # which means setting up the attack stage, the lerp and retriggering
-    filter_env.a = filter_min_freq  # start at min
-    filter_env.b = filter_max_freq  # end at max
-    lerp_pos.rate = 1 / filter_attack_time
-    lerp_pos.retrigger()
+                                 frequency=filter_env, Q=1.8)
+    # press the note, e.g. set up the attack lerp vals and retriggering
+    set_filter_lerp(filter_min_freq, filter_max_freq, filter_attack_time)
     synth.press(note)
-    time.sleep(1.5)
+    time.sleep(filter_attack_time)
 
-    # release the note
-    # which hmeans setting up the release stage, the lerp and retriggering
-    filter_env.a = filter_max_freq  # start at max
-    filter_env.b = filter_min_freq  # end at min
-    lerp_pos.rate = 1 / filter_release_time
-    lerp_pos.retrigger()
+    # release the note, e.g. set up the release lerp vals and retriggering
+    set_filter_lerp(filter_max_freq, filter_min_freq, filter_release_time)
     synth.release(note)
-    time.sleep(1.0)
+    time.sleep(filter_release_time)
 ```
 
 ```

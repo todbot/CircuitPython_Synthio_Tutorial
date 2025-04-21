@@ -569,6 +569,8 @@ and bends into the final pitch
 
 Tomtom drums are pitched, so we can use lower MIDI note pitches playing sine
 waves for them. Bass drums are kinda like big toms, so we'll do the same for them.
+We'll talk more detail about custom oscillator waveforms in
+[Oscillators and Wavetables](README-4-Oscillators-Wavetables.md).
 
 Also in this example is a quick way of doing a snare drum. Snare drums have
 little rattles on them that make a sizzling noise when they're struck. We can

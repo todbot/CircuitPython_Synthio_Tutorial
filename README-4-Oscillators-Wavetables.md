@@ -378,7 +378,7 @@ introduce glitching as we load the next wave up.
 
 ## Research links
 
-- [waveeditonline.com](https://waveeditonline.com/) (archive homepage)
+- [waveeditonline.com](https://waveeditonline.com/) ([archived homepage](https://web.archive.org/web/20221128075225/https://waveeditonline.com/))
 - [deeper look at single-cycle waveforms](https://blog.synthesizerwriter.com/2020/10/a-deeper-look-at-single-cycle-waveforms.html)
 - [free wavetables](https://forum.vital.audio/t/free-wavetables-128-wavetables-serum-format-plus-single-cycle-waveforms-from-a-huge-forthcoming-collection/13344)
 
