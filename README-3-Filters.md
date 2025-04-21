@@ -73,9 +73,12 @@ while True:
 ```
 > [3_filters/code_filter_tryout.py](./3_filters/code_filter_tryout.py)
 
-```
-[ ... TBD video of code_filter_tryout.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=oo35ITF87BY" target="_blank">
+<img alt="code_filter_tryout demo" width=640 height=360
+    src="https://img.youtube.com/vi/oo35ITF87BY/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=oo35ITF87BY)
+
 
 ## Changing filter parameters with Python
 
@@ -114,9 +117,11 @@ while True:
 ```
 > [3_filters/code_filter_handmod.py](./3_filters/code_filter_handmod.py)
 
-```
-[ ... TBD video of code_filter_handmod.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=ggCszD6noBo" target="_blank">
+<img alt="code_filter_handmod demo" width=640 height=360
+    src="https://img.youtube.com/vi/ggCszD6noBo/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=ggCszD6noBo)
 
 ## Changing filter with knobs
 
@@ -151,9 +156,11 @@ while True:
 ```
 > [3_filters/code_filter_knobmod.py](./3_filters/code_filter_knobmod.py)
 
-```
-[ ... TBD video of code_filter_knobmod.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=RSFnHbDJWf4" target="_blank">
+<img alt="code_filter_knobmod demo" width=640 height=360
+    src="https://img.youtube.com/vi/RSFnHbDJWf4/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=RSFnHbDJWf4)
 
 
 ## Changing filter with LFO
@@ -196,9 +203,11 @@ while True:
 ```
 > [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
 
-```
-[ ... TBD video of code_filter_lfomod.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=Ez8TSuOGduc" target="_blank">
+<img alt="code_filter_lfomod demo" width=640 height=360
+    src="https://img.youtube.com/vi/Ez8TSuOGduc/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=Ez8TSuOGduc)
 
 ## Creating filter envelope with LFOs
 
@@ -258,9 +267,11 @@ while True:
 ```
 > [3_filters/code_filter_lfoenv.py](./3_filters/code_filter_lfoenv.py)
 
-```
-[ ... TBD video of code_filter_lfoenv.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=KoIuInQ0yR8" target="_blank">
+<img alt="code_filter_lfoenv demo" width=640 height=360
+    src="https://img.youtube.com/vi/KoIuInQ0yR8/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=KoIuInQ0yR8)
 
 ## Creating filter envelope with lerp LFOs
 
@@ -269,7 +280,23 @@ trick for a bend-in pitch envelope using `MathOperation.CONSTRAINED_LERP` can
 be used to make an AHR filter envelope.
 
 The benefit of this technique is the same object is used for `note.frequency.filter`,
-no reassignment needed.
+no reassignment needed. So it's more efficient (for CircuitPython)
+and easier to think about (for us).
+
+Finally we have a pretty usable AHR-like filter envelope in `synthio`.
+All it took was a one-shot `synthio.LFO` controlling a `synthio.MathOperation`
+CONSTRAINED_LERP that we retrigger on both `synth.press()` and `synth.release()`!
+Yes, okay, actually this is a lot of components we have to hook together, but
+the semi-modular nature of `synthio` means we have a lot of power to hook things
+up differently to create other kinds of sounds.
+
+In the example below, the four main parameters of the filter envelope are brought
+out as variables. Try changing them to see how it affects the sound. The main
+`while`-loop triggers notes chosen by knobA and makes sure to sleep long enough
+between `synth.press()` and `synth.release()` so you can hear the filter attack.
+In the demo video, you can see me editing some of these values and reloading.
+
+It's starting to sound like a real synth!
 
 ```py
 # 3_filters/code_filter_lerp.py
@@ -281,9 +308,9 @@ from synth_setup import synth, knobA
 filter_attack_time = 0.1   # some example values to start out with
 filter_release_time = 0.6  # change them to see how it affects the sound
 filter_min_freq = 100
-filter_max_freq = 4000
+filter_max_freq = 2000
 
-# this LFO will automatically run the lerp position from 0 to 1 over a given timea
+# this LFO will automatically run the lerp position from 0 to 1 over a given time
 lerp_pos = synthio.LFO(once=True, waveform=np.array((0,32767), dtype=np.int16))
 
 # this MathOperation will range from "start_val" to "end_val" over "lerp_time"
@@ -291,13 +318,13 @@ lerp_pos = synthio.LFO(once=True, waveform=np.array((0,32767), dtype=np.int16))
 filter_env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
                           filter_min_freq, filter_max_freq, lerp_pos)
 
-def set_filter_lerp(fstart, fend, ftime):
+def set_filter_env(fstart, fend, ftime):
     filter_env.a = fstart
     filter_env.b = fend
     lerp_pos.rate = 1 / ftime
     lerp_pos.retrigger()  # must make sure to retrigger the positioner
 
-# nice little saw wave oscillator sounds better than default sqaure
+# nice little saw wave oscillator sounds better than default square
 wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
 
 while True:
@@ -307,19 +334,23 @@ while True:
     note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
                                  frequency=filter_env, Q=1.8)
     # press the note, e.g. set up the attack lerp vals and retriggering
-    set_filter_lerp(filter_min_freq, filter_max_freq, filter_attack_time)
+    set_filter_env(filter_min_freq, filter_max_freq, filter_attack_time)
     synth.press(note)
     time.sleep(filter_attack_time)
 
     # release the note, e.g. set up the release lerp vals and retriggering
-    set_filter_lerp(filter_max_freq, filter_min_freq, filter_release_time)
+    set_filter_env(filter_max_freq, filter_min_freq, filter_release_time)
     synth.release(note)
     time.sleep(filter_release_time)
 ```
+> [3_filters/code_filter_lfoenv.py](./3_filters/code_filter_lerp.py)
 
-```
-[ ... TBD video of code_filter_lerp.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=VubIJVZqy8E" target="_blank">
+<img alt="code_filter_lerp demo" width=640 height=360
+    src="https://img.youtube.com/vi/VubIJVZqy8E/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=VubIJVZqy8E )
+
 
 ## Fun with filters: sample & hold filter envelope
 
@@ -365,6 +396,6 @@ while True:
 
 ## Next steps
 
-Filters are a key way to sculpt a sound, but in `synthio` we have an even
-more powerful technique for sound sculpting:
+Filters are a key way to sculpt a sound, and we can do a lot now.
+But in `synthio` we have an even more powerful technique for sound sculpting:
 [Oscillators and Wavetables](README-4-Oscillators-Wavetables.md).
