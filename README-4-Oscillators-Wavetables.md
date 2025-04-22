@@ -149,12 +149,22 @@ Wavetables let us store several different (potentially harmonically related) wav
 in a single file and call them up immediately.  There was a (now defunct) [site
 called waveeditonline.com](https://web.archive.org/web/20221128075225/https://waveeditonline.com/)
 that had a wonderful collection of waveforms in a wavetable format, stored as a
-standard WAV file.  While the site is gone, the "wave-files.zip] bundle lives on
-in various places (like [the bundle here from Jul 2023](https://github.com/todbot/CircuitPython_Synthio_Tutorial/releases/download/0.3/wav-files-waveeditonline-Jul2023.zip))
+standard WAV file.  While the waveditonline site is gone, the "wav-files.zip] bundle it
+provided lives on in various places (like [the wav-files.zip bundle here from Jul 2023](https://github.com/todbot/CircuitPython_Synthio_Tutorial/releases/download/0.3/wav-files-waveeditonline-Jul2023.zip))
 
+In the "4_oscillators_wavetables" directory of this tutorial,
+there is a directory called "wavetable" containing some good wavetables from waveeditonline.
+You should be able to copy the entire directory to the CIRCUITPY drive.
+The example below assumes that directory exists and that the `adafruit_wave` library
+is installed. (availble from the [CircuitPython bundle](https://circuitpython.org/libraries)
+or with `circup install adafruit_wave` from the commandline)
+
+Use knobA to pick a waveform within a wavetable and use the button to choose
+another wavetable.  It's amazing how many different sounds you can get so easily
+by using wavetables!
 
 ```py
-# 4_oscillators_wavetables/code_wavetable.py
+# 4_oscillators_waveforms/code_wavetable.py
 import time
 import ulab.numpy as np
 import synthio

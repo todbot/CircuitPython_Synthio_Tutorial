@@ -17,11 +17,12 @@ The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Syn
 
 ## What this guide is
 
-This guide hopes to show how `synthio` "thinks" about sound synthesis,
+This guide hopes to show how [`synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/)
+"thinks" about sound synthesis,
 showing techniques for implementing common synthesis concepts with `synthio`.
 This guide provides over 50 complete CircuitPython example programs that show
 different aspects of `synthio`, acting as a starting point for your own explorations
-or combinining them into new synth devices.
+and combinining them into new synth devices.
 
 
 ## Who this guide is for
