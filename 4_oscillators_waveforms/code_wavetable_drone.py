@@ -1,4 +1,4 @@
-# 4_oscillators_wavetables/code_wavetabledrone.py
+# 4_oscillators_waveforms/code_wavetabledrone.py
 import time
 import ulab.numpy as np
 import synthio

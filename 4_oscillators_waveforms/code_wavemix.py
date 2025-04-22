@@ -1,4 +1,4 @@
-# 4_oscillators/code_wavemix.py
+# 4_oscillators_waveforms/code_wavemix.py
 # part of todbot circuitpython synthio tutorial
 # 10 Feb 2025 - @todbot / Tod Kurt
 import time

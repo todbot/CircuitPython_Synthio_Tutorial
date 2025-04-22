@@ -14,18 +14,22 @@ but it applies to [any board that supports `synthio`](https://docs.circuitpython
 The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
 
-## Who this guide is for
-
-This tutorial assumes you know some Python and [CircuitPython](https://circuitpython.org) already.
-It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0),
-but of course, knowing the basics of ["subtractive synthesis"](https://en.wikipedia.org/wiki/Subtractive_synthesis) will help understand
-how `synthio` works and how it differs from that standard.
 
 ## What this guide is
 
 This guide hopes to show how `synthio` "thinks" about sound synthesis,
-show techniques for implementing common synthesis concepts with `synthio`,
-and provide useful code snippets to help make new synth things in CircuitPython.
+showing techniques for implementing common synthesis concepts with `synthio`.
+This guide provides over 50 complete CircuitPython example programs that show
+different aspects of `synthio`, acting as a starting point for your own explorations
+or combinining them into new synth devices.
+
+
+## Who this guide is for
+
+This tutorial assumes you know some Python and [CircuitPython](https://circuitpython.org) already.
+It doesn't try to assume you know much about [synthesizers](https://www.youtube.com/watch?v=cWslSTTkiFU) or [music theory](https://www.youtube.com/watch?v=rgaTLrZGlk0),
+Of course, knowing the basics of ["subtractive synthesis"](https://en.wikipedia.org/wiki/Subtractive_synthesis) will help understand
+more what `synthio` is doing and how it differs from that standard.
 
 
 ## How this guide is structured
@@ -35,17 +39,18 @@ and will use techniques and terms discussed in previous sections.
 
 Every example code block is a fully working program, no code snippets here, with
 download links to ready-to-run code.
-Some functionality will be provided by external libraries or an included script
+Some functionality will be provided by external libraries or included scripts
 (most notably [`synth_setup.py`](./1_getting_started/synth_setup.py)).
 
-Each example code block also exists as a `code_[name].py` file that can be copied to
-your device's CIRCUITPY drive as `code.py` to run.  The file will sometimes
-contain extra explanatory comments or print statements that will be elided
-in this guide.
+Each example code block in the guide also exists as a `code_[name].py` file
+that can be copied to your device's CIRCUITPY drive as `code.py` to run.
+The file will sometimes contain extra explanatory comments or print statements.
+Almost every example also has an accompanying video to let you hear and see
+what it's doing.
 
-Each example (with a few exceptions) will do something sonically interesting by
-itself, but also have a bit of interactivity with the knobs and button.  So even
-if you don't have the knobs & button wired up, you should still get a sense of
+Every example (hopefully) does something sonically interesting just sitting there,
+and most will also have a bit of interactivity with the knobs and button.
+So even if you don't have the knobs & button wired up, you should still get a sense of
 what the example is about.
 
 ## Sections

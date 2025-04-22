@@ -1,11 +1,11 @@
-# 4_oscillators_wavetables/code_wavetable_scan.py
+# 4_oscillators_waveforms/code_wavetable_scan.py
 import time
 import ulab.numpy as np
 import synthio
 from synth_setup import synth, knobA, knobB
 import adafruit_wave
 
-wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/index-17.html
+wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
 
 class Wavetable:
     """ A 'waveform' for synthio.Note that uses a wavetable w/ a scannable wave position."""    

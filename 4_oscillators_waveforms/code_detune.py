@@ -1,4 +1,4 @@
-# 4_oscillators_wavetables/code_detune.py
+# 4_oscillators_waveforms/code_detune.py
 import time
 import ulab.numpy as np
 import synthio
