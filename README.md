@@ -6,10 +6,14 @@ Version: 0.3 - 21 Apr 2025
 
 Welcome to a CircuitPython Synthio Tutorial.
 
-In CircuitPython, `synthio` is a built-in module for doing sound synthesis
-on microcontrollers such as the Pico (RP2040/RP2350) and ESP32.
-This guide will focus on a Pico RP2040 and PCM5102a I2S DAC,
-but it applies to [any board that supports `synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#module-synthio).
+In CircuitPython, [`synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/)
+is a built-in module for doing sound synthesis
+on microcontrollers.
+This guide focuses on using `synthio` with the [Raspberry Pico RP2040 and Pico 2 RP2350](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html)
+with an [PCM5102a I2S DAC](https://todbot.com/blog/2023/05/16/cheap-stereo-line-out-i2s-dac-for-circuitpython-arduino-synths/)
+for audio output, but applies to other microcontrollers that [support `synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/support_matrix.html?filter=synthio)
+(like ESP32) and other audio output techniques (like [`PWMOut`](https://docs.circuitpython.org/en/latest/shared-bindings/pwmio/index.html#pwmio.PWMOut) and
+analog [`AudioOut`](https://docs.circuitpython.org/en/latest/shared-bindings/audioio/index.html)).
 
 The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
@@ -20,9 +24,14 @@ The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Syn
 This guide hopes to show how [`synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/)
 "thinks" about sound synthesis,
 showing techniques for implementing common synthesis concepts with `synthio`.
-This guide provides over 50 complete CircuitPython example programs that show
-different aspects of `synthio`, acting as a starting point for your own explorations
+This guide provides over 50 complete CircuitPython example programs (with [videos of them running](https://www.youtube.com/playlist?list=PLW9arycjoILj7l4WvLYqQbdK9b_ZYYPxy))
+that show different aspects of `synthio`, acting as a starting point for your own explorations
 and combinining them into new synth devices.
+
+This guide will focus on a Pico RP2040 and PCM5102a I2S DAC,
+but it applies to [any board that supports `synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/support_matrix.html?filter=synthio).
+All code will work unchanged on a Pico 2 (RP2350) and soem code will *only* work on
+the RP2350.
 
 
 ## Who this guide is for

@@ -57,29 +57,35 @@ be a little understand to help prevent clipping.
 import time, random
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA
+from synth_setup import synth, knobA, knobB
 
-NUM = 256    # number of samples for waveforms
-VOL = 32000  # volume of samples, np.int16 ranges from 0-32767
+NUM = 256    # number of samples in a waveform
+VOL = 32000  # loudness (volume) of samples, np.int16 ranges from 0-32767
+
 # sine wave, just like in trig class
 wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM, endpoint=False)) * VOL, dtype=np.int16)
+
 # sawtooth wave, looks like a downward ramp
 wave_saw = np.linspace(VOL, -VOL, num=NUM, dtype=np.int16)
+
 # square wave, like the default
 wave_square = np.concatenate((np.ones(NUM // 2, dtype=np.int16) * VOL,
                               np.zeros(NUM // 2, dtype=np.int16) * -VOL))
-# a 'noise' wave made with random numbers
-wave_noise = np.array([random.randint(-VOL, VOL) for i in range(NUM)], dtype=np.int16)
-my_waves = [wave_sine, wave_saw, wave_square, wave_noise]
 
-note1 = synthio.Note(440)  # start a note playing with default waveform
+# 'noise' wave made with random numbers (not a very good random noise)
+wave_noise = np.array([random.randint(-VOL, VOL) for i in range(NUM)], dtype=np.int16)
+
+my_waves = [wave_sine, wave_saw, wave_square, wave_noise]
+my_wave_names = ["sine", "saw", "square", "noise"]
+
+note1 = synthio.Note(0)  # start a note playing with default waveform
 synth.press(note1)
 wi=0  # wave index into my_waves
 while True:
     note1.frequency = synthio.midi_to_hz(32 + int((knobA.value/65535)*32))
     note1.waveform = my_waves[wi]  # pick new wave for playing note
-    print("wave#:",wi)
-    time.sleep(0.4)
+    print("wave:", wi, my_wave_names[wi])
+    time.sleep( (knobB.value/65535) )  # knobB controls tempo
     wi=(wi+1) % len(my_waves)  # pick a new waveform
 ```
 > [4_oscillators_waveforms/code_waveform1.py](./4_oscillators_waveforms/code_waveform1.py)
@@ -101,24 +107,31 @@ function that mixes between two numpy arrays, resulting in a mixed waveform.
 
 Note we have to do this mixing "by hand", we cannot use `synthio.MathOperation.CONSTRAINED_LERP`
 because it only works on single values, not arrays/lists.
-(But we *can* use a `synthio.LFO` as our mix position, we just have to copy "by hand"
-the value from the LFO to our `lerp()` function)
+(But in a future example, you'll see how we *can* use a `synthio.LFO` for our mix position.
+We just have to copy "by hand" the value from the LFO to our `lerp()` function)
+
+In this example, a Note is played playing a wave that's the mix between a
+sine wave and a saw wave.  The mix speed is controlled by knobA and knobB controls
+the pitch of the continuously-sounding Note.
+As the mix goes from sine wave to saw wave, it sounds almost like
+the sawtooth wave is being filtered down.  This is one of the neat aspects
+of doing this kind of wave mixing: we can fake filter sweeps just by mixing waves!
+You'll see much more of this in the wavetable examples.
 
 ```py
-# 4_oscillators/code_wavemix.py
+# 4_oscillators_waveforms/code_wavemix.py
 import time
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA
+from synth_setup import synth, knobA, knobB
 
-NUM_SAMPLES = 256
-VOLUME = 32000
-MIX_SPEED = 0.01
+NUM = 256    # number of samples in a waveform
+VOL = 32000  # loudness (volume) of samples, np.int16 ranges from 0-32767
 
-wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM_SAMPLES, endpoint=False)) * VOLUME, dtype=np.int16)
-wave_saw = np.linspace(VOLUME, -VOLUME, num=NUM_SAMPLES, dtype=np.int16)
+wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM, endpoint=False)) * VOL, dtype=np.int16)
+wave_saw = np.linspace(VOL, -VOL, num=NUM, dtype=np.int16)
 # empty buffer we copy wave mix into
-wave_empty = np.zeros(SAMPLE_SIZE, dtype=np.int16)
+wave_empty = np.zeros(NUM, dtype=np.int16)
 
 note = synthio.Note(frequency=220, waveform=wave_empty)
 synth.press(note)
@@ -128,9 +141,11 @@ def lerp(a, b, t):  return (1-t)*a + t*b
 
 wave_pos = 0
 while True:
-  print(wave_pos)
+  print("%.2f" % wave_pos)
+  mix_speed = 0.001 + (knobA.value/65535) * 0.2  # 0.001 - 0.2
   note.waveform[:] = lerp(wave_sine, wave_saw, wave_pos)
-  wave_pos = (wave_pos + MIX_SPEED) % 1.0  # move our mix position
+  note.frequency = synthio.midi_to_hz(48 + (knobB.value/65535)*12)
+  wave_pos = (wave_pos + mix_speed) % 1.0  # move our mix position
   time.sleep(0.01)
 ```
 > [4_oscillators_waveforms/code_wavemix.py](./4_oscillators_waveforms/code_wavemix.py)
@@ -142,26 +157,30 @@ while True:
 
 ## Use a Wavetable
 
-Note in the `code_waveform1` example above, the waves were put in an array so we could switch
-them out easily. This is basically how wavetables work.
+In the `code_waveform1` example above, the waves were put in an array so we could switch
+them out easily. This is how wavetables work.
 
 Wavetables let us store several different (potentially harmonically related) waveforms
-in a single file and call them up immediately.  There was a (now defunct) [site
+in a single unit and call each wave up indepedently.  There was a (now defunct) [site
 called waveeditonline.com](https://web.archive.org/web/20221128075225/https://waveeditonline.com/)
-that had a wonderful collection of waveforms in a wavetable format, stored as a
+that had a wonderful collection of free waveforms in a wavetable format, each wavetable stored as a
 standard WAV file.  While the waveditonline site is gone, the "wav-files.zip] bundle it
-provided lives on in various places (like [the wav-files.zip bundle here from Jul 2023](https://github.com/todbot/CircuitPython_Synthio_Tutorial/releases/download/0.3/wav-files-waveeditonline-Jul2023.zip))
+provided lives on in various places (like [the wav-files.zip bundle here from Jul 2023](https://github.com/todbot/CircuitPython_Synthio_Tutorial/releases/download/0.3/wav-files-waveeditonline-Jul2023.zip))  Since CircuitPython can read WAV files, we can use those wavetables
+to easily add new sonic textures to our synths.
 
 In the "4_oscillators_wavetables" directory of this tutorial,
-there is a directory called "wavetable" containing some good wavetables from waveeditonline.
-You should be able to copy the entire directory to the CIRCUITPY drive.
-The example below assumes that directory exists and that the `adafruit_wave` library
-is installed. (availble from the [CircuitPython bundle](https://circuitpython.org/libraries)
-or with `circup install adafruit_wave` from the commandline)
+there is a "wavetables" directory containing some good wavetables from waveeditonline.
+Copy the entire "wavetables" directory to the CIRCUITPY drive.
+The example below will look in there. Also install the `adafruit_wave` library.
+It's availble from the [CircuitPython bundle](https://circuitpython.org/libraries)
+or installable with `circup install adafruit_wave` from the commandline.
 
-Use knobA to pick a waveform within a wavetable and use the button to choose
-another wavetable.  It's amazing how many different sounds you can get so easily
-by using wavetables!
+In the example below, there is a small `Wavetable` class that makes loading a
+wavetable and selecting a waveform within the wavetable eaiser. That class is
+also available as [`wavetable.py`](4_oscillators_waveforms/wavetable.py) for your own use.
+When the example is running, use knobA to pick a waveform within a wavetable and
+use the button to select another wavetable.
+It's amazing how many different sounds you can get so easily by using wavetables!
 
 ```py
 # 4_oscillators_waveforms/code_wavetable.py
@@ -171,7 +190,7 @@ import synthio
 from synth_setup import synth, keys, knobA
 import adafruit_wave
 
-wave_dir = "/wavetable/"  # wavetables from old http://waveeditonline.com/
+wave_dir = "/wavetables/"  # wavetables from old http://waveeditonline.com/
 wavetables = ["BRAIDS01.WAV","DRONE.WAV","SYNTH_VO.WAV","PPG_BES.WAV"]
 wavetable_num_samples = 256  # number of samples per wave in wavetable
 wti=0  # index into wavetables list
@@ -223,18 +242,19 @@ while True:
 
 ## Wavetable scanning
 
-[discussion tbd]
+As you use the knob to scan the wavetable above, you may notice how jarring it
+is two switch between two waves that aren't very related.  The `Wavetable` class
+can be expanded so that it mixes between adjacent waves in the wavetable,
+much like the `code_wavemix.py` example above. This makes for a much smoother
+scanning along the wavetable.
+
+First let's move the Wavetable class to its own file and add in the wave mixing:
 
 ```py
-# 4_oscillators_wavetables/code_wavetable_scan.py
-import time
+# 4_oscillators_waveforms/wavetable.py
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA, knobB
 import adafruit_wave
-
-wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
-
 class Wavetable:
     """ A 'waveform' for synthio.Note that uses a wavetable w/ a scannable wave position."""
     def __init__(self, filepath, wave_len=256):
@@ -264,6 +284,24 @@ class Wavetable:
 
     # mix between values a and b, works with numpy arrays too, t ranges 0-1
     def lerp(a, b, t):  return (1-t)*a + t*b
+```
+
+Save that file to the CIRCUITPY drive and we can use that in an updated wavetable
+scanning example:
+
+```py
+# 4_oscillators_wavetables/code_wavetable_scan.py
+# 4_oscillators_waveforms/code_wavetable_scan.py
+# part of todbot circuitpython synthio tutorial
+# 10 Feb 2025 - @todbot / Tod Kurt
+#
+import time
+import ulab.numpy as np
+import synthio
+from synth_setup import synth, knobA, knobB
+from wavetable import Wavetable
+
+wavetable_fname = "wavetables/PLAITS02.WAV"  # from http://waveeditonline.com/
 
 wavetable1 = Wavetable(wavetable_fname)
 
@@ -272,14 +310,15 @@ note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wavetable1.waveform)
 synth.press(note)
 
 # create a positive ramp-up-down LFO to scan through the waveetable
-wave_lfo = synthio.LFO(rate=0.05, waveform=np.array((0,32767), dtype=np.int16) )
+wave_lfo = synthio.LFO(rate=0.05, waveform=np.array((0,32767), dtype=np.int16))
 wave_lfo.scale = wavetable1.num_waves
-synth.blocks.append(wave_lfo)  # must do this to activate the LFO since not attached to Note
+synth.blocks.append(wave_lfo)  # this activates LFO when not attached to Note
 
 while True:
     # regularly copy LFO to wave_pos by hand
     wavetable1.wave_pos =  wave_lfo.value
-    print("%.2f" % wavetable1.wave_pos)
+    wave_lfo.rate =  (knobA.value/65535) * 0.25
+    print("wave_pos:%.2f" % wavetable1.wave_pos)
     time.sleep(0.01)
 ```
 

@@ -1,5 +1,7 @@
 # 4_oscillators_waveforms/wavetable.py
 # simple wavetable class for synthio
+# part of todbot circuitpython synthio tutorial
+# 10 Feb 2025 - @todbot / Tod Kurt
 #
 import ulab.numpy as np
 import synthio

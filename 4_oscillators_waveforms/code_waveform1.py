@@ -5,28 +5,33 @@
 import time, random
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA
+from synth_setup import synth, knobA, knobB
 
-NUM_SAMPLES = 256
-VOLUME = 32000  # np.int16 ranges from 0-32767
+NUM = 256    # number of samples in a waveform
+VOL = 32000  # loudness of samples, np.int16 ranges from 0-32767
 
-wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM_SAMPLES, endpoint=False)) * VOLUME, dtype=np.int16)
+# sine wave, just like in trig class
+wave_sine = np.array(np.sin(np.linspace(0, 2*np.pi, NUM, endpoint=False)) * VOL, dtype=np.int16)
 
-wave_saw = np.linspace(VOLUME, -VOLUME, num=NUM_SAMPLES, dtype=np.int16)
+# sawtooth wave, looks like a downward ramp
+wave_saw = np.linspace(VOL, -VOL, num=NUM, dtype=np.int16)
 
-wave_square = np.concatenate((np.ones(NUM_SAMPLES // 2, dtype=np.int16) * VOLUME,
-                              np.zeros(NUM_SAMPLES // 2, dtype=np.int16) * -VOLUME))
+# square wave, like the default
+wave_square = np.concatenate((np.ones(NUM // 2, dtype=np.int16) * VOL,
+                              np.zeros(NUM // 2, dtype=np.int16) * -VOL))
 
-wave_noise = np.array([random.randint(-VOLUME, VOLUME) for i in range(NUM_SAMPLES)], dtype=np.int16)
+# 'noise' wave made with random numbers (not a very good random noise)
+wave_noise = np.array([random.randint(-VOL, VOL) for i in range(NUM)], dtype=np.int16)
 
 my_waves = [wave_sine, wave_saw, wave_square, wave_noise]
+my_wave_names = ["sine", "saw", "square", "noise"]
 
-midi_note = 50
-note1 = synthio.Note(synthio.midi_to_hz(midi_note))
+note1 = synthio.Note(0)  # start a note playing with default waveform
 synth.press(note1)
-time.sleep(1)
-i=0
+wi=0  # wave index into my_waves
 while True:
-    note1.waveform = my_waves[i]
-    time.sleep(0.3)
-    i=(i+1) % len(my_waves)  # pick a new waveform
+    note1.frequency = synthio.midi_to_hz(32 + int((knobA.value/65535)*32))
+    note1.waveform = my_waves[wi]  # pick new wave for playing note
+    print("wave:", wi, my_wave_names[wi])
+    time.sleep( (knobB.value/65535) )  # knobB controls tempo
+    wi=(wi+1) % len(my_waves)  # pick a new waveform

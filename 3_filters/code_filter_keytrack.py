@@ -10,7 +10,7 @@ filter_release_time = 0.4  # change them to see how it affects the sound
 filter_min_freq = 100
 filter_max_freq = 1000
 
-# this LFO will run the lerp position from 0 to 1 over a given time
+# this LFO runs the lerp position from 0 to 1 over a given time
 lerp_pos = synthio.LFO(once=True, waveform=np.array((0,32767), dtype=np.int16))
 # this MathOperation ranges from "start_val" to "end_val" over "lerp_time"
 filter_env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,

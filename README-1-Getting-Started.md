@@ -23,13 +23,13 @@
 
 The examples in this tutorial will use the following components:
 
-- 1 x Raspberry Pi Pico RP2040 or compatible (e.g. [PicoH](https://www.sparkfun.com/raspberry-pi-pico-h.html), Pico and solder your own   2[headers](https://amzn.to/3DG589t))
+- 1 x Raspberry Pi Pico RP2040 or compatible (e.g. [PicoH](https://www.sparkfun.com/raspberry-pi-pico-h.html), Pico and solder your own [headers](https://amzn.to/3DG589t))
 - 1 x PCM5102 I2S DAC module or similar ([example](https://amzn.to/4bPbHD3), [adafruit](https://www.adafruit.com/product/6251))
 - 2 x 10k 9mm potentiometers ([example](https://amzn.to/43J0fa5), 5k or 20k will also work)
 - 1+ x 6mm tact switch buttons ([breadboard-friendly versions](https://amzn.to/3R5aBd0))
 
 But these examples will work with just about any board/chip that has
-CircuitPython `synthio` support and some sort of audio output,
+CircuitPython `synthio` supports and some sort of audio output,
 like a [QTPy RP2040 with PWM output](https://github.com/todbot/qtpy_synth).
 
 Most of the examples do not *require* the pots or buttons, but they will form
