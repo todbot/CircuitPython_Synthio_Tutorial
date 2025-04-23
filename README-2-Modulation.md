@@ -112,11 +112,10 @@ while True:
 ```
 > [2_modulation/code_envelope.py](./2_modulation/code_envelope.py)
 
-<a href="https://www.youtube.com/watch?v=CAu_C-53MBk" target="_blank">
-<img alt="code_envelope demo" width=640 height=360
-    src="https://img.youtube.com/vi/CAu_C-53MBk/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=CAu_C-53MBk)
 
-[youtube video](https://www.youtube.com/watch?v=CAu_C-53MBk)
+{% include youtube.html id="CAu_C-53MBk" alt="code_envelope demo" %}
+
 
 
 ## About LFOs
@@ -254,11 +253,9 @@ while True:
 ```
 > [2_modulation/code_vibrato.py](./2_modulation/code_vibrato.py)
 
-<a href="https://www.youtube.com/watch?v=wdXAjhVb1iY" target="_blank">
-<img alt="code_vibrato demo" width=640 height=360
-    src="https://img.youtube.com/vi/wdXAjhVb1iY/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=wdXAjhVb1iY)
 
-[youtube video](https://www.youtube.com/watch?v=wdXAjhVb1iY)
+{% include youtube.html id="wdXAjhVb1iY" alt="code_vibrato demo" %}
 
 
 ## Tremolo: Add LFO to amplitude
@@ -293,11 +290,9 @@ while True:
 ```
 > [2_modulation/code_tremolo.py](./2_modulation/code_tremolo.py)
 
-<a href="https://www.youtube.com/watch?v=3Meb5Vd8Gw8" target="_blank">
-<img alt="code_tremolo demo" width=640 height=360
-    src="https://img.youtube.com/vi/3Meb5Vd8Gw8/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=3Meb5Vd8Gw8)
 
-[youtube video](https://www.youtube.com/watch?v=3Meb5Vd8Gw8)
+{% include youtube.html id="3Meb5Vd8Gw8" alt="code_tremolo demo" %}
 
 
 ## Fade in LFO, using LERP
@@ -358,13 +353,10 @@ while True:
 ```
 > [2_modulation/code_tremolo_fadein.py](./2_modulation/code_tremolo_fadein.py)
 
-Here's what the above code sounds like:
+> [watch demo video](https://www.youtube.com/watch?v=-iMqMUAzHII)
 
-<a href="https://www.youtube.com/watch?v=-iMqMUAzHII" target="_blank">
-<img alt="code_tremolo_fadein demo" width=640 height=360
-    src="https://img.youtube.com/vi/-iMqMUAzHII/maxresdefault.jpg"></a>
+{% include youtube.html id="-iMqMUAzHII" alt="code_tremolo_fadein demo" %}
 
-[youtube video](https://www.youtube.com/watch?v=-iMqMUAzHII)
 
 
 ## Bend-in pitch envelope
@@ -417,11 +409,9 @@ while True:
 ```
 > [2_modulation/code_lerpbend.py](./2_modulation/code_lerpbend.py)
 
-<a href="https://www.youtube.com/watch?v=4jHAdlDbcgM" target="_blank">
-<img alt="code_lerpbend demo" width=640 height=360
-    src="https://img.youtube.com/vi/4jHAdlDbcgM/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=4jHAdlDbcgM)
 
-[youtube video](https://www.youtube.com/watch?v=4jHAdlDbcgM)
+{% include youtube.html id="4jHAdlDbcgM" alt="code_lerpbend demo" %}
 
 
 ## Portamento: glide between notes
@@ -492,11 +482,9 @@ while True:
 
 > [2_modulation/code_portamento.py](./2_modulation/code_portamento.py)
 
-<a href="https://www.youtube.com/watch?v=v1MuPJxHKDg" target="_blank">
-<img alt="code_portamento demo" width=640 height=360
-    src="https://img.youtube.com/vi/v1MuPJxHKDg/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=v1MuPJxHKDg)
 
-[youtube video](https://www.youtube.com/watch?v=v1MuPJxHKDg)
+{% include youtube.html id="v1MuPJxHKDg" alt="code_portamento demo" %}
 
 
 ## Faking Exponential Amplitude Decays with LFOs
@@ -553,11 +541,9 @@ while True:
 
 > [2_modulation/code_expdecay.py](./2_modulation/code_expdecay.py)
 
-<a href="https://www.youtube.com/watch?v=suuwS9hF0PY" target="_blank">
-<img alt="code_expdecay demo" width=640 height=360
-    src="https://img.youtube.com/vi/suuwS9hF0PY/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=suuwS9hF0PY)
 
-[youtube video](https://www.youtube.com/watch?v=suuwS9hF0PY)
+{% include youtube.html id="suuwS9hF0PY" alt="code_expdecay demo" %}
 
 
 ## Fun with modulation: Drum sounds with pitch bend
@@ -628,11 +614,9 @@ while True:
 ```
 > [2_modulation/code_drum_tom.py](./2_modulation/code_drum_tom.py)
 
-<a href="https://www.youtube.com/watch?v=8RAVexx5Oqc" target="_blank">
-<img alt="code_drum_tom demo" width=640 height=360
-    src="https://img.youtube.com/vi/8RAVexx5Oqc/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=8RAVexx5Oqc)
 
-[youtube video](https://www.youtube.com/watch?v=8RAVexx5Oqc)
+{% include youtube.html id="8RAVexx5Oqc" alt="code_drum_tom demo" %}
 
 
 
