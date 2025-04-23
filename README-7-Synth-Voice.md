@@ -1,4 +1,4 @@
-# [Synthio Tutorial](.#sections): 6. Synth Voice
+# [Synthio Tutorial](.#sections): 7. Synth Voice
 
 <!--ts-->
    * [Features of our synth voice](#features-of-our-synth-voice)
