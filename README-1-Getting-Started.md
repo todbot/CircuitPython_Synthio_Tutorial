@@ -391,9 +391,9 @@ while True:
 ```
 > [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)
 
-[watch demo video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
+> [demo video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
 
-{% include youtubePlayer.html id="nLH4wXKvQq8" %}
+{% include youtube.html id="nLH4wXKvQq8" %}
 
 
 
