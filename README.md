@@ -15,6 +15,7 @@ for audio output, but applies to other microcontrollers that [support `synthio`]
 (like ESP32) and other audio output techniques (like [`PWMOut`](https://docs.circuitpython.org/en/latest/shared-bindings/pwmio/index.html#pwmio.PWMOut) and
 analog [`AudioOut`](https://docs.circuitpython.org/en/latest/shared-bindings/audioio/index.html)).
 
+The main URL for this guide is: https://todbot.github.io/CircuitPython_Synthio_Tutorial/
 The repo for this tutorial lives at [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
 
