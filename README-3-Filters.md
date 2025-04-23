@@ -9,6 +9,7 @@
    * [Changing filter with LFO](#changing-filter-with-lfo)
    * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
    * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
+   * [A usable filter envelope](#a-usable-filter-envelope)
    * [Filter key-tracking](#filter-key-tracking)
    * [Fun with filters: sample &amp; hold filter envelope](#fun-with-filters-sample--hold-filter-envelope)
    * [Next steps](#next-steps)
@@ -432,9 +433,9 @@ while True:
 
 > [3_filters/code_filter_envclass.py](./3_filters/code_filter_envclass.py)
 
-> [watch demo video](https://www.youtube.com/watch?v=xxx)
+> [watch demo video](https://www.youtube.com/watch?v=8rieOSIhMGU)
 
-{% include youtube.html id="xxx" alt="code_filter_envclass demo" %}
+{% include youtube.html id="8rieOSIhMGU" alt="code_filter_envclass demo" %}
 
 
 ## Filter key-tracking
@@ -500,15 +501,25 @@ while True:
 ```
 > [3_filters/code_filter_keytrack.py](./3_filters/code_filter_keytrack.py)
 
-```
-[ ... TBD video of code_filter_keytrack.py TBD ... ]
-```
+> [watch demo video](https://www.youtube.com/watch?v=_TilvH2Lg9I)
+
+{% include youtube.html id="_TilvH2Lg9I" alt="code_filter_keytrack demo" %}
 
 
 ## Fun with filters: sample & hold filter envelope
 
-When used with a low-pass filter, the sample-and-hold effect works best
-when you can really close down the filter (set the filter frequency to zero).
+A real trope in synthesizer sounds is the "sample and hold" effect.  This is a
+randomized control voltage sent to usually the pitch or filter frequency. It's
+feels jolty and jarring. When used strongly, it can be a source of
+rhythimic effects or more subtly, it can add a bit of motion to a sound.
+
+We can create an emulation of this sample-and-hold effect by creating a list
+of random numbers, using that as an LFO waveform, but telling the LFO to not
+interpolate values. By turning off interpolation, it won't try to lerp from
+one value to the next, creating that discontinous jumping we want.
+
+When using sample-and-hold on filter frequency, it works best on a low-pass filter
+where it can really close the filter frequency down to zero.
 Because of the glitches the synthio low-pass filter has, this example uses
 the band-pass filter, which has fewer glitches and lets us crank the resonance!
 
@@ -545,9 +556,9 @@ while True:
 
 > [3_filters/code_filter_sandh.py](./3_filters/code_filter_sandh.py)
 
-```
-[ ... TBD video of code_filter_sandh.py TBD ... ]
-```
+> [watch demo video](https://www.youtube.com/watch?v=EQJvPOU1Ykg)
+
+{% include youtube.html id="EQJvPOU1Ykg" alt="code_filter_sandh demo" %}
 
 
 ## Next steps

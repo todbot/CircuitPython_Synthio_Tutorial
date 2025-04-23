@@ -93,11 +93,9 @@ while True:
 ```
 > [4_oscillators_waveforms/code_waveform1.py](./4_oscillators_waveforms/code_waveform1.py)
 
-<a href="https://www.youtube.com/watch?v=ij9sugbFprc" target="_blank">
-<img alt="code_waveform1 demo" width=640 height=360
-    src="https://img.youtube.com/vi/ij9sugbFprc/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=ij9sugbFprc)
 
-[youtube video](https://www.youtube.com/watch?v=ij9sugbFprc)
+{% include youtube.html id="ij9sugbFprc" alt="code_waveform1 demo" %}
 
 
 ## Mixing between waveforms
@@ -155,11 +153,9 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavemix.py](./4_oscillators_waveforms/code_wavemix.py)
 
-<a href="https://www.youtube.com/watch?v=xx6EZKem-S4" target="_blank">
-<img alt="code_wavemix demo" width=640 height=360
-    src="https://img.youtube.com/vi/xx6EZKem-S4/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=xx6EZKem-S4)
 
-[youtube video](https://www.youtube.com/watch?v=xx6EZKem-S4)
+{% include youtube.html id="xx6EZKem-S4" alt="code_wavemix demo" %}
 
 
 ## Use a Wavetable
@@ -252,11 +248,10 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavetable.py](./4_oscillators_waveforms/code_wavetable.py)
 
-<a href="https://www.youtube.com/watch?v=GMkj4KcwyOA" target="_blank">
-<img alt="code_wavetable demo" width=640 height=360
-    src="https://img.youtube.com/vi/GMkj4KcwyOA/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=GMkj4KcwyOA)
 
-[youtube video](https://www.youtube.com/watch?v=GMkj4KcwyOA)
+{% include youtube.html id="GMkj4KcwyOA" alt="code_wavetable demo" %}
+
 
 
 ## Wavetable scanning
@@ -348,11 +343,10 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavetable_scan.py](./4_oscillators_waveforms/code_wavetable_scan.py)
 
-<a href="https://www.youtube.com/watch?v=xObuobozPbQ" target="_blank">
-<img alt="code_wavetable_scan demo" width=640 height=360
-    src="https://img.youtube.com/vi/xObuobozPbQ/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=xObuobozPbQ)
 
-[youtube video](https://www.youtube.com/watch?v=xObuobozPbQ)
+{% include youtube.html id="xObuobozPbQ" alt="code_wavetable_scan demo" %}
+
 
 
 ## Use a WAV as an oscillator
@@ -414,11 +408,10 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavewav.py](./4_oscillators_waveforms/code_wavewav.py)
 
-<a href="https://www.youtube.com/watch?v=_wjxJQlQsts" target="_blank">
-<img alt="code_wavewav demo" width=640 height=360
-    src="https://img.youtube.com/vi/_wjxJQlQsts/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=_wjxJQlQsts)
 
-[youtube video](https://www.youtube.com/watch?v=_wjxJQlQsts)
+{% include youtube.html id="_wjxJQlQsts" alt="code_wavewav demo" %}
+
 
 
 ## Fatter sounds with detuned oscillators
@@ -473,9 +466,9 @@ while True:
 ```
 > [4_oscillators_waveforms/code_detune.py](./4_oscillators_waveforms/code_detune.py)
 
-```
-[ ... TBD video of code_detune.py TBD ... ]
-```
+> [watch demo video](https://www.youtube.com/watch?v=G4NtqObwYxM)
+
+{% include youtube.html id="G4NtqObwYxM" alt="code_detune demo" %}
 
 
 ## Fun with wavetables: wavetabledrone
@@ -533,11 +526,10 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavetable_drone.py](./4_oscillators_waveforms/code_wavetable_drone.py)
 
-<a href="https://www.youtube.com/watch?v=D2bXCbdz63A" target="_blank">
-<img alt="code_wavewav demo" width=640 height=360
-    src="https://img.youtube.com/vi/D2bXCbdz63A/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=D2bXCbdz63A)
 
-[youtube video](https://www.youtube.com/watch?v=D2bXCbdz63A)
+{% include youtube.html id="D2bXCbdz63A" alt="code_wavetable_drone demo" %}
+
 
 
 
