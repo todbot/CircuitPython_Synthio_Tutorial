@@ -194,6 +194,10 @@ let's pull out all that setup and [put it into a new file called
 Our [`code.py`](./1_getting_started/code_synth_setup.py) now looks like the below.
 We'll use this technique going forward.
 
+The sleep times have been sped up, so you can hear the notes overlapping more.
+Also note there's been a special change at the end of `synth_setup.py` to make
+the boops more appealing. More on that later. (Hint: it's called an "amplitude envelope")
+
 ```py
 # 1_getting_started/code_synth_setup.py
 import time, random
@@ -211,12 +215,6 @@ while True:
     midi_note = random.randint(32,72)   # pick a new random note
 ```
 > [1_getting_started/code_synth_setup.py](./1_getting_started/code_synth_setup.py)
-
-The sleep times have been sped up, so you can hear the notes overlapping more.
-Also note there's been a special change at the end of `synth_setup.py` to make
-the boops more appealing. More on that later. (Hint: it's called an "amplitude envelope")
-
-And this sounds like:
 
 > [watch demo video](https://www.youtube.com/watch?v=XFT7mV3DepM)
 
