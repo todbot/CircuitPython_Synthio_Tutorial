@@ -168,11 +168,19 @@ In the `code_waveform1` example above, the waves were put in an array so we coul
 them out easily. This is how wavetables work.
 
 Wavetables let us store several different (potentially harmonically related) waveforms
-in a single unit and call each wave up indepedently.  There was a (now defunct) [site
+in a single unit and call each wave up indepedently.  There was a [site
 called waveeditonline.com](https://web.archive.org/web/20221128075225/https://waveeditonline.com/)
 that had a wonderful collection of free waveforms in a wavetable format, each wavetable stored as a
-standard WAV file.  While the waveditonline site is gone, the "wav-files.zip] bundle it
-provided lives on in various places (like [the wav-files.zip bundle here from Jul 2023](https://github.com/todbot/CircuitPython_Synthio_Tutorial/releases/download/0.3/wav-files-waveeditonline-Jul2023.zip))  Since CircuitPython can read WAV files, we can use those wavetables
+standard WAV file.  Each wavetable contains 64 waveforms with each waveform having 256 samples.
+When visualized, one of those wavetables would look like:
+
+<img alt="BRAIDS01.wav visualized" src="./docs/wavetable-BRAIDS01-visualized.png" width=800>
+
+While the waveditonline site is gone, the "wav-files.zip] bundle it
+provided lives on in various places (like [the wav-files.zip bundle here from Jul 2023](https://github.com/todbot/CircuitPython_Synthio_Tutorial/releases/download/0.3/wav-files-waveeditonline-Jul2023.zip))  It's a shame beacuse it had great visualizations of each wavetable, like this
+one for the "BRAIDS01.WAV" wavetable above.
+
+Since CircuitPython can read WAV files, we can use those wavetables
 to easily add new sonic textures to our synths.
 
 In the "4_oscillators_wavetables" directory of this tutorial,
@@ -298,8 +306,13 @@ class Wavetable:
 ```
 
 Save that file to the CIRCUITPY drive and we can use that in an updated wavetable
-scanning example.  In the example below, let's also use a `synthio.LFO` to do
-the waveetable scanning for us. The knobA controls the scan rate and knobB
+scanning example.  In the example below, let's use the "PLAITS02.WAV" wavetable,
+which looks like this:
+
+<img alt="PLAITS02.wav visualized" src="./docs/wavetable-PLAITS02-visualized.png" width=800>
+
+I think it sounds particularly neat. Let's also use a `synthio.LFO` to do
+the wavetable scanning for us. The knobA controls the scan rate and knobB
 controls the pitch as before, but check out how smooth the fades between waves
 are! It can sound really great. Moving through certain wavetables can sound like
 a complex modular synth patch when all we're doing is moving around the wavetable.
