@@ -392,15 +392,9 @@ while True:
 > [1_getting_started/code_midi.py](./1_getting_started/code_midi.py)
 
 
-<a href="https://www.youtube.com/watch?v=nLH4wXKvQq8" target="_blank">
-<img alt="code_midi demo" width=640 height=360
-    src="https://img.youtube.com/vi/I8R7uiOD65Q/maxresdefault.jpg"></a>
-
-[youtube video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
-
-#### video embed test
-
 {% include youtubePlayer.html id="nLH4wXKvQq8" %}
+[watch youtube video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
+
 
 
 ## Next steps
