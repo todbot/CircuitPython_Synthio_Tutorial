@@ -369,7 +369,7 @@ version of the famous ["Amen break" drumloop](https://www.youtube.com/watch?v=v8
 called ["amen1_8k_s16.wav"](./4_oscillators_waveforms/amen1_8k_s16.wav).
 Copy that file to the CIRCUITPY drive for the example below.  It's been down-sampled
 to 8kHz sample rate and lasts for 1.75 seconds. This gives 14001 samples, just
-small enough to fit.
+small enough to fit into the avaiable 16384 maximum.
 
 Beacuse `synthio` thinks of its oscillator waveforms as single-cycle waves,
 when using it with a standard WAV file, to get the sample to play back at its
