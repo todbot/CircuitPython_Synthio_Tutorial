@@ -352,8 +352,89 @@ while True:
 
 > [watch demo video](https://www.youtube.com/watch?v=VubIJVZqy8E)
 
-{% include youtube.html id="VubIJVZqy8E" alt="code_filter_lfoenv demo" %}
+{% include youtube.html id="VubIJVZqy8E" alt="code_filter_lerp demo" %}
 
+
+## A usable filter envelope
+
+The above example shows the concept, but isn't that usable for multiple notes.
+As soon as you create a new note, the filter envelope gets reused, messing
+up the release phase of the previous note. Also, we assumed the release phase
+of the filter started at the max frequency, which might not be the case if the
+note was released before it could finish its attack phase.
+But we can bundle the functionality and that fix into a little class and use it for every note.
+
+The below example shows one approach to a simple `FilterEnvelope` class,
+(available on its own as ["filter_envelope.py"](./3_filters/filter_envelope.py)).
+To use this class, use it similar to `synthio.Envelope` but with a few extra steps:
+- Create a `FilterEnvelope` before a `syntho.Note` is created
+- Create a `synthio.Biquad` filter object and assign the `FilterEnvelope` to `filter.frequency`
+- Assign the filter to the note with `note.filter = filter`
+- Right before `synth.press(note)` & `synth.release(note)`,
+   call the corresponding `filter_envelope.press()` & `filter_envelope.release()` methods
+
+In this example, both an amplitude envelope and a filter envelope is created
+so the release times of the two can be matched. (You don't want the filter envelope
+release time to extend beyond the `note.envelope` release time) The two knobs
+control the filter attack and release times.
+
+Note at faster filter envelope times, this is starting to sound like a decent bass sound!
+
+```py
+# 3_filters/code_filter_envclass.py
+import time, random
+import ulab.numpy as np
+import synthio
+from synth_setup import synth, knobA, knobB
+
+class FilterEnvelope:
+    def __init__(self, max_freq, min_freq, attack_time, release_time):
+        self.max_freq, self.min_freq = max_freq, min_freq
+        self.attack_time, self.release_time = attack_time, release_time
+        self.lerp = synthio.LFO(once=True,
+                                waveform=np.array((0,32767), dtype=np.int16))
+        self.env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
+                                min_freq, max_freq, self.lerp)
+    def press(self):
+        self.env.a = self.min_freq
+        self.env.b = self.max_freq
+        self.lerp.rate = 1/self.attack_time
+        self.lerp.retrigger()
+
+    def release(self):
+        self.env.a = self.env.value  # curr val is new start value
+        self.env.b = self.min_freq
+        self.lerp.rate = 1/self.release_time
+        self.lerp.retrigger()
+
+wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)  # saw osc
+
+while True:
+    midi_note = random.randint(24,52)
+    attack_time  = 0.005 + 1.0*(knobA.value/65535)
+    release_time = 0.005 + 1.0*(knobB.value/65535)
+    filter_env = FilterEnvelope(3000, 200, attack_time, release_time)
+    amp_env = synthio.Envelope(attack_time=0, release_time=release_time*1.5)
+    print("note: %d fenv attack:%.3f release:%.3f" %
+          (midi_note, attack_time, release_time))
+    note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw)
+    note.envelope = amp_env
+    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
+                                 frequency=filter_env.env, Q=1.4)
+    filter_env.press()
+    synth.press(note)
+    time.sleep(attack_time*2)
+
+    filter_env.release()
+    synth.release(note)
+    time.sleep(release_time)
+```
+
+> [3_filters/code_filter_envclass.py](./3_filters/code_filter_envclass.py)
+
+> [watch demo video](https://www.youtube.com/watch?v=xxx)
+
+{% include youtube.html id="xxx" alt="code_filter_envclass demo" %}
 
 
 ## Filter key-tracking
