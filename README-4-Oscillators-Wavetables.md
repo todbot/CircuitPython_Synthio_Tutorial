@@ -372,9 +372,9 @@ to 8kHz sample rate and lasts for 1.75 seconds. This gives 14001 samples, just
 small enough to fit.
 
 Beacuse `synthio` thinks of its oscillator waveforms as single-cycle waves,
-when using it with a standard WAV file, the `Note.frequency` needed
-to get the WAV to play back normally is based on the WAV size
-and the original sample rate and the number of samples in the WAV. The example
+when using it with a standard WAV file, to get the sample to play back at its
+original speed, we need to set `note.frequency` based on the WAV's
+sample rate and the number of samples in the WAV. The example
 shows how to calculate the WAV file duration and use that to set `.frequency`.
 This works really only for drumloops.
 Calculating `.frequency` for pitched samples is "left as an experiement for the reader".
