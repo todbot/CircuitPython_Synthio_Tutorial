@@ -366,7 +366,7 @@ curate and downsample a WAV to fit as a `synthio` waveform.
 
 In the "4_oscillators_waveforms" directory, there is a shortened and down-sampled
 version of the famous ["Amen break" drumloop](https://www.youtube.com/watch?v=v89CjsSOJ_c),
-called [`amen1_8k_s16.wav`](./4_oscillators_waveforms/amen1_8k_s16.wav).
+called ["amen1_8k_s16.wav"](./4_oscillators_waveforms/amen1_8k_s16.wav).
 Copy that file to the CIRCUITPY drive for the example below.  It's been down-sampled
 to 8kHz sample rate and lasts for 1.75 seconds. This gives 14001 samples, just
 small enough to fit.
