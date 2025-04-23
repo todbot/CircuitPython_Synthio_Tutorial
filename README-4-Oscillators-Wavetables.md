@@ -10,7 +10,6 @@
    * [Use a WAV as an oscillator](#use-a-wav-as-an-oscillator)
    * [Fatter sounds with detuned oscillators](#fatter-sounds-with-detuned-oscillators)
    * [Fun with wavetables: wavetabledrone](#fun-with-wavetables-wavetabledrone)
-   * [Wavetable in RAM, one approach](#wavetable-in-ram-one-approach)
    * [Research links](#research-links)
    * [Next Steps](#next-steps)
 <!--te-->
@@ -51,6 +50,10 @@ sound at the expense of using up more RAM.  The maximum amplitude of a waveform
 in `synthio` is a +/-32767, since internally the samples are stored as 16-bit
 signed integers. In practice, it's usually good to have your waveform's max
 be a little understand to help prevent clipping.
+
+These waveforms are "single-cycle" waveforms to `synthio`. They're meant to represent
+once oscillation and if your waveform contains more than one oscillation, the pitch
+of your waveform will not match what `synthio` thinks it is.
 
 ```py
 # 4_oscillators/code_waveform1.py
@@ -193,7 +196,7 @@ import adafruit_wave
 wave_dir = "/wavetables/"  # wavetables from old http://waveeditonline.com/
 wavetables = ["BRAIDS01.WAV","DRONE.WAV","SYNTH_VO.WAV","PPG_BES.WAV"]
 wavetable_num_samples = 256  # number of samples per wave in wavetable
-wti=0  # index into wavetables list
+wti = 0  # index into wavetables list
 
 class Wavetable:
     """ A 'waveform' for synthio.Note uses a WAV containing a wavetable
@@ -287,14 +290,15 @@ class Wavetable:
 ```
 
 Save that file to the CIRCUITPY drive and we can use that in an updated wavetable
-scanning example:
+scanning example.  In the example below, let's also use a `synthio.LFO` to do
+the waveetable scanning for us. The knobA controls the scan rate and knobB
+controls the pitch as before, but check out how smooth the fades between waves
+are! It can sound really great. Moving through certain wavetables can sound like
+a complex modular synth patch when all we're doing is moving around the wavetable.
+This is the feature that really sold me on `synthio`.
 
 ```py
-# 4_oscillators_wavetables/code_wavetable_scan.py
 # 4_oscillators_waveforms/code_wavetable_scan.py
-# part of todbot circuitpython synthio tutorial
-# 10 Feb 2025 - @todbot / Tod Kurt
-#
 import time
 import ulab.numpy as np
 import synthio
@@ -329,36 +333,56 @@ while True:
 
 ## Use a WAV as an oscillator
 
-When loading a standard WAV file, the `Note.frequency` needed
-to get the WAV to play back normally is based on the WAV size
-and the original sample rate.
+Since `synthio` oscillator waveforms live in RAM and WAV files are normally
+big compared to available RAM.  You can see what the largest sample you can load
+by looking at `synthio.waveform_max_length`.
+On RP2040, `synthio.waveform_max_length=16384`. This means you will need to
+curate and downsample a WAV to fit as a `synthio` waveform.
 
-[more discussion tbd]
+In the "4_oscillators_waveforms" directory, there is a shortened and down-sampled
+version of the famous "Amen break" drumloop, called `amen1_8k_s16.wav`. Copy
+that file to the CIRCUITPY drive for the example below.  It's been down-sampled
+to 8kHz sample rate and lasts for 1.75 seconds. This gives 14001 samples, just
+small enough to fit.
+
+Beacuse `synthio` thinks of its oscillator waveforms as single-cycle waves,
+when using it with a standard WAV file, the `Note.frequency` needed
+to get the WAV to play back normally is based on the WAV size
+and the original sample rate and the number of samples in the WAV. The example
+shows how to calculate the WAV file duration and use that to set `.frequency`.
+
+But for the samples we can load, it means we have fine-grained control over their
+speed and pitch!  Check out the example where knobA controls the pitch of the
+drum loop.
 
 ```py
 # 4_oscillators_wavetables/code_wavewav.py
 import time
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA, knobB
+from synth_setup import synth, knobA
 import adafruit_wave
 
 # reads in entire wave into RAM
+# return tuple of (memoryview on the WAV, sample_rate, num_samples)
 def read_waveform(filename):
     with adafruit_wave.open(filename) as w:
         if w.getsampwidth() != 2 or w.getnchannels() != 1:
             raise ValueError("unsupported format")
-        return memoryview(w.readframes(w.getnframes())).cast('h')
+        return (memoryview(w.readframes(w.getnframes())).cast('h'),
+                w.getframerate(), w.getnframes())
 
-wave_wav = readwaveform("/test.wav")
+wave_wav, sample_rate, num_samples = read_waveform("/amen1_8k_s16.wav")
+duration = num_samples / sample_rate
+print("sample_rate:%d num_samples:%d duration:%.2f" % (sample_rate, num_samples, duration))
+
+note = synthio.Note(frequency=1/duration, waveform=wave_wav)
+synth.press(note)
 
 while True:
-    note = synthio.Note(frequency=1.3, waveform=wave_wav)  # FIXME
-    synth.press(note)
-    time.sleep(0.5)
-    synth.release(note)
-    time.sleep(0.1)
-
+    note.frequency = (1/duration) * (0.25 + (knobA.value / 65535) * 1.5)
+    print("note freq:%6.3f duration:%5.2f" % (note.frequency, 1/note.frequency))
+    time.sleep(0.2)
 ```
 
 ```
@@ -470,11 +494,7 @@ while True:
 ```
 
 
-## Wavetable in RAM, one approach
 
-The above examples have tried to minimize RAM usage by only loading two waveforms
-from the wavetable.  This allows the wavetable to be quite large, but it can
-introduce glitching as we load the next wave up.
 
 ## Research links
 

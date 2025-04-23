@@ -9,6 +9,7 @@
    * [Changing filter with LFO](#changing-filter-with-lfo)
    * [Creating filter envelope with LFOs](#creating-filter-envelope-with-lfos)
    * [Creating filter envelope with lerp LFOs](#creating-filter-envelope-with-lerp-lfos)
+   * [Filter key-tracking](#filter-key-tracking)
    * [Fun with filters: sample &amp; hold filter envelope](#fun-with-filters-sample--hold-filter-envelope)
    * [Next steps](#next-steps)
 <!--te-->
