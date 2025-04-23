@@ -2,7 +2,7 @@
 CircuitPython Synthio Tutorial
 ==============================
 
-Version: 0.3 - 21 Apr 2025
+Version: 0.4 - 23 Apr 2025
 
 Welcome to a CircuitPython Synthio Tutorial.
 
@@ -117,7 +117,7 @@ Some are listed here:
 
 ## Changelog
 
-
+- 0.4 - 23 Apr 2025 - added video examples for Section 4, changed to embeds
 - 0.3 - 21 Apr 2025 - added video examples for Section 3
 - 0.2 - 14 Apr 2025 - added video examples for Section 1 & 2
 - 0.1 - 4 Apr 2025 - initial release for review
