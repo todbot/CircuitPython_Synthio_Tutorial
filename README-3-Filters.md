@@ -455,35 +455,22 @@ import ulab.numpy as np
 import synthio
 from synth_setup import synth, knobA, keys
 
-filter_keytrack = 0.5     # filter keytracking,0=none, 1=full track
-filter_attack_time = 0.1   # some example values to start out with
-filter_release_time = 0.4  # change them to see how it affects the sound
-filter_min_freq = 100
+from filter_envelope import FilterEnvelope
+
+filter_keytrack = 0.5  # filter keytracking,0=none, 1=full track
 filter_max_freq = 1000
+filter_min_freq = 100
 
-# this LFO runs the lerp position from 0 to 1 over a given time
-lerp_pos = synthio.LFO(once=True, waveform=np.array((0,32767), dtype=np.int16))
-# this MathOperation will range from "start_val" to "end_val" over "lerp_time"
-filter_env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
-                          filter_min_freq, filter_max_freq, lerp_pos)
-
-def set_filter_env(fstart, fend, ftime):
-    filter_env.a = fstart
-    filter_env.b = fend
-    lerp_pos.rate = 1 / ftime
-    lerp_pos.retrigger()  # must make sure to retrigger the positioner
-
-def freq_for_keytrack(freq, midi_note, keytrack_amount):
+def keytrack_filter_env(filter_env, midi_note, keytrack_amount):
+    """ adjust a FilterEnvelope max_freq based on keytrack_amount"""
     # generate a "scale_per_octave" that gives us 1 per octave (like CV)
     midi_base_note = 32   # below this, keytrack doesn't apply
     note_diff = max(midi_note - midi_base_note, 0)
     scale_per_octave = note_diff/12  # gives us 1 per octave
     keytrack_amount = scale_per_octave * keytrack_amount
-    new_freq = freq * (1+keytrack_amount)
-    #print("keytrack_amount:", keytrack_amount, new_freq, freq)
-    return new_freq
+    filter_env.max_freq = filter_env.max_freq * (1+keytrack_amount)
 
-wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)  # osc waveform
+wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)  # saw osc
 
 keytrack = filter_keytrack   # start with keytracking on
 while True:
@@ -491,21 +478,25 @@ while True:
         if key.pressed:   # key press switchs keytrack on/off
             keytrack = 0 if keytrack==filter_keytrack else filter_keytrack
     midi_note = 32 + int((knobA.value/65535)*32)
-    new_freq = freq_for_keytrack(filter_max_freq, midi_note, keytrack)
-    print("note:%d freq:%4d keytrack:%.2f keytrack_freq:%4d" %
-          (midi_note, filter_max_freq, keytrack, new_freq))
-    note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw)
-    note.filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
-                                 frequency=filter_env, Q=1.8)
-    # press the note, e.g. set up the attack lerp vals and retriggering
-    set_filter_env(filter_min_freq, new_freq, filter_attack_time)
-    synth.press(note)
-    time.sleep(filter_attack_time)
 
-    # release the note, e.g. set up the release lerp vals and retriggering
-    set_filter_env(new_freq, filter_min_freq, filter_release_time)
+    filter_env = FilterEnvelope(filter_max_freq, filter_min_freq, 0, 0.4)
+
+    keytrack_filter_env(filter_env, midi_note, keytrack)
+
+    filter =  synthio.Biquad(synthio.FilterMode.LOW_PASS,
+                                 frequency=filter_env.env, Q=1.8)
+    note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw,
+                        filter=filter)
+    print("note:%d forig:%4d track:%.2f fnew:%4d" %
+          (midi_note, filter_max_freq, keytrack, filter_env.max_freq))
+
+    filter_env.press()
+    synth.press(note)
+    time.sleep(0.1)
+
+    filter_env.release()
     synth.release(note)
-    time.sleep(filter_release_time)
+    time.sleep(filter_env.release_time)
 ```
 > [3_filters/code_filter_keytrack.py](./3_filters/code_filter_keytrack.py)
 
@@ -523,30 +514,33 @@ the band-pass filter, which has fewer glitches and lets us crank the resonance!
 
 ```py
 # 3_filters/code_filter_sandh.py
-import time
+import time, random
 import ulab.numpy as np
 import synthio
-from synth_setup import synth, knobA, knobB
+from synth_setup import synth, mixer, knobA, knobB
 
-# make a quicky saw wave for oscillator
-wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)
+mixer.voice[0].level = 0.5  # band pass is quieter, so raise volume
+wave_saw = np.linspace(32000, -32000, num=128, dtype=np.int16)  # saw osc
 
 # and a "random" wave for sample-n-hold effect
 wave_rand = np.array([random.randint(-32000, 32000) for i in range(128)], dtype=np.int16)
-lfo_sh = synthio.LFO(rate=0.05, interpolate=False, waveform=wave_rand, offset=300, scale=200)
+lfo_sh = synthio.LFO(rate=0.05, interpolate=False, waveform=wave_rand)
 filt = synthio.Biquad(synthio.FilterMode.BAND_PASS, frequency=lfo_sh, Q=2.8)
 
 midi_note = 36
-note = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wave_saw, filter=filt)
+note = synthio.Note(synthio.midi_to_hz(midi_note),
+                    waveform=wave_saw, filter=filt)
 synth.press(note)
 
 while True:
-    print("%d" % lfo_sh.value)
+    print("note:%d lfo_sh:%d" % (midi_note,lfo_sh.value))
     time.sleep(0.05)
-    vA = knobA.value/65535
-    vB = knobB.value/65535
-    lfo_sh.offset = 100 + vA*1000
-    lfo_sh.scale = lfo_sh.offset * .75
+    vA = knobA.value/65535  # normalize 0-1
+    vB = knobB.value/65535  # normalize 0-1
+    lfo_sh.offset = 100 + vA*2000  # max frequency of S&H effect
+    lfo_sh.scale = lfo_sh.offset * 0.85  # 0.85 = depth of effect
+    midi_note = 32 + vB * 12  # knobB controls note 32-44
+    note.frequency = synthio.midi_to_hz(midi_note)
 ```
 
 > [3_filters/code_filter_sandh.py](./3_filters/code_filter_sandh.py)

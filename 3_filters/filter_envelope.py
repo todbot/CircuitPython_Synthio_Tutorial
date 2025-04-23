@@ -8,8 +8,10 @@ import synthio
 class FilterEnvelope:
     """Simple AHR envelope for use with filters"""
     def __init__(self, max_freq, min_freq, attack_time, release_time):
-        self.max_freq, self.min_freq = max_freq, min_freq
-        self.attack_time, self.release_time = attack_time, release_time
+        self.max_freq = max_freq
+        self.min_freq = min_freq
+        self.attack_time = max(0.005, attack_time)
+        self.release_time = max(0.005, release_time)
         self.lerp = synthio.LFO(once=True,
                                 waveform=np.array((0,32767),dtype=np.int16))
         self.env = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
