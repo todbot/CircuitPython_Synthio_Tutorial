@@ -398,6 +398,10 @@ while True:
 
 [youtube video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
 
+#### video embed test
+
+{% include youtubePlayer.html id=nLH4wXKvQq8 %}
+
 
 ## Next steps
 
