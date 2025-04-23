@@ -8,7 +8,7 @@ import synthio
 from synth_setup import synth, keys, knobA
 import adafruit_wave
 
-wave_dir = "/wavetable/"  # wavetables from old http://waveeditonline.com/
+wave_dir = "/wavetables/"  # wavetables from old http://waveeditonline.com/
 wavetables = ["BRAIDS01.WAV","DRONE.WAV","SYNTH_VO.WAV","PPG_BES.WAV"]
 wavetable_num_samples = 256  # number of samples per wave in wavetable
 wti=0  # index into wavetables list

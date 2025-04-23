@@ -93,10 +93,12 @@ while True:
 ```
 > [4_oscillators_waveforms/code_waveform1.py](./4_oscillators_waveforms/code_waveform1.py)
 
+<a href="https://www.youtube.com/watch?v=ij9sugbFprc" target="_blank">
+<img alt="code_waveform1 demo" width=640 height=360
+    src="https://img.youtube.com/vi/ij9sugbFprc/maxresdefault.jpg"></a>
 
-```
-[ ... TBD video of code_waveform1.py TBD ... ]
-```
+[youtube video](https://www.youtube.com/watch?v=ij9sugbFprc)
+
 
 ## Mixing between waveforms
 
@@ -153,9 +155,11 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavemix.py](./4_oscillators_waveforms/code_wavemix.py)
 
-```
-[ ... TBD video of code_wavemix.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=xx6EZKem-S4" target="_blank">
+<img alt="code_wavemix demo" width=640 height=360
+    src="https://img.youtube.com/vi/xx6EZKem-S4/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=xx6EZKem-S4)
 
 
 ## Use a Wavetable
@@ -184,6 +188,7 @@ also available as [`wavetable.py`](4_oscillators_waveforms/wavetable.py) for you
 When the example is running, use knobA to pick a waveform within a wavetable and
 use the button to select another wavetable.
 It's amazing how many different sounds you can get so easily by using wavetables!
+And remember: this is just one `synthio.Note` and you have 11 more.
 
 ```py
 # 4_oscillators_waveforms/code_wavetable.py
@@ -239,9 +244,12 @@ while True:
 ```
 > [4_oscillators_waveforms/code_wavetable.py](./4_oscillators_waveforms/code_wavetable.py)
 
-```
-[ ... TBD video of code_wavetable.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=GMkj4KcwyOA" target="_blank">
+<img alt="code_wavetable demo" width=640 height=360
+    src="https://img.youtube.com/vi/GMkj4KcwyOA/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=GMkj4KcwyOA)
+
 
 ## Wavetable scanning
 
@@ -325,23 +333,28 @@ while True:
     print("wave_pos:%.2f" % wavetable1.wave_pos)
     time.sleep(0.01)
 ```
+> [4_oscillators_waveforms/code_wavetable_scan.py](./4_oscillators_waveforms/code_wavetable_scan.py)
 
-```
-[ ... TBD video of code_wavetable_scan.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=xObuobozPbQ" target="_blank">
+<img alt="code_wavetable_scan demo" width=640 height=360
+    src="https://img.youtube.com/vi/xObuobozPbQ/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=xObuobozPbQ)
 
 
 ## Use a WAV as an oscillator
 
 Since `synthio` oscillator waveforms live in RAM and WAV files are normally
-big compared to available RAM.  You can see what the largest sample you can load
+big compared to available RAM, you won't be able to just load up any WAV file
+and use it as a waveform. You can see what the largest sample you can load
 by looking at `synthio.waveform_max_length`.
 On RP2040, `synthio.waveform_max_length=16384`. This means you will need to
 curate and downsample a WAV to fit as a `synthio` waveform.
 
 In the "4_oscillators_waveforms" directory, there is a shortened and down-sampled
-version of the famous "Amen break" drumloop, called `amen1_8k_s16.wav`. Copy
-that file to the CIRCUITPY drive for the example below.  It's been down-sampled
+version of the famous ["Amen break" drumloop](https://www.youtube.com/watch?v=v89CjsSOJ_c),
+called [`amen1_8k_s16.wav`](./4_oscillators_waveforms/amen1_8k_s16.wav).
+Copy that file to the CIRCUITPY drive for the example below.  It's been down-sampled
 to 8kHz sample rate and lasts for 1.75 seconds. This gives 14001 samples, just
 small enough to fit.
 
@@ -350,8 +363,10 @@ when using it with a standard WAV file, the `Note.frequency` needed
 to get the WAV to play back normally is based on the WAV size
 and the original sample rate and the number of samples in the WAV. The example
 shows how to calculate the WAV file duration and use that to set `.frequency`.
+This works really only for drumloops.
+Calculating `.frequency` for pitched samples is "left as an experiement for the reader".
 
-But for the samples we can load, it means we have fine-grained control over their
+So for the samples we *can* load, it means we have fine-grained control over their
 speed and pitch!  Check out the example where knobA controls the pitch of the
 drum loop.
 
@@ -384,10 +399,13 @@ while True:
     print("note freq:%6.3f duration:%5.2f" % (note.frequency, 1/note.frequency))
     time.sleep(0.2)
 ```
+> [4_oscillators_waveforms/code_wavewav.py](./4_oscillators_waveforms/code_wavewav.py)
 
-```
-[ ... TBD video of code_wavewav.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=_wjxJQlQsts" target="_blank">
+<img alt="code_wavewav demo" width=640 height=360
+    src="https://img.youtube.com/vi/_wjxJQlQsts/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=_wjxJQlQsts)
 
 
 ## Fatter sounds with detuned oscillators
@@ -438,6 +456,7 @@ while True:
     synth.release(notes)
     time.sleep(0.1)
 ```
+> [4_oscillators_waveforms/code_detune.py](./4_oscillators_waveforms/code_detune.py)
 
 ```
 [ ... TBD video of code_detune.py TBD ... ]
@@ -449,49 +468,61 @@ while True:
 Now we have some ability to load and play wavetables, let's use them to make
 a slowly evolving dronesynth with some oscillators scanning at different rates
 through a harmonically-rich wavetable.
+There are three notes, each playing from the same wavetable, but using
+different LFOs to move through the wavetables at different rates. One Note
+also has a slow LFO on its `.bend` property to add some pitch variation.
+The knobA lets you control the wavetable position of one of the notes.
+
+This ominous sonic landscape seems to go on forever.
 
 ```py
-# 4_oscillators_wavetables/code_wavetabledrone.py
+# 4_oscillators_wavetables/code_wavetable_drone.py
+# NOTE: on RP2040, this needs SAMPLE_RATE=22050 in synth_setup.py
 import time
 import ulab.numpy as np
 import synthio
 from synth_setup import synth, knobA, knobB
 from wavetable import Wavetable
 
-wavetable_fname = "wavetable/PLAITS02.WAV"  # from http://waveeditonline.com/
+wavetable_fname = "wavetables/PLAITS02.WAV"  # from http://waveeditonline.com/
 
 wavetable1 = Wavetable(wavetable_fname)
 wavetable2 = Wavetable(wavetable_fname)
 wavetable3 = Wavetable(wavetable_fname)
 
 midi_note = 48
-note = synthio.Note(synthio.midi_to_hz(midi_note-12), waveform=wavetable1.waveform)
-note2 = synthio.Note(synthio.midi_to_hz(midi_note-7), waveform=wavetable2.waveform)
-note3 = synthio.Note(synthio.midi_to_hz(midi_note), waveform=wavetable3.waveform)
-note3.bend = synthio.LFO(rate=0.01, scale=0.5)
-note4 = synthio.Note(synthio.midi_to_hz(midi_note-24), waveform=wavetable3.waveform)
+note = synthio.Note(synthio.midi_to_hz(midi_note-12),
+                    waveform=wavetable1.waveform)
+note2 = synthio.Note(synthio.midi_to_hz(midi_note-7),
+                     waveform=wavetable2.waveform)
+note3 = synthio.Note(synthio.midi_to_hz(midi_note),
+                     waveform=wavetable3.waveform)
+note3.bend = synthio.LFO(rate=0.005, scale=0.25, phase_offset=0.5)
 
 wave_lfo = synthio.LFO(rate=0.005, waveform=np.array((0,32767), dtype=np.int16) )
 wave_lfo.scale = wavetable1.num_waves
 wave_lfo2 = synthio.LFO(rate=0.01, waveform=np.array((32767,0), dtype=np.int16) )
 wave_lfo2.scale = wavetable1.num_waves
 wave_lfo2.phase_offset = 0.25
-synth.blocks.append(wave_lfo)
+synth.blocks.append(wave_lfo)  # add LFOs to blocks so they get run
 synth.blocks.append(wave_lfo2)
 
-synth.press( (note,note2,note3,note4) )
+synth.press( (note,note2,note3) )
 
 while True:
-    wavetable1.wave_pos =  wave_lfo.value
+    wavetable1.wave_pos =  wave_lfo.value  # copy LFO pos to wave pos
     wavetable2.wave_pos =  wave_lfo2.value
-    wavetable3.wave_pos = 0 + 16.0 * (knobA.value/65535)
+    wavetable3.wave_pos = 24 + 16.0 * (knobA.value/65535)
     print("%.2f %.2f %.2f" % (wave_lfo.value, wave_lfo2.value, wavetable3.wave_pos))
     time.sleep(0.05)
 ```
+> [4_oscillators_waveforms/code_wavetable_drone.py](./4_oscillators_waveforms/code_wavetable_drone.py)
 
-```
-[ ... TBD video of code_wavetabledrone.py TBD ... ]
-```
+<a href="https://www.youtube.com/watch?v=D2bXCbdz63A" target="_blank">
+<img alt="code_wavewav demo" width=640 height=360
+    src="https://img.youtube.com/vi/D2bXCbdz63A/maxresdefault.jpg"></a>
+
+[youtube video](https://www.youtube.com/watch?v=D2bXCbdz63A)
 
 
 

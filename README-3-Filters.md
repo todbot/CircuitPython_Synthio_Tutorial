@@ -359,7 +359,7 @@ while True:
 <img alt="code_filter_lerp demo" width=640 height=360
     src="https://img.youtube.com/vi/VubIJVZqy8E/maxresdefault.jpg"></a>
 
-[youtube video](https://www.youtube.com/watch?v=VubIJVZqy8E )
+[youtube video](https://www.youtube.com/watch?v=VubIJVZqy8E)
 
 
 ## Filter key-tracking
