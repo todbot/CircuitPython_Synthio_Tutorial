@@ -312,11 +312,9 @@ while True:
 ```
 > [1_getting_started/code_chord_melody.py](./1_getting_started/code_chord_melody.py)
 
-<a href="https://www.youtube.com/watch?v=5at6IMn2YyM" target="_blank">
-<img alt="code_chord_melody demo" width=640 height=360
-    src="https://img.youtube.com/vi/5at6IMn2YyM/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=5at6IMn2YyM)
 
-[youtube video](https://www.youtube.com/watch?v=5at6IMn2YyM)
+{% include youtube.html id="5at6IMn2YyM" alt="code_chord_melody demo" %}
 
 
 ## Controlling Notes
@@ -355,7 +353,7 @@ while True:
 ```
 > [1_getting_started/code_buttons.py](./1_getting_started/code_buttons.py)
 
-> [watch demo video](https://www.youtube.com/watch?v=nLH4wXKvQq8)
+> [watch demo video](https://www.youtube.com/watch?v=I8R7uiOD65Q)
 
 {% include youtube.html id="I8R7uiOD65Q" alt="code_buttons demo" %}
 
