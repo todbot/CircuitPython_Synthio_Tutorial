@@ -400,7 +400,7 @@ while True:
 
 #### video embed test
 
-{% include youtubePlayer.html id=nLH4wXKvQq8 %}
+{% include youtubePlayer.html id="nLH4wXKvQq8" %}
 
 
 ## Next steps
