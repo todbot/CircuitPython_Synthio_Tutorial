@@ -116,6 +116,15 @@ on the CIRCUITPY drive with the contents of the
 This example makes a beep with random pitches every 0.5 seconds.
 It uses the square-wave waveform that's built-in to `synthio`.
 
+Note that the code below:
+- The I2S DAC requires three pins. On the Pico RP2040, the "bit_clock"
+and "word_select" pins must be adjacent.
+- The `Synthesizer` requires a sample_rate (44,100 is "CD-quality") and a
+"channel_count". I2S is stereo, so channel_count=2.
+- You "plug" the synth into the audio output to allow the synth to be heard.
+- To start a sound, use `synth.press()`.
+This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
+
 ```py
 # 1_getting_started/code_helloboop.py
 import time
@@ -148,22 +157,9 @@ while True:
 ```
 > [1_getting_started/code_helloboop.py](./1_getting_started/code_helloboop.py)
 
-Note that in the above code:
-- The I2S DAC requires three pins. On the Pico RP2040, the "bit_clock"
-and "word_select" pins must be adjacent.
-- The `Synthesizer` requires a sample_rate (44,100 is "CD-quality") and a
-"channel_count". I2S is stereo, so channel_count=2.
-- You "plug" the synth into the audio output to allow the synth to be heard.
-- To start a sound, use `synth.press()`.
-This takes either a MIDI note number from 0-127 or a `synthio.Note()`.
+> [watch demo video](https://www.youtube.com/watch?v=dDN38qjhgMM)
 
-This sounds like :
-
-<a href="https://www.youtube.com/watch?v=dDN38qjhgMM">
-<img alt="code_helloboop demo" width=640 height=360
-    src="https://img.youtube.com/vi/dDN38qjhgMM/maxresdefault.jpg"></a>
-
-[youtube video](https://www.youtube.com/watch?v=dDN38qjhgMM)
+{% include youtube.html id="dDN38qjhgMM" alt="code_helloboop demo" %}
 
 
 ## Hello Boop reorganized and with buffer
@@ -222,11 +218,9 @@ the boops more appealing. More on that later. (Hint: it's called an "amplitude e
 
 And this sounds like:
 
-<a href="https://www.youtube.com/watch?v=XFT7mV3DepM" target="_blank">
-<img alt="code_synth_setup demo" width=640 height=360
-    src="https://img.youtube.com/vi/XFT7mV3DepM/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=XFT7mV3DepM)
 
-[youtube video](https://www.youtube.com/watch?v=XFT7mV3DepM)
+{% include youtube.html id="XFT7mV3DepM" alt="code_synth_setup demo" %}
 
 
 ## Fun with boops
@@ -272,11 +266,9 @@ while True:
 
 And that sounds like:
 
-<a href="https://www.youtube.com/watch?v=svZuAAjuiBs" target="_blank">
-<img alt="code_generative_penta demo" width=640 height=360
-    src="https://img.youtube.com/vi/svZuAAjuiBs/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=svZuAAjuiBs)
 
-[youtube video](https://www.youtube.com/watch?v=svZuAAjuiBs)
+{% include youtube.html id="svZuAAjuiBs" alt="code_generative_penta demo" %}
 
 
 ### Play a chord melody
