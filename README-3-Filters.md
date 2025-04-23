@@ -74,11 +74,10 @@ while True:
 ```
 > [3_filters/code_filter_tryout.py](./3_filters/code_filter_tryout.py)
 
-<a href="https://www.youtube.com/watch?v=oo35ITF87BY" target="_blank">
-<img alt="code_filter_tryout demo" width=640 height=360
-    src="https://img.youtube.com/vi/oo35ITF87BY/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=oo35ITF87BY)
 
-[youtube video](https://www.youtube.com/watch?v=oo35ITF87BY)
+{% include youtube.html id="oo35ITF87BY" alt="code_filter_tryout demo" %}
+
 
 
 ## Changing filter parameters with Python
@@ -118,11 +117,10 @@ while True:
 ```
 > [3_filters/code_filter_handmod.py](./3_filters/code_filter_handmod.py)
 
-<a href="https://www.youtube.com/watch?v=ggCszD6noBo" target="_blank">
-<img alt="code_filter_handmod demo" width=640 height=360
-    src="https://img.youtube.com/vi/ggCszD6noBo/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=ggCszD6noBo)
 
-[youtube video](https://www.youtube.com/watch?v=ggCszD6noBo)
+{% include youtube.html id="ggCszD6noBo" alt="code_filter_handmod demo" %}
+
 
 ## Changing filter with knobs
 
@@ -157,11 +155,10 @@ while True:
 ```
 > [3_filters/code_filter_knobmod.py](./3_filters/code_filter_knobmod.py)
 
-<a href="https://www.youtube.com/watch?v=RSFnHbDJWf4" target="_blank">
-<img alt="code_filter_knobmod demo" width=640 height=360
-    src="https://img.youtube.com/vi/RSFnHbDJWf4/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=RSFnHbDJWf4)
 
-[youtube video](https://www.youtube.com/watch?v=RSFnHbDJWf4)
+{% include youtube.html id="RSFnHbDJWf4" alt="code_filter_knobmod demo" %}
+
 
 
 ## Changing filter with LFO
@@ -205,11 +202,10 @@ while True:
 ```
 > [3_filters/code_filter_lfomod.py](./3_filters/code_filter_lfomod.py)
 
-<a href="https://www.youtube.com/watch?v=Ez8TSuOGduc" target="_blank">
-<img alt="code_filter_lfomod demo" width=640 height=360
-    src="https://img.youtube.com/vi/Ez8TSuOGduc/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=Ez8TSuOGduc)
 
-[youtube video](https://www.youtube.com/watch?v=Ez8TSuOGduc)
+{% include youtube.html id="Ez8TSuOGduc" alt="code_filter_lfomod demo" %}
+
 
 ## Creating filter envelope with LFOs
 
@@ -277,11 +273,10 @@ while True:
 ```
 > [3_filters/code_filter_lfoenv.py](./3_filters/code_filter_lfoenv.py)
 
-<a href="https://www.youtube.com/watch?v=KoIuInQ0yR8" target="_blank">
-<img alt="code_filter_lfoenv demo" width=640 height=360
-    src="https://img.youtube.com/vi/KoIuInQ0yR8/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=KoIuInQ0yR8)
 
-[youtube video](https://www.youtube.com/watch?v=KoIuInQ0yR8)
+{% include youtube.html id="KoIuInQ0yR8" alt="code_filter_lfoenv demo" %}
+
 
 
 ## Creating filter envelope with lerp LFOs
@@ -355,11 +350,10 @@ while True:
 ```
 > [3_filters/code_filter_lerp.py](./3_filters/code_filter_lerp.py)
 
-<a href="https://www.youtube.com/watch?v=VubIJVZqy8E" target="_blank">
-<img alt="code_filter_lerp demo" width=640 height=360
-    src="https://img.youtube.com/vi/VubIJVZqy8E/maxresdefault.jpg"></a>
+> [watch demo video](https://www.youtube.com/watch?v=VubIJVZqy8E)
 
-[youtube video](https://www.youtube.com/watch?v=VubIJVZqy8E)
+{% include youtube.html id="VubIJVZqy8E" alt="code_filter_lfoenv demo" %}
+
 
 
 ## Filter key-tracking

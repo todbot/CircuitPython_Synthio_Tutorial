@@ -308,16 +308,19 @@ One of the most useful is `MathOperation.CONSTRAINED_LERP`.  This function has t
 a, b, and t.  The "a" and "b" inputs are the two signals to mix and "t" is the how much of
 each you want. If t==0.0, you get just "a", if t==1.0, you get just "b", if t==0.5, you get a 50/50
 mix of "a" & "b". And if you scan "t" from 0.0 to 1.0, the output of LERP looks like it's
-morphing "a" into "b".  "LERP" is shorthand for "linear interpolation", which just means
-making a new signal by smoothly mixing between two inputs.
-A related concept is ["easing function"](https://easings.net/),
-which you may be familiar with if you've done animation
+morphing "a" into "b".
 
-In the case of fading in the tremolo effect, we can do scanning of "t" with a one-shot ramp-up LFO.
+"LERP" is shorthand for "linear interpolation". It's a mathematical term that means
+creating values along a straight line between two points. In our case, it's making
+a third value based on two input values and a "mix" knob to select how much of each we want.
+A related concept is ["easing function"](https://easings.net/),
+which you may be familiar with if you've done animation.
+
+In the case of fading in the tremolo effect, we can do scan the "mix" input with a one-shot ramp-up LFO.
 If we pass in `once=True` when making a `synthio.LFO`, the LFO only runs once, perfect for a
-one-time effect. That one-time ramp LFO will be the the "t" part "mix control" of the
-`MathOperation.CONSTRAINED_LERP` function, fading from "a" input of "no effect"
-(i.e. amplitude is just "1.0") and the "b" input of the tremolo LFO from before.
+one-time effect. That one-time ramp LFO will be the "t" of the
+`MathOperation.CONSTRAINED_LERP` function, mixing from "a" input of "no effect"
+(i.e. amplitude is just "1.0") to the "b" input of the tremolo LFO.
 
 The `CONSTRAINED_LERP` (or just "lerp") concept is so useful in `synthio` that you'll see
 many times to let you choose an "amount" of something that is itself varying, like this LFO.
