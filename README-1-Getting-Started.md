@@ -194,7 +194,7 @@ let's pull out all that setup and [put it into a new file called
 Our [`code.py`](./1_getting_started/code_synth_setup.py) now looks like the below.
 We'll use this technique going forward.
 
-The sleep times have been sped up, so you can hear the notes overlapping more.
+In the example below, the sleep times have been sped up, so you can hear the notes overlapping more.
 Also note there's been a special change at the end of `synth_setup.py` to make
 the boops more appealing. More on that later. (Hint: it's called an "amplitude envelope")
 
