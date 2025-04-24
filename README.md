@@ -15,7 +15,7 @@ for audio output, but applies to other microcontrollers that [support `synthio`]
 (like ESP32) and other audio output techniques (like [`PWMOut`](https://docs.circuitpython.org/en/latest/shared-bindings/pwmio/index.html#pwmio.PWMOut) and
 analog [`AudioOut`](https://docs.circuitpython.org/en/latest/shared-bindings/audioio/index.html)).
 
-The main URL for this tutorial is: 
+The main URL for this tutorial is:
 [https://todbot.github.io/CircuitPython_Synthio_Tutorial/](https://todbot.github.io/CircuitPython_Synthio_Tutorial/)
 Its repo is [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
@@ -26,7 +26,7 @@ Its repo is [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://g
 This guide hopes to show how [`synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/)
 "thinks" about sound synthesis,
 showing techniques for implementing common synthesis concepts with `synthio`.
-This guide provides over 50 complete CircuitPython example programs (with [videos of them running](https://www.youtube.com/playlist?list=PLW9arycjoILj7l4WvLYqQbdK9b_ZYYPxy))
+This guide provides over 50 complete CircuitPython example programs (with a [video for each one](https://www.youtube.com/playlist?list=PLW9arycjoILj7l4WvLYqQbdK9b_ZYYPxy))
 that show different aspects of `synthio`, acting as a starting point for your own explorations
 and combinining them into new synth devices.
 
@@ -50,7 +50,8 @@ This guide is broken up into multiple sections. Each section focuses on a topic,
 and will use techniques and terms discussed in previous sections.
 
 Every example code block is a fully working program, no code snippets here, with
-download links to ready-to-run code.
+download links to ready-to-run code. After each code block, is a [demo video](https://www.youtube.com/playlist?list=PLW9arycjoILj7l4WvLYqQbdK9b_ZYYPxy)
+showing the code in action.
 Some functionality will be provided by external libraries or included scripts
 (most notably [`synth_setup.py`](./1_getting_started/synth_setup.py)).
 
@@ -64,6 +65,7 @@ Every example (hopefully) does something sonically interesting just sitting ther
 and most will also have a bit of interactivity with the knobs and button.
 So even if you don't have the knobs & button wired up, you should still get a sense of
 what the example is about.
+
 
 ## Sections
 

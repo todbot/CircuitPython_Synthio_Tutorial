@@ -187,7 +187,13 @@ To make a sawtooth wave, you need to specify a larger waveform with something li
 - The min/max discussion and code above changes if we specify a different waveform.
 For the positive-only waveform shown, its range is 1 instead of 2, so min/max calculations should remove the /2.
 
-- Note we're using `ulab.numpy` to actually create the waveforms.
+- Note we're using the [`ulab.numpy` core library](https://docs.circuitpython.org/en/latest/shared-bindings/ulab/numpy/)
+to actually create the waveforms.  The CircuitPython `ulab.numpy` library
+we use here is a variant of the [Micropython `ulab.numpy` library](https://micropython-ulab.readthedocs.io/en/latest/ulab-intro.html), which is
+itself a minimal version of the [huge and powerful NumPy library](https://numpy.org/doc/stable/user/absolute_beginners.html).
+
+  For other useful things to do using `ulab.numpy`, check out ["ulab-tricks"](https://micropython-ulab.readthedocs.io/en/latest/ulab-tricks.html) and
+["Crunch numbers fast with CircuitPython"](https://learn.adafruit.com/ulab-crunch-numbers-fast-with-circuitpython).
 
 ### LFO resolution
 
@@ -233,6 +239,8 @@ will cause a vibrato that's two octaves wide, way too intense.  Instead, we can 
 so `scale = 0.5 * 1/12`.
 
 Alternatively, you can uncomment the knobA line and have knobA control the scale and get really crazy.
+But even with just a single semitone of vibrato, the sound is already steering into
+"spooky B-movie" territory instead of the subtle "singer holding a note" range.
 
 ```py
 # 2_modulation/code_vibrato.py
