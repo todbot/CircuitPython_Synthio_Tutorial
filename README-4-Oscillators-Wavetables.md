@@ -440,6 +440,10 @@ than doing it on frequency.
 The example below sets up "knobA" to control the number of oscillators sounding
 (from 1 to 6) and "knobB" controls how much detune between each oscillator.
 
+Listen to how thick the sound can get! If this is starting to sound to you like the
+famous ["SuperSaw" sound](https://en.wikipedia.org/wiki/Roland_JP-8000#Supersaw)
+that was common in electronic music in the early 2000s, you're right.
+
 ```py
 # 4_oscillators_wavetables/code_detune.py
 import time
