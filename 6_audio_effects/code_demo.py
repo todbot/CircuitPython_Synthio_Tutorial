@@ -5,34 +5,38 @@ cfg = { 'buffer_size': BUFFER_SIZE,
         'channel_count': CHANNEL_COUNT,
         'sample_rate': SAMPLE_RATE }
 effects = (
+     audiofilters.Filter(**cfg, mix=1.0,
+                         filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
+                                                 frequency=20000, Q=0.8)),
+     audiofilters.Filter(**cfg, mix=1.0,
+                         filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
+                                                 frequency=200, Q=1.2)),
      audiodelays.Chorus(**cfg, mix = 1.0,
-                        max_delay_ms = 100,
-                        delay_ms = synthio.LFO(rate=0.2),
+                        max_delay_ms = 50,
+                        delay_ms = synthio.LFO(rate=0.3, offset=30, scale=15),
                         voices = 3),
      audiodelays.Echo(**cfg, mix = 0.6,
-                      max_delay_ms = 300,
-                      delay_ms = 300,
+                      max_delay_ms = 330,
+                      delay_ms = 330,
                       decay = 0.6),
      audiofilters.Distortion(**cfg, mix = 1.0,
                              mode = audiofilters.DistortionMode.OVERDRIVE,
                              soft_clip = True,
                              pre_gain = 30,
                              post_gain = -20),
-     audiofilters.Filter(**cfg, mix=1.0,
-                         filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
-                                                 frequency=100, Q=1.2)),
-     audiofilters.Filter(**cfg, mix=1.0,
-                         filter = synthio.Biquad(synthio.FilterMode.HIGH_PASS,
-                                                 frequency=1000, Q=1.2)),
+     audiodelays.PitchShift(**cfg, mix=1.0,
+                            semitones = synthio.LFO(rate=1/3.5, scale=6)),     
     )
 
 mixer.voice[0].level = 1.0
-mywav = audiocore.WaveFile("amen1_44k_s16.wav")
+#mywav = audiocore.WaveFile("amen1_44k_s16.wav")
+mywav = audiocore.WaveFile("amen3_44k_s16.wav")
 i = 0
 while True:
     effect = effects[i]  # pick a new effect
-    print("i:", i, effect)
+    print(i, effect)
     mixer.voice[0].play(effect)
     effect.play(mywav, loop=True)
     time.sleep(3.5)
+    #time.sleep(3.5/2)
     i = (i+1) % len(effects)
