@@ -29,8 +29,11 @@ In CircuitPython 10+, there are multiple core libraries for audio effects:
 - [`audiofreeverb`](https://docs.circuitpython.org/en/latest/shared-bindings/audiofreeverb)
   -- Reverb effect
 
-These are not specific to `synthio` and can be used on other sources of audio
-like playing WAV files or MP3 files.
+Note that these apply to the entire audio output of a `synthio.Synthesizer`,
+not on a per-note basis.  In fact, these effects are not specific to `synthio`
+at all and can be used on other sources of audio like playing WAV files or MP3 files.
+This is really cool as we can apply these effects to sample-based instruments
+like drum machines or to incoming audio from a microphone.
 
 ## Which chips/boards can run audio effects?
 
@@ -42,7 +45,8 @@ Also note that you must be running CircuitPython version 10+.
 ## Quick Demo
 
 Since we can use any audio source, let's use the partial Amen Break from before
-(but a stereo 44.1k version) and run it through a some various effects to see how it sounds.
+(but a stereo 44.1k version) and run it through some various effects to see how
+the different effects sound.
 
 ```py
 # 6_audio_effects/code_demo.py -- show off some audio effects
@@ -52,22 +56,22 @@ cfg = { 'buffer_size': BUFFER_SIZE,
         'channel_count': CHANNEL_COUNT,
         'sample_rate': SAMPLE_RATE }
 effects = (
-     audiofilters.Filter(**cfg, mix=1.0,  # no filtering, just pass-through
+     audiofilters.Filter(**cfg, mix=1.0,  # mostly no filtering, pass-through
                          filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
                                                  frequency=20000, Q=0.8)),
      audiofilters.Filter(**cfg, mix=1.0,
                          filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
                                                  frequency=200, Q=1.2)),
+     audiodelays.Chorus(**cfg, mix = 0.6,
+                        max_delay_ms = 150, voices = 3,
+                        delay_ms = synthio.LFO(rate=0.6, offset=10, scale=5)),
      audiodelays.Echo(**cfg, mix = 0.6,
                       max_delay_ms = 330, delay_ms = 330, decay = 0.6),
-     audiodelays.Chorus(**cfg, mix = 1.0,
-                        voices = 3, max_delay_ms = 50,
-                        delay_ms = synthio.LFO(rate=0.3, offset=30, scale=15)),
      audiofilters.Distortion(**cfg, mix = 1.0,
                              mode = audiofilters.DistortionMode.OVERDRIVE,
-                             soft_clip = True, pre_gain = 30, post_gain = -20),
+                             soft_clip = True, pre_gain = 40, post_gain = -20),
      audiodelays.PitchShift(**cfg, mix=1.0,
-                            semitones = synthio.LFO(rate=1/3.5, scale=6)),
+                            semitones = synthio.LFO(rate=2/3.5, scale=6)),
     )
 
 mixer.voice[0].level = 1.0
@@ -76,21 +80,26 @@ i = 0
 while True:
     effect = effects[i]  # pick a new effect
     print(i, effect)
-    mixer.voice[0].play(effect)
-    effect.play(mywav, loop=True)
-    time.sleep(3.5)
-    #time.sleep(3.5/2)
+    mixer.voice[0].play(effect)    # plug effect into mixer
+    effect.play(mywav, loop=True)  # plug wavfile into effect
+    time.sleep(3.5)   # loop is 3.5/2 seconds long
     i = (i+1) % len(effects)
 ```
 > [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py)
 
-> [watch demo video](https://www.youtube.com/watch?v=xxx)
+> [watch demo video](https://www.youtube.com/watch?v=nyv7XlQ1d00)
 
-{% include youtube.html id="xxx" alt="code_demo demo" %}
+{% include youtube.html id="nyv7XlQ1d00" alt="code_demo demo" %}
 
 
 ## How effects work in CircuitPython
 
+From our experience with `audiomixer.Mixer`, we've seen how the flow of audio
+is like a chain: plug the mixer into the audio output, plug the synth into the mixer.
+
+The audio effects work the exact same way. To use an effect, insert it into
+the chain where you want the effect to occur.  In the above example,
+we keep re-plug a new effect in between the mixer and the WaveFile.
 
 ## How to chain effects
 
