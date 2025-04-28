@@ -14,12 +14,85 @@
    * [audiofilters Filter](#audiofilters-filter)
 <!--te-->
 
+In CircuitPython 10+, there are multiple core libraries for audio effects:
+
+- [`audiodelays`](https://docs.circuitpython.org/en/latest/shared-bindings/audiodelays)
+  -- effects that work on small copies of an input signal
+  - `Echo`
+  - `MultiTapDelay`
+  - `Chorus`
+  - `PitchShift`
+- [`audiofilters`](https://docs.circuitpython.org/en/latest/shared-bindings/audiofilters/)
+  -- effects that alter the frequency composition of an input signal
+  - `Filter`
+  - `Distortion`
+- [`audiofreeverb`](https://docs.circuitpython.org/en/latest/shared-bindings/audiofreeverb)
+  -- Reverb effect
+
+These are not specific to `synthio` and can be used on other sources of audio
+like playing WAV files or MP3 files.
 
 ## Which chips/boards can run audio effects?
 
+Currently the best chipset to use for audio effects is RP2350.
+So the demos below will use a Raspberry Pi Pico 2.
+
+Also note that you must be running CircuitPython version 10+.
+
 ## Quick Demo
 
-## How effects work in synthio
+Since we can use any audio source, let's use the partial Amen Break from before
+and run it through a some various effects to see how it sounds.
+
+```py
+# 6_audio_effects/code_demo.py -- show off some audio effects
+import time, audiofilters, audiodelays, audiocore, synthio
+from synth_setup import mixer, BUFFER_SIZE, CHANNEL_COUNT, SAMPLE_RATE
+cfg = { 'buffer_size': BUFFER_SIZE,
+        'channel_count': CHANNEL_COUNT,
+        'sample_rate': SAMPLE_RATE }
+effects = (
+     audiodelays.Chorus(**cfg, mix = 1.0,
+                        max_delay_ms = 100,
+                        delay_ms = synthio.LFO(rate=0.2),
+                        voices = 3),
+     audiodelays.Echo(**cfg, mix = 0.6,
+                      max_delay_ms = 300,
+                      delay_ms = 300,
+                      decay = 0.6),
+     audiofilters.Distortion(**cfg, mix = 1.0,
+                             mode = audiofilters.DistortionMode.OVERDRIVE,
+                             soft_clip = True,
+                             pre_gain = 30,
+                             post_gain = -20),
+     audiofilters.Filter(**cfg, mix=1.0,
+                         filter = synthio.Biquad(synthio.FilterMode.LOW_PASS,
+                                                 frequency=100, Q=1.2)),
+     audiofilters.Filter(**cfg, mix=1.0,
+                         filter = synthio.Biquad(synthio.FilterMode.HIGH_PASS,
+                                                 frequency=1000, Q=1.2)),
+    )
+
+mixer.voice[0].level = 1.0
+mywav = audiocore.WaveFile("amen1_44k_s16.wav")
+i = 0
+while True:
+    effect = effects[i]  # pick a new effect
+    print("i:", i, effect)
+    mixer.voice[0].play(effect)
+    effect.play(mywav, loop=True)
+    time.sleep(3.5)
+    i = (i+1) % len(effects)
+```
+> [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py)
+
+> [watch demo video](https://www.youtube.com/watch?v=xxx)
+
+{% include youtube.html id="xxx" alt="code_demo demo" %}
+
+
+## How effects work in CircuitPython
+
 
 ## How to chain effects
 
