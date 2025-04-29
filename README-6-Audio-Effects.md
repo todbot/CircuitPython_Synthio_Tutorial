@@ -86,7 +86,6 @@ while True:
     i = (i+1) % len(effects)
 ```
 > [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py)
-> _(also [synth_setup.py](./6_audio_effects/synth_setup.py))_
 
 > [watch demo video](https://www.youtube.com/watch?v=nyv7XlQ1d00)
 
