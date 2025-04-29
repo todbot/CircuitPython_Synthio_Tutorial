@@ -85,7 +85,7 @@ while True:
     time.sleep(3.5)   # loop is 3.5/2 seconds long
     i = (i+1) % len(effects)
 ```
-> [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py)
+> [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py) and
 
 > [watch demo video](https://www.youtube.com/watch?v=nyv7XlQ1d00)
 
@@ -169,8 +169,7 @@ while True:
   synth.release(48)
   time.sleep(2.0)
 ```
-> [6_audio_effects/code_flange.py](./6_audio_effects/code_flange.py)
-> _(also [synth_setup.py](./6_audio_effects/synth_setup.py))_
+> [6_audio_effects/code_flange.py](./6_audio_effects/code_flange.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
 
 
 ## Make a chorus effect
@@ -204,8 +203,7 @@ while True:
     synth.release(midi_note)
     time.sleep(1)
 ```
-> [6_audio_effects/code_chorus.py](./6_audio_effects/code_chorus.py)
-> _(also [synth_setup.py](./6_audio_effects/synth_setup.py))_
+> [6_audio_effects/code_chorus.py](./6_audio_effects/code_chorus.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
 
 
 ## Playing with chorus
@@ -252,8 +250,7 @@ while True:
     time.sleep(0.25 if i%2 else 0.12 )  # give it a little groove
     i=i+1
 ```
-> [6_audio_effects/code_chorus_penta.py](./6_audio_effects/code_chorus_penta.py)
-> _(also [synth_setup.py](./6_audio_effects/synth_setup.py))_
+> [6_audio_effects/code_chorus_penta.py](./6_audio_effects/code_chorus_penta.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
 
 
 ## audiodelays PitchShift
@@ -293,5 +290,4 @@ while True:
   time.sleep(2.0)
 
 ```
-> [6_audio_effects/code_stackedfilters_lfo.py](./6_audio_effects/code_stackedfilters_lfo.py)
-> _(also [synth_setup.py](./6_audio_effects/synth_setup.py))_
+> [6_audio_effects/code_stackedfilters_lfo.py](./6_audio_effects/code_stackedfilters_lfo.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
