@@ -1,4 +1,4 @@
-# [Synthio Tutorial](.#sections): 7. Audio Effects
+# [Synthio Tutorial](.#sections): 6. Audio Effects
 
 <!--ts-->
    * [Which chips/boards can run audio effects?](#which-chipsboards-can-run-audio-effects)
