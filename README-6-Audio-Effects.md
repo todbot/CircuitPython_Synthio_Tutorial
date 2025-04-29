@@ -41,6 +41,8 @@ Currently the best chipset to use for audio effects is RP2350.
 So the demos below will use a Raspberry Pi Pico 2.
 
 Also note that you must be running CircuitPython version 10+.
+As of Apr 2025, you need to be running "Absolute Newest" CircuitPython to get
+all these effects.
 
 ## Quick Demo
 
@@ -100,6 +102,18 @@ is like a chain: plug the mixer into the audio output, plug the synth into the m
 The audio effects work the exact same way. To use an effect, insert it into
 the chain where you want the effect to occur.  In the above example,
 we keep re-plug a new effect in between the mixer and the WaveFile.
+
+Every effect has a "mix" control that lets you select how much of the effect
+you want want to apply: `effect.mix=0.0` is just the "dry" uneffected signal
+and `effect.mix=1.0` is the full "wet" effected signal.  Note that this mix
+control is what some call "post-fader". That is, the full signal is still being fed
+into the effect and the mix control is selecting how much of the effect.
+
+(The alternative is "pre-fader", where the mix control selects how much of the
+signal is sent to the effect. In most cases it doesn't matter much. The biggest
+place you may notice it is when using delay/echo effects and trying to adjust
+mix in a rhythmic way)
+
 
 ## How to chain effects
 
