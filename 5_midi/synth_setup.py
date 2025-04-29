@@ -10,6 +10,7 @@ import keypad
 import analogio
 
 SAMPLE_RATE = 44100
+CHANNEL_COUNT = 2
 BUFFER_SIZE = 2048
 
 # what we have plugged into the breadboard or pico_test_synth
@@ -24,10 +25,10 @@ i2s_dat_pin = board.GP22
 audio = audiobusio.I2SOut(bit_clock=i2s_bck_pin, word_select=i2s_lck_pin, data=i2s_dat_pin)
 
 # add a mixer to give us a buffer
-mixer = audiomixer.Mixer(sample_rate=SAMPLE_RATE, channel_count=2, buffer_size=BUFFER_SIZE)
+mixer = audiomixer.Mixer(sample_rate=SAMPLE_RATE, channel_count=CHANNEL_COUNT, buffer_size=BUFFER_SIZE)
 
 # make the actual synthesizer
-synth = synthio.Synthesizer(sample_rate=SAMPLE_RATE, channel_count=2)
+synth = synthio.Synthesizer(sample_rate=SAMPLE_RATE, channel_count=CHANNEL_COUNT)
 
 # plug the mixer into the audio output
 audio.play(mixer)
