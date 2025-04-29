@@ -135,8 +135,7 @@ while True:
     synth.release(midi_note)
     time.sleep(1)
 ```
-> [6_audio_effects/code_echo.py](./6_audio_effects/code_echo.py)
-> _(also [synth_setup.py](./6_audio_effects/synth_setup.py))_
+> [6_audio_effects/code_echo.py](./6_audio_effects/code_echo.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
 
 
 ## Make a flange effect with echo
