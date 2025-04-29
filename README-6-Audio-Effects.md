@@ -85,7 +85,7 @@ while True:
     time.sleep(3.5)   # loop is 3.5/2 seconds long
     i = (i+1) % len(effects)
 ```
-> [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py) and
+> [6_audio_effects/code_demo.py](./6_audio_effects/code_demo.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=nyv7XlQ1d00)
 
