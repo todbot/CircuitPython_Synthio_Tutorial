@@ -97,11 +97,14 @@ while True:
 ## How effects work in CircuitPython
 
 From our experience with `audiomixer.Mixer`, we've seen how the flow of audio
-is like a chain: plug the mixer into the audio output, plug the synth into the mixer.
+is like a guitar pedal effects chain:
+plug the mixer into the audio output, plug the synth into the mixer.
 
-The audio effects work the exact same way. To use an effect, insert it into
-the chain where you want the effect to occur.  In the above example,
-we keep re-plug a new effect in between the mixer and the WaveFile.
+The CircuitPython audio effects work the exact same way.
+Every effect has an input and an output, just like a guitar pedal.
+To use an effect, insert it into the chain where you want the effect to occur.
+In the above example, we keep re-plug a new effect in between the mixer and the WaveFile.
+And this means you can plug the output of one effect into another effect.
 
 Every effect has a "mix" control that lets you select how much of the effect
 you want want to apply: `effect.mix=0.0` is just the "dry" uneffected signal
