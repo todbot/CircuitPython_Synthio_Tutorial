@@ -56,7 +56,7 @@ once oscillation and if your waveform contains more than one oscillation, the pi
 of your waveform will not match what `synthio` thinks it is.
 
 ```py
-# 4_oscillators/code_waveform1.py
+# 4_oscillators_wavetables/code_waveform1.py
 import time, random
 import ulab.numpy as np
 import synthio
@@ -91,7 +91,7 @@ while True:
     time.sleep( (knobB.value/65535) )  # knobB controls tempo
     wi=(wi+1) % len(my_waves)  # pick a new waveform
 ```
-> [4_oscillators_waveforms/code_waveform1.py](./4_oscillators_waveforms/code_waveform1.py)
+> [4_oscillators_wavetables/code_waveform1.py](./4_oscillators_wavetables/code_waveform1.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=ij9sugbFprc)
 
@@ -122,7 +122,7 @@ of doing this kind of wave mixing: we can fake filter sweeps just by mixing wave
 You'll see much more of this in the wavetable examples.
 
 ```py
-# 4_oscillators_waveforms/code_wavemix.py
+# 4_oscillators_wavetables/code_wavemix.py
 import time
 import ulab.numpy as np
 import synthio
@@ -151,7 +151,7 @@ while True:
   wave_pos = (wave_pos + mix_speed) % 1.0  # move our mix position
   time.sleep(0.01)
 ```
-> [4_oscillators_waveforms/code_wavemix.py](./4_oscillators_waveforms/code_wavemix.py)
+> [4_oscillators_wavetables/code_wavemix.py](./4_oscillators_wavetables/code_wavemix.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=xx6EZKem-S4)
 
@@ -188,14 +188,14 @@ or installable with `circup install adafruit_wave` from the commandline.
 
 In the example below, there is a small `Wavetable` class that makes loading a
 wavetable and selecting a waveform within the wavetable eaiser. That class is
-also available as [`wavetable.py`](4_oscillators_waveforms/wavetable.py) for your own use.
+also available as [`wavetable.py`](4_oscillators_wavetables/wavetable.py) for your own use.
 When the example is running, use knobA to pick a waveform within a wavetable and
 use the button to select another wavetable.
 It's amazing how many different sounds you can get so easily by using wavetables!
 And remember: this is just one `synthio.Note` and you have 11 more.
 
 ```py
-# 4_oscillators_waveforms/code_wavetable.py
+# 4_oscillators_wavetables/code_wavetable.py
 import time
 import ulab.numpy as np
 import synthio
@@ -246,7 +246,7 @@ while True:
     print("%s: wave num:%d" % (wavetables[wti], pos))
     time.sleep(0.01)
 ```
-> [4_oscillators_waveforms/code_wavetable.py](./4_oscillators_waveforms/code_wavetable.py)
+> [4_oscillators_wavetables/code_wavetable.py](./4_oscillators_wavetables/code_wavetable.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=GMkj4KcwyOA)
 
@@ -265,7 +265,7 @@ scanning along the wavetable.
 First let's move the Wavetable class to its own file and add in the wave mixing:
 
 ```py
-# 4_oscillators_waveforms/wavetable.py
+# 4_oscillators_wavetables/wavetable.py
 import ulab.numpy as np
 import synthio
 import adafruit_wave
@@ -314,7 +314,7 @@ a complex modular synth patch when all we're doing is moving around the wavetabl
 This is the feature that really sold me on `synthio`.
 
 ```py
-# 4_oscillators_waveforms/code_wavetable_scan.py
+# 4_oscillators_wavetables/code_wavetable_scan.py
 import time
 import ulab.numpy as np
 import synthio
@@ -341,7 +341,7 @@ while True:
     print("wave_pos:%.2f" % wavetable1.wave_pos)
     time.sleep(0.01)
 ```
-> [4_oscillators_waveforms/code_wavetable_scan.py](./4_oscillators_waveforms/code_wavetable_scan.py)
+> [4_oscillators_wavetables/code_wavetable_scan.py](./4_oscillators_wavetables/code_wavetable_scan.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=xObuobozPbQ)
 
@@ -358,9 +358,9 @@ by looking at `synthio.waveform_max_length`.
 On RP2040, `synthio.waveform_max_length=16384`. This means you will need to
 curate and downsample a WAV to fit as a `synthio` waveform.
 
-In the "4_oscillators_waveforms" directory, there is a shortened and down-sampled
+In the "4_oscillators_wavetables" directory, there is a shortened and down-sampled
 version of the famous ["Amen break" drumloop](https://www.youtube.com/watch?v=v89CjsSOJ_c),
-called ["amen1_8k_s16.wav"](./4_oscillators_waveforms/amen1_8k_s16.wav).
+called ["amen1_8k_s16.wav"](./4_oscillators_wavetables/amen1_8k_s16.wav).
 Copy that file to the CIRCUITPY drive for the example below.  It's been down-sampled
 to 8kHz sample rate and lasts for 1.75 seconds. This gives 14001 samples, just
 small enough to fit into the avaiable 16384 maximum.
@@ -406,7 +406,7 @@ while True:
     print("note freq:%6.3f duration:%5.2f" % (note.frequency, 1/note.frequency))
     time.sleep(0.2)
 ```
-> [4_oscillators_waveforms/code_wavewav.py](./4_oscillators_waveforms/code_wavewav.py)
+> [4_oscillators_wavetables/code_wavewav.py](./4_oscillators_wavetables/code_wavewav.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=_wjxJQlQsts)
 
@@ -468,7 +468,7 @@ while True:
     synth.release(notes)
     time.sleep(0.1)
 ```
-> [4_oscillators_waveforms/code_detune.py](./4_oscillators_waveforms/code_detune.py)
+> [4_oscillators_wavetables/code_detune.py](./4_oscillators_wavetables/code_detune.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=G4NtqObwYxM)
 
@@ -528,7 +528,7 @@ while True:
     print("%.2f %.2f %.2f" % (wave_lfo.value, wave_lfo2.value, wavetable3.wave_pos))
     time.sleep(0.05)
 ```
-> [4_oscillators_waveforms/code_wavetable_drone.py](./4_oscillators_waveforms/code_wavetable_drone.py)
+> [4_oscillators_wavetables/code_wavetable_drone.py](./4_oscillators_wavetables/code_wavetable_drone.py)
 
 > [watch demo video](https://www.youtube.com/watch?v=D2bXCbdz63A)
 
