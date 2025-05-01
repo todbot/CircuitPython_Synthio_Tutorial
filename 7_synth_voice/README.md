@@ -1,3 +1,3 @@
 
-Code examples for [Synthio Tutorial: 6. Synth Voice](../README-6-Synth-Voice.md)
+Code examples for [Synthio Tutorial: 7. Synth Voice](../README-7-Synth-Voice.md)
 
