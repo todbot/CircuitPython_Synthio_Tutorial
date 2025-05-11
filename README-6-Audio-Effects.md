@@ -308,3 +308,6 @@ while True:
 
 ```
 > [6_audio_effects/code_stackedfilters_lfo.py](./6_audio_effects/code_stackedfilters_lfo.py) and [synth_setup.py](./6_audio_effects/synth_setup.py)
+
+
+## Fun with effects: Freeze Effect

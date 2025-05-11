@@ -20,6 +20,47 @@ The main URL for this tutorial is:
 Its repo is [https://github.com/todbot/CircuitPython_Synthio_Tutorial](https://github.com/todbot/CircuitPython_Synthio_Tutorial) where you can download
 [all the code as a zip file](https://github.com/todbot/CircuitPython_Synthio_Tutorial/archive/refs/heads/main.zip).
 
+## Table of Contents
+
+   * [What is synthio?](#what-is-synthio)
+   * [What this guide is](#what-this-guide-is)
+   * [Who this guide is for](#who-this-guide-is-for)
+   * [How this guide is structured](#how-this-guide-is-structured)
+   * [Sections](#sections)
+      * [<a href="./README-1-Getting-Started.md">1. Getting Started</a>](./README-1-Getting-Started.md)
+      * [<a href="./README-2-Modulation.md">2. Modulation</a>](./README-2-Modulation.md)
+      * [<a href="./README-3-Filters.md">3. Filters</a>](./README-3-Filters.md)
+      * [<a href="./README-4-Oscillators-Wavetables.md">4. Oscillators and Wavetables</a>](./README-4-Oscillators-Wavetables.md)
+      * [<a href="./README-5-MIDI.md">5. MIDI</a>](./README-5-MIDI.md)
+      * [<a href="./README-6-Audio-Effects.md">6. Audio Effects</a>](./README-6-Audio-Effects.md)
+      * [<a href="./README-7-Synth-Voice.md">7. Synth Voice</a>](./README-7-Synth-Voice.md)
+   * [Examples](#examples)
+   * [Projects using synthio](#projects-using-synthio)
+   * [Changelog](#changelog)
+
+## What is `synthio`?
+
+- CircuitPython [core library](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html)
+   available since 8.2.0-beta0 and still in development!
+- Features:
+  - Polyphonic (12 oscillator) & stereo, 16-bit, with adjustable sample rate
+  - [Oscillators](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Note) are arbitary waveform-based, allowing for real-time adjustable wavetables
+  - ADSR [amplitude envelope](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Envelope) per oscillator
+  - Oscillator [ring modulation](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Note.ring_frequency) w/ customizable ring oscillator waveform
+  - Extensive [LFO system](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.LFO)
+    - multiple LFOs per oscillator (amplitude, panning, pitch bend, ring mod)
+    - LFOs can repeat or run once (becoming a kind of envelope)
+    - LFOs can have custom waveforms with linear interpolation
+    - LFO outputs can be used by user code
+    - LFOs can plug into one another
+  - [Math blocks](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Math)
+     with [14 three-term Math operations](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Math) to adjust LFO amount, ranges, offsets, scales
+  - Utility functions to easily convert from [MIDI note to frequency](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.midi_to_hz) or [V/Oct modular to frequency](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.voct_to_hz)
+  - [Two-pole resonant filter](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#synthio.Biquad) with LPF, HPF, BPF, et al modes, per oscillator and LFO modulatable
+  - Plugs into existing the [`AudioMixer`](https://docs.circuitpython.org/en/latest/shared-bindings/audiomixer/index.html) system for use alongside `audiocore.WaveFile` sample playing
+  - Not strictly part of `synthio`, but core module friends `audiodelays` & `audiofilters` provide common synth-wide
+  audio effects inspired from guitar pedals like `Echo`, `Chorus`, `Phaser`, `Reverb` and more
+
 
 ## What this guide is
 

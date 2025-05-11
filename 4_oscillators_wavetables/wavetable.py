@@ -18,7 +18,9 @@ class Wavetable:
         # empty buffer we'll copy into
         self.waveform = np.zeros(wave_len, dtype=np.int16)
         self.num_waves = self.w.getnframes() // self.wave_len
-        self._wave_pos = 0
+        self.num_samples = self.w.getnframes()
+        self.sample_rate = self.w.getframerate()
+        self.wave_pos = 0
 
     @property
     def wave_pos(self): return self._wave_pos

@@ -6,8 +6,6 @@ import synthio
 import audiodelays, audiofilters
 from synth_setup import mixer, synth, SAMPLE_RATE, CHANNEL_COUNT, knobA
 
-time.sleep(1)
-
 filter1 = audiofilters.Filter(buffer_size=1024,
                               channel_count=CHANNEL_COUNT,
                               sample_rate=SAMPLE_RATE,
