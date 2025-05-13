@@ -45,9 +45,10 @@ synth.press(note)   # start the note sounding
 
 i=0
 while True:
-    glider.glide_time = 0.5 * (knobA.value/65535) 
+    glider.glide_time = 0.5 * (knobA.value/65535)
     new_midi_note = midi_notes[i]  # new note to glide to
+    note.frequency = synthio.midi_to_hz(new_midi_note)
+    glider.update(new_midi_note)  # glide up to new note
     i = (i+1) % len(midi_notes)
     print("new: %d old: %d glide_time: %.2f" % (new_midi_note, glider.midi_note, glider.glide_time))
-    glider.update(new_midi_note)  # glide up to new note
     time.sleep(0.5)
