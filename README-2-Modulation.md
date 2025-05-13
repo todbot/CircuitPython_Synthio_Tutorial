@@ -438,6 +438,8 @@ to automatically go between the current pitch and a new destination pitch.
 The `Glider` class also knows how to calculate the difference in pitch-bend amount
 to get to that new pitch.
 
+The Glider class is available as [`pitch_glider.py`](2_modulation/pitch_glider.py) if you want to use it on your own.
+
 ```py
 # 2_modulation/code_portamento.py
 import time, random
@@ -456,8 +458,8 @@ class Glider:
 
     def update(self, new_midi_note):
         """Update the glide destination based on new midi note"""
-        self.lerp.a = self.lerp.value  # current value is now start value
-        self.lerp.b = self.lerp.a + self.bend_amount(self.midi_note, new_midi_note)
+        self.lerp.a = self.bend_amount(new_midi_note, self.midi_note)
+        self.lerp.b = 0  # end on the new note
         self.pos.retrigger()  # restart the lerp
         self.midi_note = new_midi_note
 
@@ -485,9 +487,10 @@ i=0
 while True:
     glider.glide_time = 0.5 * (knobA.value/65535)
     new_midi_note = midi_notes[i]  # new note to glide to
+    note.frequency = synthio.midi_to_hz(new_midi_note)
+    glider.update(new_midi_note)  # glide up to new note
     i = (i+1) % len(midi_notes)
     print("new: %d old: %d glide_time: %.2f" % (new_midi_note, glider.midi_note, glider.glide_time))
-    glider.update(new_midi_note)  # glide up to new note
     time.sleep(0.5)
 ```
 
