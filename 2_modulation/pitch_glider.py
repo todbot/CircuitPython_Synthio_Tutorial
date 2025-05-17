@@ -8,6 +8,7 @@ import ulab.numpy as np
 class Glider:
     """Attach a Glider to note.bend to implement portamento"""
     def __init__(self, glide_time, midi_note):
+        glide_time = glide_time or 0.001
         self.pos = synthio.LFO(once=True, rate=1/glide_time,
                                waveform=np.array((0,32767), dtype=np.int16))
         self.lerp = synthio.Math(synthio.MathOperation.CONSTRAINED_LERP,
@@ -32,4 +33,5 @@ class Glider:
         return 1/self.pos.rate
     @glide_time.setter
     def glide_time(self, glide_time):
+        glide_time = glide_time or 0.001
         self.pos.rate = 1/glide_time
