@@ -73,8 +73,11 @@ and combinining them into new synth devices.
 
 This guide will focus on a Pico RP2040 and PCM5102a I2S DAC,
 but it applies to [any board that supports `synthio`](https://docs.circuitpython.org/en/latest/shared-bindings/support_matrix.html?filter=synthio).
-All code will work unchanged on a Pico 2 (RP2350) and soem code will *only* work on
+All code will work unchanged on a Pico 2 (RP2350) and some code will *only* work on
 the RP2350.
+
+**NEW**: This tutorial now also includes support for **SPI DACs** as an alternative to I2S DACs.
+See the [SPI DAC documentation](./README-SPI-DAC.md) for details on using chips like MCP4922, MCP4912, and TLV5618 with synthio.
 
 
 ## Who this guide is for
@@ -143,6 +146,14 @@ Here's some simple examples using synthio showing what's possible
 * [wavetable_midisynth](https://www.youtube.com/watch?v=CrxaB_AVQqM) -- Play wavetables with MIDI
 * [monosynth1](https://www.youtube.com/watch?v=EcDqYh-DzVA) -- MIDI-controlled thick monosynth
 * [two_pot_drone_synth](https://www.youtube.com/watch?v=xEmhk-dVXqQ) -- 3-voice two-knob drone synth
+
+### SPI DAC Examples
+
+New examples demonstrating SPI DAC audio output:
+
+* [code_helloboop_spi.py](./code_helloboop_spi.py) -- "Hello world" example using SPI DAC
+* [code_spi_dac_demo.py](./code_spi_dac_demo.py) -- Interactive demo with scales and controls
+* See [SPI DAC Documentation](./README-SPI-DAC.md) for complete setup and usage guide
 
 ## Projects using synthio
 

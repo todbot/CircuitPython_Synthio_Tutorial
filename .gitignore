@@ -1,3 +1,5 @@
 
 README.md.orig.*
 README.md.toc.*
+__pycache__/
+*.pyc
