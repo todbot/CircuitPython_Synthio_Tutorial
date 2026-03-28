@@ -3,6 +3,8 @@
 
 <!--ts-->
    * [About Envelopes](#about-envelopes)
+      * [Envelope Use](#envelope-use)
+      * [Changing Envelopes](#changing-envelopes)
    * [About LFOs](#about-lfos)
       * [LFO scale &amp; offset](#lfo-scale--offset)
       * [LFO waveform](#lfo-waveform)
@@ -72,6 +74,8 @@ synthio.Envelope(attack_time = 0.1,
                  sustain_level = 0.8)
 ```
 
+### Envelope Use
+
 Some examples of amplitude envelopes you might see:
 ```py
 # gentle rise & fall, like a string section
@@ -84,9 +88,12 @@ synth.envelope = synthio.Envelope(attack_time=0, decay_time=0, release_time=0.5,
 synth.envelope = synthio.Envelope(attack_time=0, decay_time=0.05, release_time=0, attack_level=1, sustain_level=0)
 ```
 
+
 Here's an example of showing how to use an Envelope.
 Notice that an Envelope's parameters are read-only once created.
-The `attack_time` and `release_time` are the two most common ones used.
+Think of Envelope more like a `namedtuple` than an object. 
+
+The `attack_time` and `release_time` are the two most common parameters ones used.
 Use the knobs to play around with different attack and release times to get different effects:
 
 ```py
@@ -116,6 +123,48 @@ while True:
 
 {% include youtube.html id="CAu_C-53MBk" alt="code_envelope demo" %}
 
+
+### Changing Envelopes
+
+With the Envelope parameters being read-only, you may wonder how to change
+a Note's Envelope while it's playing. Thankfully you can reassign to `Note.envelope`
+for a playing Note. 
+
+This example shows the `note.envelope` property being continuously changed
+on a note that is sounding. Change the `release_time` value after the note is
+pressed and see how the new value is used when the note is released. 
+
+```py
+import time, random
+import synthio
+from synth_setup import synth, knobA, knobB
+tempo = 3
+note_duration = 2
+note_on_time = 0
+note_off_time =  note_duration
+midi_note = 48
+note = synthio.Note(synthio.midi_to_hz(midi_note))
+while True:
+    amp_env = synthio.Envelope(attack_time = 1 * (knobA.value/65535),
+                               release_time = 1 * (knobB.value/65535))
+    note.envelope = amp_env  # update the envelope
+    now = time.monotonic()
+    if now > note_on_time:
+        note_on_time = now + tempo
+        note_off_time = now + note_duration
+        print("note_on: attack/release_time:", amp_env.attack_time, amp_env.release_time)
+        mynote = synthio.Note(synthio.midi_to_hz(midi_note), envelope=amp_env)
+        synth.press(note)
+        
+    if now >= note_off_time: 
+        synth.release(note)
+
+    envelope_state, env_value = synth.note_info(note)
+    if envelope_state is not None and envelope_state == synthio.EnvelopeState.RELEASE:
+        print("release_time:", amp_env.release_time)
+    time.sleep(0.1)
+```
+> [2_modulation/code_envelope_change.py](./2_modulation/code_envelope_change.py)
 
 
 ## About LFOs
